@@ -1,0 +1,98 @@
+.sort {
+    position: relative;
+  }
+  
+  .dropdown-select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  
+  .dropdown-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 100%;
+    z-index: 10;
+  }
+  
+  .dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .dropdown-menu ul li {
+    padding: 10px 16px;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu ul li:hover {
+    background-color: #f0f0f0;
+  }
+  
+/* Halaman animasi masuk */
+body.page-enter {
+    animation: fadeIn 0.8s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Loading skeleton animasi */
+  .skeleton-loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-animation 1.5s infinite;
+    height: 100px;
+    border-radius: 8px;
+    border-color: #027fff;
+  }
+  
+  @keyframes skeleton-animation {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  
+  /* Animation for sliding from bottom */
+@keyframes slide-up {
+    0% {
+      transform: translateY(50px); /* Start from 50px below */
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.8s ease-out;
+  }
+  

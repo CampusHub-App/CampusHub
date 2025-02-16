@@ -1,0 +1,37 @@
+name: Build, Compose, Cleanup
+on:
+  push:
+    branches:
+      - deploy
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - shell: bash
+        name: Build image lalu push ke registry
+        run: |
+          docker login -u "${{ secrets.USERNAME }}" -p "${{ secrets.PASSWORD }}"
+          docker build -t "${{ secrets.USERNAME }}"/campushub .
+          docker push "${{ secrets.USERNAME }}"/campushub
+
+  compose:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - shell: bash
+        name: Compose up
+        run: docker-compose -f /campushub/docker-compose.yml up -d
+
+  cleanup:
+    needs: compose
+    runs-on: self-hosted
+    steps:
+      - shell: bash
+        name: Cleanup everything
+        run: |
+          docker builder prune -af
+          docker system prune -af
+          rm -rf /home/actions-runner/_work

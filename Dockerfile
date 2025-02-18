@@ -2,7 +2,8 @@ FROM node:23-alpine
 COPY . /frontend/
 WORKDIR /frontend/
 ENV NODE_OPTIONS=--max-old-space-size=2048
-RUN chown -R node:node /tmp/.*
+RUN chown -R node:node /frontend/
+RUN chown -R node:node /tmp/*
 USER node
 RUN npm config set prefix '~/.local/'
 RUN npm install -g npm@latest jest serve

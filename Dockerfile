@@ -8,6 +8,7 @@ USER node
 RUN npm config set prefix '~/.local/'
 RUN npm install -g npm@latest
 RUN npm install jest serve
+RUN npm install
 RUN npm audit fix --force --audit-level=none
 RUN npm run build
 RUN rm -rf /tmp/* && rm -rf ~/.npm/

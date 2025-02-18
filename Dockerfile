@@ -9,7 +9,7 @@ RUN npm install -g serve
 RUN npm install -g jest
 RUN npm audit fix --force --audit-level=none
 RUN npm run build
-RUN rm -rf /tmp/* && rm -rf ~/.npm/*
+RUN rm -rf /tmp/* && rm -rf ~/.npm/
 RUN rm -rf /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 USER node

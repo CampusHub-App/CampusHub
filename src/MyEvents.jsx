@@ -1,283 +1,257 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import Menu from "../src/assets/image/menu.svg";
-import "./css/MyEvents.css";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { fetchUserRegistrations } from "./api";
 import Navbar from "./components/Navbar";
-import { useLocation } from "react-router-dom";
+import Footer from "./components/Footer";
+import "./css/MyEvents.css";
 
-const MyEvents = () => {
-  const [events, setEvents] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortOption, setSortOption] = useState("date");
-  const [statusFilter, setStatusFilter] = useState("All");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const location = useLocation();
-  const pageVariants = {
-    initial: { opacity: 0.6 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0.6 },
-  };
+// Animation configuration
+const pageVariants = {
+  initial: { opacity: 0.4 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0.4 },
+};
 
+function MyEvents() {
   const navigate = useNavigate();
+  const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [user, setUser] = useState(null);
+  const [activeTab, setActiveTab] = useState("upcoming");
 
   useEffect(() => {
-    // Check if `state` exists and set the active tab
-    if (location.state?.activeTab) {
-      setStatusFilter(location.state.activeTab);
+    // Check if user is logged in
+    const userData = localStorage.getItem("user");
+    if (!userData) {
+      navigate("/welcome");
+      return;
     }
-  }, [location.state]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-
-      const token = localStorage.getItem("token");
-      if (!token) {
-        navigate("/welcome?redirect=/my-events", { replace: true });
-        return;
-      }
-
+    const parsedUser = JSON.parse(userData);
+    setUser(parsedUser);
+    
+    // Fetch user's registered events
+    const loadEvents = async () => {
       try {
-        const response = await fetch(
-          "https://campushub.web.id/api/my-events/all",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setEvents(data);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        console.error("Error fetching events:", error);
+        const data = await fetchUserRegistrations(parsedUser.token);
+        setEvents(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchEvents();
+    loadEvents();
+    window.scrollTo(0, 0);
   }, [navigate]);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
+  // Filter events based on active tab
+  const filteredEvents = () => {
+    if (!events || !events.length) return [];
 
-  const handleSortChange = (option) => {
-    setSortOption(option);
-    setIsDropdownOpen(false);
-  };
-
-  const handleStatusFilter = (status) => {
-    setStatusFilter(status);
-  };
-
-  const filteredEvents = events
-    .filter((event) =>
-      event.judul.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    .filter((event) => {
-      switch (statusFilter.toLowerCase()) {
-        case "registered":
-          return event.status.toLowerCase() === "registered";
-        case "cancelled":
-          return event.status.toLowerCase() === "cancelled";
-        case "attended":
-          return event.status.toLowerCase() === "attended";
-        case "absent":
-          return event.status.toLowerCase() === "absent";
-        case "all":
-          return true;
-        default:
-          return false;
-      }}
-    );
-
-  const sortedEvents = [...filteredEvents].sort((a, b) => {
-    if (sortOption === "date") {
-      return new Date(a.join_date) - new Date(b.join_date);
-    } else if (sortOption === "title") {
-      return a.judul.localeCompare(b.judul);
+    const now = new Date();
+    
+    switch (activeTab) {
+      case "upcoming":
+        return events.filter(event => {
+          const eventDate = new Date(event.date);
+          return eventDate >= now && event.status !== "cancelled";
+        });
+      case "past":
+        return events.filter(event => {
+          const eventDate = new Date(event.date);
+          return eventDate < now && event.status !== "cancelled";
+        });
+      case "cancelled":
+        return events.filter(event => event.status === "cancelled");
+      default:
+        return events;
     }
-    return 0;
-  });
+  };
 
-  const allCount = events.length;
-  const registeredCount = events.filter(
-    (event) => event.status.toLowerCase() === "registered"
-  ).length;
-  const canceledCount = events.filter(
-    (event) => event.status.toLowerCase() === "cancelled"
-  ).length;
-  const attendedCount = events.filter(
-    (event) => event.status.toLowerCase() === "attended"
-  ).length;
-  const absentCount = events.filter(
-    (event) => event.status.toLowerCase() === "absent"
-  ).length
+  // Format date for display
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('id-ID', options);
+  };
+
+  // Get status badge class
+  const getStatusBadgeClass = (status) => {
+    switch (status) {
+      case "registered":
+        return "bg-blue-100 text-blue-800";
+      case "attended":
+        return "bg-green-100 text-green-800";
+      case "absent":
+        return "bg-red-100 text-red-800";
+      case "cancelled":
+        return "bg-gray-100 text-gray-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="loader w-16 h-16 border-4 border-[#027FFF] border-t-transparent rounded-full animate-spin"></div>
+        <p className="ml-4 text-lg font-medium">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <motion.div
-      className="font-sans flex flex-col box-border w-full"
+      className="flex flex-col min-h-screen"
       initial="initial"
       animate="animate"
       exit="exit"
       variants={pageVariants}
-      transition={{ duration: 1.6 }}
+      transition={{ duration: 1.6, ease: "easeInOut" }}
     >
-      <div className="myevents">
-        <Navbar />
+      <Navbar />
 
-        {isLoading ? (
-          <div className="flex items-center justify-center h-screen">
-            <div className="loader w-16 h-16 border-4 border-customBlue border-t-transparent rounded-full animate-spin"></div>
-            <p className="ml-4 text-lg font-medium">Loading...</p>
+      <main className="flex-grow bg-gray-50">
+        <div className="bg-[#003266] text-white py-12">
+          <div className="container mx-auto px-4">
+            <h1 className="text-3xl md:text-4xl font-bold">My Events</h1>
+            <p className="mt-2 text-lg opacity-90">
+              Manage your registered events
+            </p>
           </div>
-        ) : (
-          <div className="container mx-auto px-4 sm:px-6 lg:px-20">
-            <div className="content-box flex flex-col">
-              <div className="page-features flex flex-wrap justify-between px-4 sm:px-6 lg:px-20 pt-16">
-                <h1 className="text-3xl font-bold">My Events</h1>
-                <div className="features flex flex-wrap gap-4 items-center mt-4 lg:mt-0 w-full sm:w-auto">
-                  <div className="search flex-1 max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl px-4 py-2 border border-gray-300 rounded-lg flex items-center">
-                    <input
-                      type="text"
-                      placeholder="Cari acara..."
-                      className="focus:outline-none w-full"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </div>
-                  <div
-                    className="sort relative sm:max-w-[200px] lg:max-w-[150px]"
-                    ref={dropdownRef}
-                  >
-                    <div
-                      className="dropdown-select flex items-center justify-between px-4 py-2 border border-gray-300 rounded-lg cursor-pointer"
-                      onClick={toggleDropdown}
-                    >
-                      <span className="text-sm sm:text-base">
-                        {sortOption === "date" ? "By date" : "A-Z"}
-                      </span>
-                      <img src={Menu} alt="menu" className="dropdown-icon" />
-                    </div>
-                    {isDropdownOpen && (
-                      <div className="dropdown-menu absolute top-full left-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-md w-full">
-                        <ul>
-                          <li
-                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                            onClick={() => handleSortChange("date")}
-                          >
-                            By date
-                          </li>
-                          <li
-                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                            onClick={() => handleSortChange("title")}
-                          >
-                            A-Z
-                          </li>
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
+        </div>
 
-              <div className="event-status flex flex-wrap gap-8 sm:gap-12 lg:gap-16 py-4">
-                <ul className="flex gap-8 sm:gap-12 lg:gap-16 w-full text-sm sm:text-base justify-center lg:justify-start lg:px-20">
-                  <li
-                    className={`cursor-pointer ${
-                      statusFilter === "All" ? "font-bold underline" : ""
-                    }`}
-                    onClick={() => handleStatusFilter("All")}
-                  >
-                    All ({allCount})
-                  </li>
-                  <li
-                    className={`cursor-pointer ${
-                      statusFilter === "Registered" ? "font-bold underline" : ""
-                    }`}
-                    onClick={() => handleStatusFilter("Registered")}
-                  >
-                    Registered ({registeredCount})
-                  </li>
-                  <li
-                    className={`cursor-pointer ${
-                      statusFilter === "Cancelled" ? "font-bold underline" : ""
-                    }`}
-                    onClick={() => handleStatusFilter("Cancelled")}
-                  >
-                    Canceled ({canceledCount})
-                  </li>
-                  <li
-                    className={`cursor-pointer ${
-                      statusFilter === "Attended" ? "font-bold underline" : ""
-                    }`}
-                    onClick={() => handleStatusFilter("Attended")}
-                  >
-                    Attended ({attendedCount})
-                  </li>
-                  <li
-                    className={`cursor-pointer ${
-                      statusFilter === "Absent" ? "font-bold underline" : ""
-                    }`}
-                    onClick={() => handleStatusFilter("Absent")}
-                  >
-                    Absent ({absentCount})
-                  </li>
-                </ul>
-              </div>
+        <div className="container mx-auto px-4 py-8">
+          {/* Tabs */}
+          <div className="flex border-b border-gray-200 mb-6">
+            <button
+              className={`py-2 px-4 font-medium ${
+                activeTab === "upcoming"
+                  ? "text-blue-600 border-b-2 border-blue-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+              onClick={() => setActiveTab("upcoming")}
+            >
+              Upcoming
+            </button>
+            <button
+              className={`py-2 px-4 font-medium ${
+                activeTab === "past"
+                  ? "text-blue-600 border-b-2 border-blue-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+              onClick={() => setActiveTab("past")}
+            >
+              Past
+            </button>
+            <button
+              className={`py-2 px-4 font-medium ${
+                activeTab === "cancelled"
+                  ? "text-blue-600 border-b-2 border-blue-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+              onClick={() => setActiveTab("cancelled")}
+            >
+              Cancelled
+            </button>
+          </div>
 
-              <div className="event-list flex flex-col gap-6 px-4 sm:px-6 lg:px-20 py-2">
-                {sortedEvents.length > 0 ? (
-                  sortedEvents.map((event, index) => (
-                    <div
-                      key={`${event.id}-${statusFilter}-${index}`} // Dynamic key based on filter and index
-                      className={`event-box p-4 border border-customBlue rounded-2xl shadow-md hover:shadow-lg transition duration-300 px-4 py-2 flex justify-between items-center animate-slideIn opacity-0`}
-                      style={{
-                        animationDelay: `${index * 100}ms`,
-                        animationFillMode: "forwards",
-                      }}
-                      onClick={() => navigate(`/my-events/${event.id}/view`)}
-                    >
-                      <div className="event-data flex items-center">
-                        <img
-                          src={event.foto_event}
-                          alt={event.judul}
-                          className="w-20 h-20 object-cover rounded-full my-2"
-                        />
-                        <div className="event-details flex flex-col px-4">
-                          <span className="event-title block font-semibold text-lg mb-2">
-                            {event.judul}
-                          </span>
-                          <span className="event-date text-sm text-gray-500 mb-1 block">
-                            Join date:{" "}
-                            {new Date(event.join_date).toLocaleDateString()}
-                          </span>
-                        </div>
-                      </div>
-                      <Link to={`/my-events/${event.id}/view`}>
-                        <i className="ri-more-fill text-4xl"></i>
-                      </Link>
-                    </div>
-                  ))
-                ) : (
-                  <div>No events found.</div>
-                )}
+          {error && (
+            <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+              {error}
+            </div>
+          )}
+
+          {/* Events List */}
+          {filteredEvents().length === 0 ? (
+            <div className="text-center py-12">
+              <svg
+                className="mx-auto h-12 w-12 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              <h3 className="mt-2 text-lg font-medium text-gray-900">
+                No events found
+              </h3>
+              <p className="mt-1 text-gray-500">
+                {activeTab === "upcoming"
+                  ? "You don't have any upcoming events."
+                  : activeTab === "past"
+                  ? "You don't have any past events."
+                  : "You don't have any cancelled events."}
+              </p>
+              <div className="mt-6">
+                <Link
+                  to="/"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#027FFF] hover:bg-blue-700"
+                >
+                  Browse Events
+                </Link>
               </div>
             </div>
-          </div>
-        )}
-      </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredEvents().map((event) => (
+                <div
+                  key={event.id}
+                  className="bg-white rounded-lg shadow-md overflow-hidden"
+                >
+                  <img
+                    src={event.foto_event}
+                    alt={event.judul}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <h2 className="text-xl font-semibold">{event.judul}</h2>
+                      <span
+                        className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusBadgeClass(
+                          event.status
+                        )}`}
+                      >
+                        {event.status.charAt(0).toUpperCase() + event.status.slice(1)}
+                      </span>
+                    </div>
+                    <p className="text-gray-600 mb-4">{formatDate(event.date)}</p>
+                    <div className="flex justify-between items-center">
+                      <Link
+                        to={`/my-events/${event.id}/view`}
+                        className="text-[#027FFF] hover:text-blue-700 font-medium"
+                      >
+                        View Details
+                      </Link>
+                      {event.status === "registered" && new Date(event.date) > new Date() && (
+                        <Link
+                          to={`/my-events/${event.id}/kode-unik`}
+                          className="bg-[#027FFF] text-white px-3 py-1 rounded-md hover:bg-blue-700 text-sm"
+                        >
+                          Show QR Code
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </main>
+
+      <Footer />
     </motion.div>
   );
-};
+}
 
 export default MyEvents;

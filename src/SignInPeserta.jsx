@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { register } from "./api";
 import circle from "./assets/image/circle3.svg";
 import circle2 from "./assets/image/circle4.svg";
 import logo from "./assets/image/logo2.svg";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PopUpGagal from "./components/PopUpGagal";
 import PopUpBerhasil from "./components/PopUpBerhasil";
-import { useState } from "react";
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -18,6 +18,7 @@ function Signinpeserta() {
   const [showPopup, setShowPopup] = useState(false);
   const [showGagal, setShowGagal] = useState(false);
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -25,7 +26,7 @@ function Signinpeserta() {
       navigate("/", { replace: true });
       return;
     }
-  }, []);
+  }, [navigate]);
 
   const params = new URLSearchParams(location.search);
   const redirectPath = params.get("redirect") || "/";
@@ -41,8 +42,6 @@ function Signinpeserta() {
   const [errorMessage, setErrorMessage] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const navigate = useNavigate();
 
   // Handle form input changes
   const handleChange = (e) => {
@@ -67,38 +66,24 @@ function Signinpeserta() {
       return;
     }
 
-    const baseUrl = "https://campushub.web.id/api";
-    const endpoint = `${baseUrl}/register`;
-
     setLoading(true);
     try {
-      console.log("Mengirim data ke endpoint:", endpoint);
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.nama,
-          email: formData.email,
-          password: formData.password,
-          phone: formData.telepon,
-        }),
-      });
-
-      const responseData = await response.json();
-      setData(responseData.message);
-
-      if (response.ok) {
-        setShowPopup(true);
-        setTimeout(() => {
-          navigate(`/user/login?redirect=${redirectPath}`);
-        }, 1000);
-      } else {
-        setShowGagal(true);
-      }
+      const userData = {
+        name: formData.nama,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.telepon,
+      };
+      
+      const responseData = await register(userData);
+      setData("Registrasi berhasil!");
+      setShowPopup(true);
+      
+      setTimeout(() => {
+        navigate(`/user/login?redirect=${redirectPath}`);
+      }, 1000);
     } catch (error) {
-      setData("Koneksi Timeout, Silahkan Coba Lagi");
+      setData(error.message || "Koneksi Timeout, Silahkan Coba Lagi");
       setShowGagal(true);
     } finally {
       setLoading(false);

@@ -1,188 +1,231 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import Poster from "./assets/image/Poster.svg";
-import Ellipse from "./assets/image/Ellipse.svg";
-import Lecturer from "./assets/image/lecturer.svg";
-import Date from "./assets/image/date.svg";
-import Chair from "./assets/image/chair.svg";
-import "./css/DetailEvent.css";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { fetchEvent, registerForEvent } from "./api";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import PopUpCheckout from "./components/PopUpCheckout";
+import PopUpBerhasil from "./components/PopUpBerhasil";
+import PopUpGagal from "./components/PopUpGagal";
+import "./css/DetailEvent.css";
 
-const DetailEvent = () => {
-  const { id } = useParams(); // Mengambil parameter id dari URL
-  const [eventData, setEventData] = useState(null);
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false); // For controlling fade-in
-  const [isExiting, setIsExiting] = useState(false); // For controlling fade-out
+// Animation configuration
+const pageVariants = {
+  initial: { opacity: 0.4 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0.4 },
+};
+
+function DetailEvent() {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [event, setEvent] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [user, setUser] = useState(null);
 
+  // Fetch event details
   useEffect(() => {
-    const fetchEventData = async () => {
+    const loadEventData = async () => {
       try {
-        const response = await fetch(
-          `https://campushub.web.id/api/events/${id}/view`
-        );
-        if (!response.ok) {
-          navigate("/");
-        }
-        const data = await response.json();
-        setEventData(data);
+        const data = await fetchEvent(id);
+        setEvent(data);
       } catch (err) {
         setError(err.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchEventData();
+    // Get user data from localStorage
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
 
-    // Trigger fade-in effect after loading
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
-    }, 500); // Delay before the fade-in effect
-
-    return () => clearTimeout(timer);
+    loadEventData();
+    window.scrollTo(0, 0);
   }, [id]);
 
-  const handleExit = () => {
-    setIsExiting(true); // Start fade-out effect
-    setTimeout(() => {
-      navigate(`/events/${eventData.id}/preview`);
-    }, 500); // Wait for the fade-out to complete
+  // Handle registration
+  const handleRegister = async () => {
+    if (!user) {
+      navigate("/welcome");
+      return;
+    }
+
+    try {
+      await registerForEvent(id, user.token);
+      setShowSuccess(true);
+    } catch (err) {
+      setErrorMessage(err.message || "Failed to register for event");
+      setShowError(true);
+    }
   };
 
-  if (error) {
+  // Format date for display
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('id-ID', options);
+  };
+
+  if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-center">
-          <h1 className="text-red-500 text-2xl font-semibold">Error</h1>
-          <p className="text-red-700 text-lg">{error}</p>
-        </div>
+      <div className="flex items-center justify-center h-screen">
+        <div className="loader w-16 h-16 border-4 border-[#027FFF] border-t-transparent rounded-full animate-spin"></div>
+        <p className="ml-4 text-lg font-medium">Loading...</p>
       </div>
     );
   }
 
-  if (!eventData) {
-    return null;
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h2 className="text-2xl font-bold text-red-600 mb-4">Error</h2>
+        <p className="text-gray-700">{error}</p>
+        <button 
+          onClick={() => navigate("/")}
+          className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        >
+          Back to Home
+        </button>
+      </div>
+    );
   }
 
+  if (!event) return null;
+
   return (
-    <div className="detail-event h-screen">
+    <motion.div
+      className="font-sans flex flex-col min-h-screen"
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+      transition={{ duration: 1.6, ease: "easeInOut" }}
+    >
       <Navbar />
 
-      <div
-        className={`detail-event-container ${isLoaded ? "loaded" : ""} ${
-          isExiting ? "exiting" : ""
-        } [1024px] pt-10 mx-4 lg:mx-20`}
-      >
-        <div className="breadcrumb pt-auto flex ml-2 pb-10">
-          <ol className="list-none flex text-black text-medium">
-            <li>
-              <Link to="/" className="hover:underline">
-                Home
-              </Link>
-            </li>
-            <li className="mx-2"> &gt; </li>
-            <li>
-              <Link
-                to={
-                  eventData.category_name === "Seminar"
-                    ? "/seminar"
-                    : eventData.category_name === "Webinar"
-                    ? "/webinar"
-                    : eventData.category_name === "Kuliah Tamu"
-                    ? "/kuliah-tamu"
-                    : eventData.category_name === "Sertifikasi"
-                    ? "/sertifikasi"
-                    : eventData.category_name === "Workshop"
-                    ? "/workshop"
-                    : "/home"
-                }
-                className="hover:underline"
-              >
-                {eventData.category_name}
-              </Link>
-            </li>
-          </ol>
-        </div>
-        <div className="content-box flex flex-col md:flex-row">
-          <div className="PosterEvent w-full md:w-1/2 h-1/2">
-            <img
-              className="w-full h-full object-cover rounded-2xl shadow-lg"
-              src={eventData.foto_event || Poster}
-              alt="Poster Event"
-            />
+      <main className="flex-grow">
+        {/* Event Header */}
+        <div className="bg-[#003266] text-white py-12">
+          <div className="container mx-auto px-4">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">{event.judul}</h1>
+            <p className="text-lg opacity-90">{event.category_name}</p>
           </div>
-          <div className="description text-left mx-8 mt-4 md:mt-0 md:ml-8 w-1/2">
-            <span className="bg-[#027FFF] font-regular px-8 py-1 rounded-full text-white text-[14px] sm:text-[12px]">
-              {eventData.category_name}
-            </span>
-            <h1 className="font-bold text-[32px] py-4 sm:text-[24px]">
-              {eventData.judul}
-            </h1>
-            <div className="border-b-2 border-[#003266] w-full my-4"></div>
-            <div className="flex gap-2 ml-2">
-              <img src={Date} alt="Calendar" className="text-4xl sm:text-3xl" />
-              <span className="font-medium text-[16px] sm:text-[14px] mt-2">
-                {eventData.date}
-              </span>
-              <span className="font-medium text-[16px] sm:text-[14px] mt-2 ml-auto mr-2">
-                {eventData.start_time} - {eventData.end_time}
-              </span>
-            </div>
-            <div className="flex gap-2 ml-1 my-4">
-              <i className="ri-map-pin-2-fill text-4xl sm:text-3xl"></i>
-              <span className="font-medium text-[16px] sm:text-[14px] mt-2">
-                {eventData.tempat}
-              </span>
-              <img
-                src={Chair}
-                alt="Location"
-                className="text-4xl sm:text-3xl ml-auto"
+        </div>
+
+        {/* Event Content */}
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Left Column - Event Details */}
+            <div className="md:w-2/3">
+              <img 
+                src={event.foto_event} 
+                alt={event.judul} 
+                className="w-full h-auto rounded-lg mb-6 object-cover"
+                style={{ maxHeight: "400px" }}
               />
-              <span className="font-medium text-[16px] sm:text-[14px] mt-2 mr-2">
-                {eventData.available_slot} Kursi
-              </span>
-            </div>
-            <div className="border-b-2 border-[#003266] w-full my-4"></div>
-            <div className="lecturer flex gap-2 ml-2 w-auto">
-              <img
-                src={eventData.foto_pembicara || Lecturer}
-                alt="Profile"
-                className="w-16 h-16 text-4xl sm:text-3xl rounded-full"
-              />
-              <div className="lecturername flex flex-col ml-4 gap-2 justify-center">
-                <span className="font-semibold text-[16px] sm:text-[14px]">
-                  {eventData.pembicara}
-                </span>
-                <span className="text-regular text-[14px] sm:text-[12px]">
-                  {eventData.role}
-                </span>
+
+              <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 className="text-2xl font-bold mb-4">Deskripsi</h2>
+                <p className="text-gray-700 whitespace-pre-line">{event.deskripsi}</p>
+              </div>
+
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h2 className="text-2xl font-bold mb-4">Pembicara</h2>
+                <div className="flex items-center">
+                  <img 
+                    src={event.foto_pembicara} 
+                    alt={event.pembicara} 
+                    className="w-16 h-16 rounded-full object-cover mr-4"
+                  />
+                  <div>
+                    <h3 className="text-lg font-semibold">{event.pembicara}</h3>
+                    <p className="text-gray-600">{event.role}</p>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="border-b-2 border-[#003266] w-full my-4"></div>
-            <div>
-              <p className="eventdescription font-regular text-wrap text-[16px] sm:text-[14px] block w-full max-w-[486px]">
-                {eventData.deskripsi}
-              </p>
+
+            {/* Right Column - Event Info & Registration */}
+            <div className="md:w-1/3">
+              <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 className="text-xl font-bold mb-4">Informasi Acara</h2>
+                
+                <div className="mb-4">
+                  <h3 className="font-semibold text-gray-700">Tanggal</h3>
+                  <p>{formatDate(event.date)}</p>
+                </div>
+                
+                <div className="mb-4">
+                  <h3 className="font-semibold text-gray-700">Waktu</h3>
+                  <p>{event.time}</p>
+                </div>
+                
+                <div className="mb-4">
+                  <h3 className="font-semibold text-gray-700">Lokasi</h3>
+                  <p>{event.location}</p>
+                </div>
+                
+                <div className="mb-4">
+                  <h3 className="font-semibold text-gray-700">Harga</h3>
+                  <p>{event.price === 0 ? "Gratis" : `Rp ${event.price.toLocaleString('id-ID')}`}</p>
+                </div>
+                
+                <div className="mb-4">
+                  <h3 className="font-semibold text-gray-700">Kuota</h3>
+                  <p>{event.quota} peserta</p>
+                </div>
+                
+                <button
+                  onClick={() => setShowPopup(true)}
+                  className="w-full bg-[#027FFF] text-white py-3 rounded-md font-medium hover:bg-blue-600 transition-colors mt-4"
+                >
+                  Daftar Sekarang
+                </button>
+              </div>
             </div>
           </div>
-          <div className="booking w-full md:w-4/12 h-36 px-6 mx-auto bg-white shadow-lg rounded-2xl flex flex-col mt-4 md:mt-0">
-            <h1 className="text-left my-4 font-semibold text-[20px] sm:text-[18px] pl-2 lg:text-left sm:text-center ">
-              Pesan Sekarang!
-            </h1>
-            <button
-              className="bg-[#027FFF] font-regular w-full h-11 my-4 rounded-lg text-medium text-white text-[16px] sm:text-[14px]"
-              onClick={handleExit}
-            >
-              Pesan
-            </button>
-          </div>
         </div>
-      </div>
-      <div className="fixed bottom-0 left-0 -z-10">
-        <img src={Ellipse} alt="Background" className="w-[300px]" />
-      </div>
-    </div>
+      </main>
+
+      <Footer />
+
+      {/* Popups */}
+      <PopUpCheckout
+        isOpen={showPopup}
+        onClose={() => setShowPopup(false)}
+        onConfirm={handleRegister}
+        eventDetails={{
+          title: event?.judul,
+          date: formatDate(event?.date),
+          location: event?.location,
+          price: event?.price,
+        }}
+      />
+
+      <PopUpBerhasil
+        isOpen={showSuccess}
+        onClose={() => {
+          setShowSuccess(false);
+          navigate("/my-events");
+        }}
+        message="Pendaftaran berhasil! Silakan cek di halaman My Events."
+      />
+
+      <PopUpGagal
+        isOpen={showError}
+        onClose={() => setShowError(false)}
+        message={errorMessage}
+      />
+    </motion.div>
   );
-};
+}
 
 export default DetailEvent;

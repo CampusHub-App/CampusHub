@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { fetchEvent } from "./api";
 import Poster from "./assets/image/Poster.svg";
 import Ellipse from "./assets/image/Ellipse.svg";
 import Lecturer from "./assets/image/lecturer.svg";
@@ -25,40 +26,22 @@ const DescriptionPageCancel = () => {
       return;
     }
     
-    const fetchEventData = async () => {
+    const loadEventData = async () => {
       try {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          setError("No token found. Please log in again.");
-          setLoading(false);
-          return;
-        }
-
-        const response = await fetch(
-          `https://campushub.web.id/api/events/${id}/view`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const data = await response.json();
+        const data = await fetchEvent(id);
         setEventData(data);
-        setLoading(false);
       } catch (error) {
-        setError(message);
+        setError(error.message);
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchEventData();
+    loadEventData();
     setTimeout(() => {
       setIsCrossVisible(true);
     }, 1000);
-  }, []);
+  }, [id, navigate]);
 
   const handleBack = () => {
     setPageAnimation("page-exit");

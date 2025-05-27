@@ -1,15 +1,16 @@
-import { useState } from "react";
-import CardPage from "./components/CardPage";
-import circle6 from "./assets/image/circle6.svg";
-import { motion } from "framer-motion";
-import Footer from "./components/Footer";
-import { useEffect } from "react";
-import Navbar from "./components/Navbar";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { fetchEvents } from "./api";
+import CardPage from "./components/CardPage";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
+import circle6 from "./assets/image/circle6.svg";
 
 function SertifikasiPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [events, setEvents] = useState([]);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,23 +18,14 @@ function SertifikasiPage() {
   }, []);
 
   useEffect(() => {
-
     const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      if (user.is_admin) {
-        navigate("/", { replace: true });
-        return;
-      }
+    if (user && user.is_admin) {
+      navigate("/", { replace: true });
+      return;
     }
 
     setIsLoading(true);
-    fetch("https://campushub.web.id/api/events/sertifikasi")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Terjadi kesalahan saat mengambil data.");
-        }
-        return response.json();
-      })
+    fetchEvents("sertifikasi")
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           setEvents(data);
@@ -44,7 +36,7 @@ function SertifikasiPage() {
       })
       .catch((err) => setError(err.message))
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [navigate]);
 
   const pageVariants = {
     initial: { opacity: 0.6 },
@@ -65,7 +57,7 @@ function SertifikasiPage() {
 
       <div className="font-sans flex flex-col box-border mx-auto w-full">
         <div className="bg-[#EAF4FF] border-transparent rounded-t-[100px] flex flex-col items-center justify-center">
-          <h1 className="font-semibold  text-[#003266] mt-[80px] mb-[80px] flex sm:text-[32px] md:text-[48px]">
+          <h1 className="font-semibold text-[#003266] mt-[80px] mb-[80px] flex sm:text-[32px] md:text-[48px]">
             Jelajahi Sertifikasi
           </h1>
           <div className="flex flex-wrap justify-center">
@@ -74,6 +66,8 @@ function SertifikasiPage() {
                 <div className="loader w-16 h-16 border-4 border-[#027FFF] border-t-transparent rounded-full animate-spin"></div>
                 <p className="ml-4 text-lg font-medium">Loading...</p>
               </div>
+            ) : error ? (
+              <p className="text-red-500">{error}</p>
             ) : (
               <CardPage events={events} />
             )}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { fetchEvent, fetchUniqueCode } from "./api";
 import Poster from "./assets/image/Poster.svg";
 import Ellipse from "./assets/image/Ellipse.svg";
 import Lecturer from "./assets/image/lecturer.svg";
@@ -28,56 +29,29 @@ const DescriptionPageRegistered = () => {
       return;
     }
 
-    const fetchEventData = async () => {
+    const loadData = async () => {
       try {
-        const token = localStorage.getItem("token");
+        // Fetch event details
+        const eventDetails = await fetchEvent(id);
+        setEventData(eventDetails);
 
-        if (!token) {
-          setError("No token found. Please log in again.");
-          setLoading(false);
-          return;
+        // Fetch unique code
+        const codeData = await fetchUniqueCode(id, token);
+        setData(codeData);
+        
+        if (codeData.kode_unik) {
+          setCode(codeData.kode_unik.split(""));
         }
-
-        const response = await fetch(
-          `https://campushub.web.id/api/events/${id}/view`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const data = await response.json();
-        setEventData(data);
-
-        const kode = await fetch(
-          `https://campushub.web.id/api/events/${id}/kode-unik`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const kodeData = await kode.json();
-        setData(kodeData);
-
-        if (!kode.ok) {
-          setMessage(kodeData.message);
-        }
-
-        setCode(kodeData.kode_unik.split(""));
-        setLoading(false);
       } catch (error) {
-        setError(message);
+        setError(error.message);
+        setMessage(error.message);
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchEventData();
-  }, []);
+    loadData();
+  }, [id, navigate]);
 
   const handleBack = () => {
     setPageAnimation("page-exit");

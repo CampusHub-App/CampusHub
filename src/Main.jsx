@@ -1,10 +1,14 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import React from 'react';
+
+// Styles
 import './App.css';
 import 'animate.css';
-import React from 'react';
 import 'remixicon/fonts/remixicon.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+// Page components
 import Welcome from './Welcome.jsx';
 import LoginPeserta from './LoginPeserta.jsx';
 import ErrorPage from './ErrorPage.jsx';
@@ -14,9 +18,6 @@ import SeminarPage from './Seminar.jsx';
 import SertifikasiPage from './Sertifikasi.jsx';
 import WorkshopPage from './Workshop.jsx';
 import KuliahTamuPage from './KuliahTamu.jsx';
-import AdminPage from './admin/HomePage.jsx';
-import UploadEvent from './admin/UploadEvent.jsx';
-import LoginAdmin from './admin/LoginAdmin.jsx';
 import MyEvents from './MyEvents.jsx';
 import ProfilePagePersonalInfo from './ProfilePage.jsx';
 import ProfilePagePassword from './ProfilePagePassword.jsx';
@@ -24,17 +25,36 @@ import MyEventStatusPage from './MyEventStatusPage.jsx';
 import PreviewEvent from './PreviewEvent.jsx';
 import DetailEvent from './DetailEvent.jsx';
 import KodeUnik from './KodeUnik.jsx';
+import SignInPeserta from './SignInPeserta.jsx';
+
+// Admin components
+import AdminPage from './admin/HomePage.jsx';
+import UploadEvent from './admin/UploadEvent.jsx';
+import LoginAdmin from './admin/LoginAdmin.jsx';
 import MyAdmin from './admin/MyEvents.jsx';
 import PreviewPage from './admin/PreviewPage.jsx';
-import SignInPeserta from './SignInPeserta.jsx';
 import MyParticipants from './admin/MyParticipants.jsx';
 import EditEvent from './admin/EditEvent.jsx';
 import PreviewEdit from './admin/PreviewEdit.jsx';
 import CheckIn from './admin/CheckInPage.jsx';
 
-const user = JSON.parse(localStorage.getItem('user'));
-const isAdmin = user?.is_admin === true;
+// Get user data from localStorage
+const getUserData = () => {
+  try {
+    return JSON.parse(localStorage.getItem('user'));
+  } catch (error) {
+    console.error('Error parsing user data:', error);
+    return null;
+  }
+};
 
+// Check if user is admin
+const isAdmin = () => {
+  const user = getUserData();
+  return user?.is_admin === true;
+};
+
+// Define routes
 const router = createBrowserRouter([
   {
     path: "/welcome",
@@ -50,7 +70,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: isAdmin ? <AdminPage /> : <HomePage />,
+    element: isAdmin() ? <AdminPage /> : <HomePage />,
     errorElement: <ErrorPage />,
   },
   {
@@ -83,7 +103,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/my-events",
-    element: isAdmin ? <MyAdmin /> : <MyEvents />,
+    element: isAdmin() ? <MyAdmin /> : <MyEvents />,
   },
   {
     path: "/account/profile",
@@ -131,6 +151,7 @@ const router = createBrowserRouter([
   },
 ]);
 
+// Render the app
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RouterProvider router={router} />

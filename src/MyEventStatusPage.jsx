@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { fetchEventStatus } from "./api";
 import DescriptionPageRegistered from "./DescriptionPageRegistered";
 import DescriptionPageCancel from "./DescriptionPageCancel";
 import DescriptionPageAbsent from "./DescriptionPageAbsent";
@@ -7,9 +8,9 @@ import DescriptionPageAttend from "./DescriptionPageAttend";
 
 function EventPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [status, setStatus] = useState(null);
   const [error, setError] = useState(null);
-  const [datas, setDatas] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -18,30 +19,17 @@ function EventPage() {
       return;
     }
 
-    const fetchStatus = async () => {
+    const loadEventStatus = async () => {
       try {
-        const response = await fetch(
-          `https://campushub.web.id/api/my-events/${id}/status`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-
-        const data = await response.json();
-
-        if (response.ok) {
-          setStatus(data.status);
-        }
+        const data = await fetchEventStatus(id, token);
+        setStatus(data.status);
       } catch (error) {
-        setError(response.message);
+        setError(error.message);
       }
     };
 
-    fetchStatus();
-  }, [id]);
+    loadEventStatus();
+  }, [id, navigate]);
 
   if (status === "registered") {
     return <DescriptionPageRegistered />;

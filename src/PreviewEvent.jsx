@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { fetchEvent, registerEventWithToken } from "./api";
 import PopUpCheckout from "./components/PopUpCheckout";
-import Ellipse2 from "./assets/image/Ellipse2.svg";
 import "./css/PreviewEvent.css";
 import Calendar from "./assets/image/date.svg";
 import Chair from "./assets/image/chair.svg";
@@ -23,24 +23,18 @@ const PreviewEvent = () => {
     setGagalPopup(false);
   }
   
-  // Ambil data event berdasarkan ID
+  // Fetch event data using the API service
   useEffect(() => {
-    const fetchEventData = async () => {
+    const loadEventData = async () => {
       try {
-        const response = await fetch(
-          `https://campushub.web.id/api/events/${id}/view`
-        );
-        if (!response.ok) {
-          throw new Error("Gagal mendapatkan data event.");
-        }
-        const data = await response.json();
+        const data = await fetchEvent(id);
         setEventData(data);
       } catch (err) {
         setError(err.message);
       }
     };
 
-    fetchEventData();
+    loadEventData();
 
     const timer = setTimeout(() => {
       setIsLoaded(true);
@@ -57,28 +51,13 @@ const PreviewEvent = () => {
         return;
       }
 
-      const response = await fetch(
-        `https://campushub.web.id/api/events/${id}/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const data = await response.json();
+      const data = await registerEventWithToken(id, token);
       setRegistered(data);
-
-      if (response.ok) {
-        setShowPopup(true);
-        setTimeout(() => {
-          navigate(`/my-events/${eventData.id}/kode-unik`);
-        }, 2000);
-      } else {
-        setGagalPopup(true);
-      }
+      setShowPopup(true);
+      
+      setTimeout(() => {
+        navigate(`/my-events/${eventData.id}/kode-unik`);
+      }, 2000);
     } catch (err) {
       setGagalPopup(true);
     }
@@ -153,7 +132,7 @@ const PreviewEvent = () => {
               <div className="PosterEvent w-full lg:w-1/2 h-11/12">
                 <img
                   className="w-full h-full object-cover rounded-2xl shadow-lg"
-                  src={eventData.foto_event || Poster}
+                  src={eventData.foto_event}
                   alt="Poster Event"
                 />
               </div>
@@ -193,7 +172,7 @@ const PreviewEvent = () => {
                 <div className="border-b-2 border-[#003266] w-full my-4"></div>
                 <div className="lecturer flex gap-2 ml-2 items-center">
                   <img
-                    src={eventData.foto_pembicara || Lecturer}
+                    src={eventData.foto_pembicara}
                     alt="Profile"
                     className="w-16 h-16 text-4xl sm:text-3xl rounded-full"
                   />
@@ -225,7 +204,7 @@ const PreviewEvent = () => {
               </span>
             </div>
             <span className="event-type my-2 font-medium text-[14px] pl-2">
-              Webinar
+              {eventData.category_name}
             </span>
             <div className="border-b-2 border-[#003266] w-full my-4"></div>
             <div className="total flex gap-4">
@@ -241,25 +220,28 @@ const PreviewEvent = () => {
                 className="bg-[#027FFF] font-regular w-full h-11 my-2 rounded-lg text-medium text-white text-[16px]"
                 onClick={handleBooking}
               >
-                Pesan
+                Checkout
               </button>
               <button
-                className="bg-transparent border-2 border-[#027FFF] font-regular w-full h-11 my-2 rounded-lg text-medium text-black text-[16px] hover:bg-red-300 hover:border-red-500"
+                className="bg-white border-2 border-[#027FFF] font-regular w-full h-11 my-2 rounded-lg text-medium text-[#027FFF] text-[16px]"
                 onClick={handleExit}
               >
-                Batal
+                Cancel
               </button>
             </div>
           </div>
         </div>
       </div>
-      {showPopup && <PopUpCheckout isVisible={showPopup} onClose={() => setShowPopup(false)} />}
-      {gagalPopup && <PopUpGagal isVisible={gagalPopup} onClose={onCLose} message={registered.message}/>}
-
-      <div className="fixed bottom-0 right-0 -z-10">
-        <img src={Ellipse2} alt="Background" className="w-[300px]" />
-      </div>
-      <div className="circle-animation"></div>
+      <PopUpCheckout
+        isOpen={showPopup}
+        onClose={() => setShowPopup(false)}
+        onConfirm={() => {}}
+      />
+      <PopUpGagal
+        isOpen={gagalPopup}
+        onClose={onCLose}
+        message="Gagal melakukan booking. Silakan coba lagi."
+      />
     </div>
   );
 };

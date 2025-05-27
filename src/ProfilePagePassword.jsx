@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { updatePassword } from "./api";
 import Ellipse from "./assets/image/Ellipse.svg";
 import PopUpDelete from "./components/PopUpDelete";
 import PopUpLogout from "./components/PopUpLogOut";
@@ -7,7 +8,6 @@ import PopUpUpdate from "./components/PopUpUpdate";
 import "./css/ProfilePagePassword.css";
 import Navbar from "./components/Navbar";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 
 const ProfilePagePassword = () => {
   const [activePage, setActivePage] = useState("password");
@@ -16,8 +16,7 @@ const ProfilePagePassword = () => {
   const [passwordError, setPasswordError] = useState("");
   const [confirmationError, setConfirmationError] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmationPassword, setShowConfirmationPassword] =
-    useState(false);
+  const [showConfirmationPassword, setShowConfirmationPassword] = useState(false);
   const [showDeletePopUp, setShowDeletePopUp] = useState(false);
   const [showLogoutPopUp, setShowLogoutPopUp] = useState(false);
   const [showUpdatePopUp, setShowUpdatePopUp] = useState(false);
@@ -67,13 +66,21 @@ const ProfilePagePassword = () => {
   const isFormValid =
     newPassword && passwordConfirmation && !passwordError && !confirmationError;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setShowUpdatePopUp(true);
+    
+    if (isFormValid) {
+      try {
+        const token = localStorage.getItem("token");
+        await updatePassword(newPassword, token);
+        setShowUpdatePopUp(true);
+      } catch (error) {
+        setPasswordError(error.message || "Failed to update password");
+      }
+    }
   };
 
   useEffect(() => {
-    
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/welcome", { replace: true });
@@ -87,7 +94,7 @@ const ProfilePagePassword = () => {
     } else {
       setIsLoading(false);
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <motion.div
@@ -203,10 +210,8 @@ const ProfilePagePassword = () => {
                             </label>
                             <div className="flex py-2 w-full">
                               <input
-                                type={
-                                  showConfirmationPassword ? "text" : "password"
-                                }
-                                id="passwordconfirmation"
+                                type={showConfirmationPassword ? "text" : "password"}
+                                id="confirmpassword"
                                 value={passwordConfirmation}
                                 onChange={handleConfirmationChange}
                                 placeholder="Konfirmasi Password Anda..."
@@ -215,9 +220,7 @@ const ProfilePagePassword = () => {
                               <button
                                 type="button"
                                 onClick={() =>
-                                  setShowConfirmationPassword(
-                                    (prevState) => !prevState
-                                  )
+                                  setShowConfirmationPassword((prevState) => !prevState)
                                 }
                                 className="absolute right-3 py-2 text-gray-500 hover:text-gray-700"
                               >
@@ -237,22 +240,15 @@ const ProfilePagePassword = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="save-button flex flex-col lg:flex-row gap-4 items-center justify-center py-6 w-full">
-                      <button
-                        type="button"
-                        onClick={() => navigate("/account/profile")}
-                        className="bg-transparent border-2 border-customBlue font-medium w-full sm:w-1/3 h-11 my-2 rounded-lg text-medium text-black text-[16px] hover:shadow-lg transition duration-30"
-                      >
-                        Kembali
-                      </button>
+                    <div className="button-container flex justify-center lg:justify-end lg:pr-12 mt-8 lg:mt-0">
                       <button
                         type="submit"
-                        className={`${
-                          isFormValid
-                            ? "bg-[#027FFF] border-2 border-white font-medium w-full sm:w-1/3 h-11 my-2 rounded-lg text-medium text-white text-[16px] hover:shadow-lg transition duration-30"
-                            : "bg-[#A2A2A2] cursor-not-allowed border-2 border-white font-medium w-full sm:w-1/3 h-11 my-2 rounded-lg text-medium text-white text-[16px] transition duration-30"
-                        }`}
                         disabled={!isFormValid}
+                        className={`px-8 py-2 rounded-lg ${
+                          isFormValid
+                            ? "bg-[#027FFF] text-white"
+                            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                        }`}
                       >
                         Simpan
                       </button>
@@ -260,83 +256,84 @@ const ProfilePagePassword = () => {
                   </form>
                 </div>
               </div>
-              <div className="action-list flex flex-col lg:text-right text-center gap-6 lg:gap-11">
-                <ul className="flex flex-col gap-4 lg:gap-11">
-                  <li>
-                    <Link
-                      to="/account/profile"
-                      className={`font-regular text-lg sm:text-base md:text-lg ${
-                        activePage === "info-personal"
-                          ? "font-semibold underline"
-                          : ""
-                      } hover:underline`}
-                      onClick={() => handlePageChange("info-personal")}
-                    >
-                      Info Personal
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/account/password"
-                      className={`font-regular text-lg sm:text-base md:text-lg ${
-                        activePage === "password"
-                          ? "font-semibold underline"
-                          : ""
-                      } hover:underline`}
-                      onClick={() => handlePageChange("password")}
-                    >
-                      Password
-                    </Link>
-                  </li>
-                  <li>
-                    <button
-                      className={`font-regular text-lg ${
-                        activePage === "delete-account"
-                          ? "font-semibold underline"
-                          : ""
-                      } hover:underline`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setShowDeletePopUp(true);
-                      }}
-                    >
-                      Hapus Akun
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      className={`font-regular text-lg ${
-                        activePage === "delete-account"
-                          ? "font-semibold underline"
-                          : ""
-                      } hover:underline`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setShowLogoutPopUp(true);
-                      }}
-                    >
-                      Log Out
-                    </button>
-                  </li>
-                </ul>
+              <div className="sidebar flex flex-col gap-4 lg:w-2/12 py-10">
+                <div className="menu flex flex-col gap-4">
+                  <Link
+                    to="/account/profile"
+                    className={`font-medium text-[16px] lg:text-[20px] ${
+                      activePage === "personal-info"
+                        ? "text-[#027FFF]"
+                        : "text-[#003266]"
+                    }`}
+                    onClick={() => handlePageChange("personal-info")}
+                  >
+                    Informasi Pribadi
+                  </Link>
+                  <Link
+                    to="/account/password"
+                    className={`font-medium text-[16px] lg:text-[20px] ${
+                      activePage === "password"
+                        ? "text-[#027FFF]"
+                        : "text-[#003266]"
+                    }`}
+                    onClick={() => handlePageChange("password")}
+                  >
+                    Password
+                  </Link>
+                </div>
+                <div className="border-t-2 border-[#003266] w-full my-4"></div>
+                <div className="action flex flex-col gap-4">
+                  <button
+                    className="font-medium text-[16px] lg:text-[20px] text-[#003266] text-left"
+                    onClick={() => setShowDeletePopUp(true)}
+                  >
+                    Hapus Akun
+                  </button>
+                  <button
+                    className="font-medium text-[16px] lg:text-[20px] text-[#003266] text-left"
+                    onClick={() => setShowLogoutPopUp(true)}
+                  >
+                    Keluar
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-
-          <div className="absolute bottom-0 left-0">
-            <img src={Ellipse} alt="Background" />
-          </div>
-          {showDeletePopUp && <PopUpDelete setShowPopUp={setShowDeletePopUp} />}
-          {showLogoutPopUp && <PopUpLogout setShowPopUp={setShowLogoutPopUp} />}
-          {showUpdatePopUp && (
-            <PopUpUpdate
-              setShowPopUp={setShowUpdatePopUp}
-              password={newPassword}
-              confirmation={passwordConfirmation}
-            />
-          )}
+        </div>
+        <div className="fixed bottom-0 left-0 -z-10">
+          <img
+            src={Ellipse}
+            alt="Background"
+            className="w-[200px] sm:w-[50px] lg:w-[300px]"
+          />
         </div>
       </div>
+      <PopUpDelete
+        isOpen={showDeletePopUp}
+        onClose={() => setShowDeletePopUp(false)}
+        onConfirm={() => {
+          // Handle delete account logic here
+          setShowDeletePopUp(false);
+        }}
+      />
+      <PopUpLogout
+        isOpen={showLogoutPopUp}
+        onClose={() => setShowLogoutPopUp(false)}
+        onConfirm={() => {
+          localStorage.removeItem("user");
+          localStorage.removeItem("token");
+          navigate("/welcome");
+        }}
+      />
+      <PopUpUpdate
+        isOpen={showUpdatePopUp}
+        onClose={() => setShowUpdatePopUp(false)}
+        onConfirm={() => {
+          setShowUpdatePopUp(false);
+          setNewPassword("");
+          setPasswordConfirmation("");
+        }}
+      />
     </motion.div>
   );
 };

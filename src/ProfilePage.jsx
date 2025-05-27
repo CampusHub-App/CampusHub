@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { fetchUserProfile, updateUserProfile } from "./api";
 import Ellipse from "./assets/image/Ellipse.svg";
 import PopUpDelete from "./components/PopUpDelete.jsx";
 import PopUpLogout from "./components/PopUpLogOut.jsx";
@@ -19,7 +20,7 @@ const ProfilePagePersonalInfo = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [image, setImage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [datas, setDatas] = useState(null);
+  const [message, setMessage] = useState(null);
   const [showBerhasil, setShowBerhasil] = useState(false);
   const [showGagal, setShowGagal] = useState(false);
 
@@ -38,14 +39,25 @@ const ProfilePagePersonalInfo = () => {
       return;
     }
 
-    const user = localStorage.getItem("user");
-    if (user) {
-      setUser(JSON.parse(user));
+    const loadUserProfile = async () => {
+      try {
+        const userData = await fetchUserProfile(token);
+        setUser(userData);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
       setIsLoading(false);
     } else {
-      setIsLoading(false);
+      loadUserProfile();
     }
-  }, []);
+  }, [navigate]);
 
   const handlePageChange = (page) => {
     setActivePage(page);
@@ -54,67 +66,40 @@ const ProfilePagePersonalInfo = () => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setImage(file); // Save the file to state
-      const imageUrl = URL.createObjectURL(file); // Create a temporary URL for the file
-      setSelectedImage(imageUrl); // Update the state to display the new image
+      setImage(file);
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImage(imageUrl);
     }
   };
 
   const handleUpdate = async () => {
     setIsProcessing(true);
-    const formData = new FormData();
-    formData.append("name", user.fullname);
-    formData.append("email", user.email);
-    formData.append("phone", user.nomor_telepon);
-    if (selectedImage) {
-      formData.append("photo", image);
-    }
     
     try {
-      const response = await fetch("https://campushub.web.id/api/user", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: formData,
-      });
-
-      const datar = await response.json();
-
-      if (response.ok) {
-        try {
-          const response = await fetch("https://campushub.web.id/api/user", {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          });
-
-          const data = await response.json();
-
-          if (response.ok) {
-            localStorage.removeItem("user");
-            localStorage.setItem("user", JSON.stringify(data));
-            setDatas("Profil berhasil diubah");
-            setShowBerhasil(true);
-            setTimeout(() => {
-              window.location.reload();
-            }, 2800);
-          } else {
-            setDatas(data.message);
-            setShowGagal(true);
-          }
-        } catch (error) {
-          setDatas("Koneksi bermasalah, silahkan coba lagi");
-          setShowGagal(true);
-        } finally {
-          setIsProcessing(false);
-        }
-      } else {
-        setDatas(datar.message);
-        setShowGagal(true);
-      }
+      const token = localStorage.getItem("token");
+      const userData = {
+        name: user.fullname,
+        email: user.email,
+        phone: user.nomor_telepon,
+        photo: image
+      };
+      
+      await updateUserProfile(userData, token);
+      
+      // Fetch updated user data
+      const updatedUserData = await fetchUserProfile(token);
+      
+      // Update localStorage
+      localStorage.setItem("user", JSON.stringify(updatedUserData));
+      
+      setMessage("Profil berhasil diubah");
+      setShowBerhasil(true);
+      
+      setTimeout(() => {
+        window.location.reload();
+      }, 2800);
     } catch (error) {
-      setDatas("Koneksi bermasalah, silahkan coba lagi");
+      setMessage(error.message || "Koneksi bermasalah, silahkan coba lagi");
       setShowGagal(true);
     } finally {
       setIsProcessing(false);
@@ -398,8 +383,20 @@ const ProfilePagePersonalInfo = () => {
           </div>
           {showDeletePopUp && <PopUpDelete setShowPopUp={setShowDeletePopUp} />}
           {showLogoutPopUp && <PopUpLogout setShowPopUp={setShowLogoutPopUp} />}
-          {showBerhasil && ( <PopUpBerhasil isVisible={setShowBerhasil} message={datas} onClose={() => setShowBerhasil(false)}/>)}
-          {showGagal && ( <PopUpGagal isVisible={setShowGagal} message={datas} onClose={() => setShowGagal(false)}/>)}
+          {showBerhasil && (
+            <PopUpBerhasil
+              isVisible={setShowBerhasil}
+              message={message}
+              onClose={() => setShowBerhasil(false)}
+            />
+          )}
+          {showGagal && (
+            <PopUpGagal
+              isVisible={setShowGagal}
+              message={message}
+              onClose={() => setShowGagal(false)}
+            />
+          )}
         </div>
       </div>
     </motion.div>

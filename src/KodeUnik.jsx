@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { fetchUniqueCode } from "./api";
 import Ellipse from "./assets/image/Ellipse.svg";
 import Ellipse2 from "./assets/image/Ellipse2.svg";
 import "./css/KodeUnik.css";
@@ -19,24 +20,15 @@ const KodeUnik = () => {
       return;
     }
     
-    const fetchUniqueCode = async () => {
+    const loadUniqueCode = async () => {
       try {
-        console.log("Fetching unique code...");
-        const response = await fetch(`https://campushub.web.id/api/events/${id}/kode-unik`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Ambil token dari localStorage
-          },
-        });
-        const data = await response.json();
-        console.log("API Response:", data);
-
-        const uniqueCode = data.kode_unik;
+        const data = await fetchUniqueCode(id, token);
+        
         if (data.access_token) {
-          // Simpan access token di localStorage
           localStorage.setItem("token", data.access_token);
         }
 
+        const uniqueCode = data.kode_unik;
         if (uniqueCode && uniqueCode.length === 4) {
           setCode(uniqueCode.split(""));
         } else {
@@ -46,24 +38,24 @@ const KodeUnik = () => {
         console.error("Error fetching ticket code:", error);
         setCode(["", "", "", ""]);
       } finally {
-        setLoading(false); // Hentikan animasi loading
+        setLoading(false);
       }
     };
 
-    fetchUniqueCode();
-  }, [id]);
+    loadUniqueCode();
+  }, [id, navigate]);
 
-  // Navigasi ke MyEvent
+  // Navigate to MyEvent
   const handleNavigation = () => {
     if (!loading) {
       setFadeClass("fade-out");
       setTimeout(() => {
         navigate(`/my-events`);
-      }, 1000); // Tunggu animasi selesai sebelum navigasi
+      }, 1000);
     }
   };
 
-  // Jika data masih dimuat
+  // Show loading state
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen w-full">

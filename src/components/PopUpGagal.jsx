@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const PopUpGagal = ({ isVisible, onClose, message }) => {
   const [isEntering, setIsEntering] = useState(false);

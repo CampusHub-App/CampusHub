@@ -1,20 +1,9 @@
-import React from 'react';
-
-/**
- * ErrorMessage component for displaying error messages
- * @param {Object} props - Component props
- * @param {string} props.message - Error message to display
- * @param {string} props.type - Type of error (error, warning, info)
- * @param {boolean} props.dismissible - Whether the error can be dismissed
- * @param {Function} props.onDismiss - Function to call when error is dismissed
- */
 const ErrorMessage = ({ 
   message, 
   type = 'error',
   dismissible = false,
   onDismiss = () => {}
 }) => {
-  // Type mapping for styling
   const typeStyles = {
     error: {
       bg: 'bg-red-50',

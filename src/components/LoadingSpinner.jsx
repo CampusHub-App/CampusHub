@@ -1,12 +1,3 @@
-import React from 'react';
-
-/**
- * LoadingSpinner component for displaying loading states
- * @param {Object} props - Component props
- * @param {string} props.size - Size of the spinner (sm, md, lg)
- * @param {string} props.color - Color of the spinner
- * @param {string} props.text - Text to display next to the spinner
- */
 const LoadingSpinner = ({ 
   size = 'md', 
   color = '#027FFF', 

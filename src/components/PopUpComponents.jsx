@@ -1,14 +1,3 @@
-import React from 'react';
-
-/**
- * Base PopUp component that serves as a foundation for all popup modals
- * @param {Object} props - Component props
- * @param {boolean} props.isOpen - Whether the popup is open
- * @param {Function} props.onClose - Function to close the popup
- * @param {React.ReactNode} props.children - Content of the popup
- * @param {string} props.title - Title of the popup
- * @param {string} props.maxWidth - Maximum width of the popup
- */
 export const PopUpBase = ({ isOpen, onClose, children, title, maxWidth = 'max-w-md' }) => {
   if (!isOpen) return null;
 
@@ -26,13 +15,6 @@ export const PopUpBase = ({ isOpen, onClose, children, title, maxWidth = 'max-w-
   );
 };
 
-/**
- * PopUp component for successful operations
- * @param {Object} props - Component props
- * @param {boolean} props.isOpen - Whether the popup is open
- * @param {Function} props.onClose - Function to close the popup
- * @param {string} props.message - Success message to display
- */
 export const PopUpBerhasil = ({ isOpen, onClose, message = "Operasi berhasil dilakukan!" }) => {
   return (
     <PopUpBase isOpen={isOpen} onClose={onClose} title="Berhasil">
@@ -54,13 +36,6 @@ export const PopUpBerhasil = ({ isOpen, onClose, message = "Operasi berhasil dil
   );
 };
 
-/**
- * PopUp component for failed operations
- * @param {Object} props - Component props
- * @param {boolean} props.isOpen - Whether the popup is open
- * @param {Function} props.onClose - Function to close the popup
- * @param {string} props.message - Error message to display
- */
 export const PopUpGagal = ({ isOpen, onClose, message = "Terjadi kesalahan. Silakan coba lagi." }) => {
   return (
     <PopUpBase isOpen={isOpen} onClose={onClose} title="Gagal">
@@ -82,14 +57,6 @@ export const PopUpGagal = ({ isOpen, onClose, message = "Terjadi kesalahan. Sila
   );
 };
 
-/**
- * PopUp component for confirmation before deletion
- * @param {Object} props - Component props
- * @param {boolean} props.isOpen - Whether the popup is open
- * @param {Function} props.onClose - Function to close the popup
- * @param {Function} props.onConfirm - Function to call when deletion is confirmed
- * @param {string} props.message - Confirmation message
- */
 export const PopUpDelete = ({ isOpen, onClose, onConfirm, message = "Apakah Anda yakin ingin menghapus item ini?" }) => {
   return (
     <PopUpBase isOpen={isOpen} onClose={onClose} title="Konfirmasi Hapus">
@@ -122,13 +89,6 @@ export const PopUpDelete = ({ isOpen, onClose, onConfirm, message = "Apakah Anda
   );
 };
 
-/**
- * PopUp component for logout confirmation
- * @param {Object} props - Component props
- * @param {boolean} props.isOpen - Whether the popup is open
- * @param {Function} props.onClose - Function to close the popup
- * @param {Function} props.onConfirm - Function to call when logout is confirmed
- */
 export const PopUpLogOut = ({ isOpen, onClose, onConfirm }) => {
   return (
     <PopUpBase isOpen={isOpen} onClose={onClose} title="Konfirmasi Logout">
@@ -161,14 +121,6 @@ export const PopUpLogOut = ({ isOpen, onClose, onConfirm }) => {
   );
 };
 
-/**
- * PopUp component for checkout confirmation
- * @param {Object} props - Component props
- * @param {boolean} props.isOpen - Whether the popup is open
- * @param {Function} props.onClose - Function to close the popup
- * @param {Function} props.onConfirm - Function to call when checkout is confirmed
- * @param {Object} props.eventDetails - Details of the event being checked out
- */
 export const PopUpCheckout = ({ isOpen, onClose, onConfirm, eventDetails }) => {
   return (
     <PopUpBase isOpen={isOpen} onClose={onClose} title="Konfirmasi Pendaftaran" maxWidth="max-w-lg">

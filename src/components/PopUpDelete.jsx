@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const PopUpDelete = ({ setShowPopUp }) => {
@@ -6,7 +6,7 @@ const PopUpDelete = ({ setShowPopUp }) => {
   const [isExiting, setIsExiting] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false); // State for
+  const [isVisible, setIsVisible] = useState(false);
   const [gagal, setGagal] = useState(false);
 
   useEffect(() => {

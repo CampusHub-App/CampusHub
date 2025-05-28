@@ -11,7 +11,6 @@ const Navbar = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
 
-  // List of paths that use dark theme
   const darkThemePaths = [
     "/my-events",
     "/account/profile",
@@ -20,7 +19,6 @@ const Navbar = () => {
     "/events/preview",
   ];
 
-  // Check if current path should use dark theme
   const isDarkTheme = () => {
     const currentPath = location.pathname;
     return darkThemePaths.includes(currentPath) || 
@@ -29,7 +27,6 @@ const Navbar = () => {
            currentPath.includes(`/my-participants/${id}/`);
   };
 
-  // Get theme-based styling
   const getStyles = () => {
     const dark = isDarkTheme();
     return {

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const PopUpLogout = ({ setShowPopUp }) => {
   const bookingRef = useRef(null);

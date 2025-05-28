@@ -7,25 +7,25 @@ const PopUpGagal = ({ isVisible, onClose, message }) => {
   useEffect(() => {
     if (isVisible) {
       const enterTimer = setTimeout(() => {
-        setIsEntering(true); // Mulai animasi masuk
-      }, 10); // Delay sedikit untuk memastikan transisi berjalan
+        setIsEntering(true);
+      }, 10);
       const exitTimer = setTimeout(() => {
-        handleClose(); // Otomatis tutup setelah 2 detik
+        handleClose();
       }, 2000);
       return () => {
-        clearTimeout(enterTimer); // Bersihkan timer masuk
-        clearTimeout(exitTimer); // Bersihkan timer keluar
+        clearTimeout(enterTimer);
+        clearTimeout(exitTimer);
       };
     }
   }, [isVisible]);
 
   const handleClose = () => {
-    setIsExiting(true); // Mulai animasi keluar
+    setIsExiting(true);
     setTimeout(() => {
-      setIsEntering(false); // Reset animasi masuk
-      setIsExiting(false); // Reset animasi keluar
-      onClose(); // Callback untuk menyembunyikan popup
-    }, 700); // Durasi animasi keluar
+      setIsEntering(false);
+      setIsExiting(false);
+      onClose();
+    }, 700);
   };
 
   return (

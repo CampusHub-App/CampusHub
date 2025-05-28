@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) => {
   const bookingRef = useRef(null);
@@ -10,7 +10,7 @@ const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) =>
   const [message, setMessage] = useState();
 
   useEffect(() => {
-    setLocalId(id); // Salin nilai ID dari props ke state lokal
+    setLocalId(id);
   }, [id]);
 
   useEffect(() => {

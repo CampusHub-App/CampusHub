@@ -1,26 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import arrowLeft from "../assets/image/icon/arrow-circle-left.svg";
 import arrowRight from "../assets/image/icon/arrow-circle-right.svg";
 import { Card, Body, Kategori, Image, Tanggal, Creator } from "../fragment/Card";
 
-/**
- * CardPage component for displaying paginated event cards
- * @param {Object} props - Component props
- * @param {Array} props.events - Array of event objects to display
- */
 const CardPage = ({ events }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
     const eventsPerPage = 6;
     
-    // Calculate pagination values
     const indexOfLastEvent = currentPage * eventsPerPage;
     const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
     const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
     const maxPage = Math.ceil(events.length / eventsPerPage);
 
-    // Navigation functions
     const nextPage = () => {
         if (currentPage < maxPage) {
             setCurrentPage(currentPage + 1);
@@ -37,7 +30,6 @@ const CardPage = ({ events }) => {
         setCurrentPage(page);
     };
 
-    // Handle card click to navigate to event details
     const handleCardClick = (id) => {
         navigate(`/events/${id}/view`);
     };

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 const PopUpCancel = ({ setShowPopUp, bookingId }) => {
@@ -6,11 +6,11 @@ const PopUpCancel = ({ setShowPopUp, bookingId }) => {
   const { id } = useParams();
   const [isExiting, setIsExiting] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isVisible, setIsVisible] = useState(false); // State for entrance
+  const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsVisible(true); // Trigger entrance animation on mount
+    setIsVisible(true);
 
     const handleClickOutside = (event) => {
       if (bookingRef.current && !bookingRef.current.contains(event.target)) {
@@ -25,10 +25,10 @@ const PopUpCancel = ({ setShowPopUp, bookingId }) => {
   }, []);
 
   const triggerClose = () => {
-    setIsExiting(true); // Trigger exit animation
+    setIsExiting(true);
     setTimeout(() => {
       setShowPopUp(false);
-    }, 600); // Match the duration of the animation
+    }, 600);
   };
 
   const handleCancelBooking = async () => {

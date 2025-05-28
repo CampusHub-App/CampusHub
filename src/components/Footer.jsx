@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/image/logo.svg";
 import facebook from "../assets/image/Facebook.svg";
@@ -7,14 +6,9 @@ import linkedin from "../assets/image/Linkedin.svg";
 import tiktok from "../assets/image/TikTok.svg";
 import x from "../assets/image/X.svg";
 
-/**
- * Footer component with contact information and social media links
- */
 const Footer = () => {
-  // Get current year for copyright
   const currentYear = new Date().getFullYear();
 
-  // Social media links configuration
   const socialLinks = [
     { icon: facebook, alt: "Facebook", url: "https://facebook.com" },
     { icon: instagram, alt: "Instagram", url: "https://instagram.com" },

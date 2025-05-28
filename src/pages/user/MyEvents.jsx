@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { fetchUserRegistrations } from "../../api";
+import { fetchUserRegistrations } from "../../services/api";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import "./css/MyEvents.css";
+import '../../css/MyEvents.css';
 
-// Animation configuration
 const pageVariants = {
   initial: { opacity: 0.4 },
   animate: { opacity: 1 },

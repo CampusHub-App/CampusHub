@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { updatePassword } from "../../api";
+import { updatePassword } from "../../services/api";
 import Ellipse from "./assets/image/Ellipse.svg";
 import PopUpDelete from "../../components/PopUpDelete";
 import PopUpLogout from "../../components/PopUpLogOut";

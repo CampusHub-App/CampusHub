@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import './App.css';
+import '../../css/App.css';
 import 'animate.css';
 import 'remixicon/fonts/remixicon.css';
 

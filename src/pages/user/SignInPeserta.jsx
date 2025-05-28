@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { register } from "../../api";
+import { register } from "../../services/api";
 import circle from "./assets/image/circle3.svg";
 import circle2 from "./assets/image/circle4.svg";
 import logo from "./assets/image/logo2.svg";

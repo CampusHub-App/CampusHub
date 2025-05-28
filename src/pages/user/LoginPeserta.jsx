@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { login } from "../../api";
+import { login } from "../../services/api";
 
 const pageVariants = {
   initial: { opacity: 0.4 },

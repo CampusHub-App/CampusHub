@@ -3,7 +3,7 @@ import { Link as ScrollLink } from "react-scroll";
 import { Link } from "react-router-dom";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
-import { fetchEvents } from "../../api";
+import { fetchEvents } from "../../services/api";
 
 import CardPage from "../../components/CardPage";
 import Footer from "../../components/Footer";

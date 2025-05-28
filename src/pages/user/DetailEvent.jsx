@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { fetchEvent, registerForEvent } from "../../api";
+import { fetchEvent } from "../../services/api";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import PopUpCheckout from "../../components/PopUpCheckout";

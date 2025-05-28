@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { fetchEvents } from "../../api";
+import { fetchEvents } from "../../services/api";
 import CardPage from "../../components/CardPage";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";

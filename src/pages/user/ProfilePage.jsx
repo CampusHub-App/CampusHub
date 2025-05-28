@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchUserProfile, updateUserProfile } from "../../api.js";
+import { fetchUserProfile, updateUserProfile } from "../../services/api";
 import Ellipse from "./assets/image/Ellipse.svg";
 import PopUpDelete from "../../components/PopUpDelete.jsx";
 import PopUpLogout from "../../components/PopUpLogOut.jsx";

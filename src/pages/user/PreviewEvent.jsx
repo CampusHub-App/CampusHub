@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { fetchEvent, registerEventWithToken } from "../../api";
+import { fetchEvent, registerEventWithToken } from "../../services/api";
 import PopUpCheckout from "../../components/PopUpCheckout";
 import "./css/PreviewEvent.css";
 import Calendar from "./assets/image/date.svg";

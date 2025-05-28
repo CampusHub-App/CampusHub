@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Menu from "../../assets/image/menu.svg";
-import "../../css/MyEvents.css";
+import "../../styles/MyEvents.css";
 import { motion } from "framer-motion";
 import Navbar from "../../components/Navbar";
 import { useLocation } from "react-router-dom";

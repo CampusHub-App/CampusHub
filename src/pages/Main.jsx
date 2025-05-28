@@ -2,37 +2,37 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import '../../css/App.css';
+import '../css/App.css';
 import 'animate.css';
 import 'remixicon/fonts/remixicon.css';
 
-import Welcome from './Welcome.jsx';
-import LoginPeserta from './LoginPeserta.jsx';
-import ErrorPage from './ErrorPage.jsx';
-import HomePage from './HomePage.jsx';
-import WebinarPage from './Webinar.jsx';
-import SeminarPage from './Seminar.jsx';
-import SertifikasiPage from './Sertifikasi.jsx';
-import WorkshopPage from './Workshop.jsx';
-import KuliahTamuPage from './KuliahTamu.jsx';
-import MyEvents from './MyEvents.jsx';
-import ProfilePagePersonalInfo from './ProfilePage.jsx';
-import ProfilePagePassword from './ProfilePagePassword.jsx';
-import MyEventStatusPage from './MyEventStatusPage.jsx';
-import PreviewEvent from './PreviewEvent.jsx';
-import DetailEvent from './DetailEvent.jsx';
-import KodeUnik from './KodeUnik.jsx';
-import SignInPeserta from './SignInPeserta.jsx';
+import Welcome from './user/Welcome.jsx';
+import LoginPeserta from './user/LoginPeserta.jsx';
+import ErrorPage from './user/ErrorPage.jsx';
+import HomePage from './user/HomePage.jsx';
+import WebinarPage from './user/Webinar.jsx';
+import SeminarPage from './user/Seminar.jsx';
+import SertifikasiPage from './user/Sertifikasi.jsx';
+import WorkshopPage from './user/Workshop.jsx';
+import KuliahTamuPage from './user/KuliahTamu.jsx';
+import MyEvents from './user/MyEvents.jsx';
+import ProfilePagePersonalInfo from './user/ProfilePage.jsx';
+import ProfilePagePassword from './user/ProfilePagePassword.jsx';
+import MyEventStatusPage from './user/MyEventStatusPage.jsx';
+import PreviewEvent from './user/PreviewEvent.jsx';
+import DetailEvent from './user/DetailEvent.jsx';
+import KodeUnik from './user/KodeUnik.jsx';
+import SignInPeserta from './user/SignInPeserta.jsx';
 
-import AdminPage from '../../admin/HomePage.jsx';
-import UploadEvent from '../../admin/UploadEvent.jsx';
-import LoginAdmin from '../../admin/LoginAdmin.jsx';
-import MyAdmin from '../../admin/MyEvents.jsx';
-import PreviewPage from '../../admin/PreviewPage.jsx';
-import MyParticipants from '../../admin/MyParticipants.jsx';
-import EditEvent from '../../admin/EditEvent.jsx';
-import PreviewEdit from '../../admin/PreviewEdit.jsx';
-import CheckIn from '../../admin/CheckInPage.jsx';
+import AdminPage from './admin/HomePage.jsx';
+import UploadEvent from './admin/UploadEvent.jsx';
+import LoginAdmin from './admin/LoginAdmin.jsx';
+import MyAdmin from './admin/MyEvents.jsx';
+import PreviewPage from './admin/PreviewPage.jsx';
+import MyParticipants from './admin/MyParticipants.jsx';
+import EditEvent from './admin/EditEvent.jsx';
+import PreviewEdit from './admin/PreviewEdit.jsx';
+import CheckIn from './admin/CheckInPage.jsx';
 
 const getUserData = () => {
   try {

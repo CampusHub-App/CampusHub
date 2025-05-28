@@ -6,6 +6,7 @@ import Date from "../assets/image/date.svg";
 import Chair from "../assets/image/chair.svg";
 import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { createEvent } from "../../services/api";
 
 const PreviewPage = () => {
   const [eventData, setEventData] = useState(null);
@@ -80,7 +81,6 @@ const PreviewPage = () => {
   } = eventData;
 
   const CategoryName = categoryMap[category];
-
   const handleUpload = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -90,7 +90,7 @@ const PreviewPage = () => {
       }
 
       const formData = new FormData();
-      formData.append("event_img", event_img); // Assuming event_img is the file object
+      formData.append("event_img", event_img);
       formData.append("category", category);
       formData.append("title", title);
       formData.append("date", date);
@@ -101,26 +101,12 @@ const PreviewPage = () => {
       formData.append("role", role);
       formData.append("slot", slot);
       formData.append("location", location);
-      formData.append("speaker_img", speaker_img); // If speaker_img is also a file
+      formData.append("speaker_img", speaker_img);
 
-      const response = await fetch(`https://campushub.web.id/api/events`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        navigate("/my-events");
-      } else {
-        alert(`Booking gagal: ${data.message || "Coba lagi nanti."}`);
-      }
-    } catch (err) {
-      alert("Terjadi kesalahan saat booking. Silakan coba lagi.");
-      console.log(err);
+      await createEvent(formData, token);
+      navigate("/my-events");
+    } catch (error) {
+      alert(`Upload gagal: ${error.message || "Coba lagi nanti."}`);
     }
   };
 

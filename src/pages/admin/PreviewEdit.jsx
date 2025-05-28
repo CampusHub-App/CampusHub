@@ -7,6 +7,7 @@ import Chair from "../assets/image/chair.svg";
 import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useParams } from "react-router-dom";
+import { updateEvent } from "../../services/api";
 
 const PreviewEdit = () => {
   const [eventData, setEventData] = useState(null);
@@ -78,7 +79,6 @@ const PreviewEdit = () => {
   } = eventData;
 
   const CategoryName = categoryMap[category];
-
   const handleUpdate = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -97,37 +97,20 @@ const PreviewEdit = () => {
       formData.append("speaker", speaker);
       formData.append("role", role);
       formData.append("slot", slot);
-      {
-        isOffline && formData.append("location", location);
+      if (isOffline) {
+        formData.append("location", location);
       }
-      {
-        event_img && formData.append("event_img", event_img);
+      if (event_img) {
+        formData.append("event_img", event_img);
       }
-      {
-        speaker_img && formData.append("speaker_img", speaker_img);
+      if (speaker_img) {
+        formData.append("speaker_img", speaker_img);
       }
 
-      const response = await fetch(
-        `https://campushub.web.id/api/events/${id}/edit`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        navigate("/my-events");
-      } else {
-        alert(`Booking gagal: ${data.message || "Coba lagi nanti."}`);
-      }
-    } catch (err) {
-      alert("Terjadi kesalahan saat booking. Silakan coba lagi.");
-      console.log(err);
+      await updateEvent(id, formData, token);
+      navigate("/my-events");
+    } catch (error) {
+      alert(`Update gagal: ${error.message || "Coba lagi nanti."}`);
     }
   };
 

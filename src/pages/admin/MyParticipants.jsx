@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import Navbar from "../../src/components/Navbar";
 import { useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { fetchEventParticipants } from "../../services/api";
 
 const MyParticipants = () => {
 
@@ -54,7 +55,6 @@ const MyParticipants = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   useEffect(() => {
     const fetchEvents = async () => {
       const token = localStorage.getItem("token");
@@ -64,27 +64,17 @@ const MyParticipants = () => {
       }
 
       try {
-        const response = await fetch(
-          `https://campushub.web.id/api/events/${id}/participants/all`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setEvents(data);
-          setIsLoading(false);
-        }
+        const data = await fetchEventParticipants(id);
+        setEvents(data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching events:", error);
+        setIsLoading(false);
       }
     };
 
     fetchEvents();
-  }, [navigate]);
+  }, [navigate, id]);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);

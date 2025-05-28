@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import PopUpGagal from "../components/PopUpGagal";
 import { useNavigate } from "react-router-dom";
+import { loginAdmin, fetchUserProfile } from "../../services/api";
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -54,59 +55,34 @@ function Loginadmin() {
   };
 
   const isFormValid = email.trim() !== "" && password.trim() !== "";
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
     if (isFormValid) {
       try {
         setIsLoading(true);
-        const response = await fetch(
-          "https://campushub.web.id/api/login/admin",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password, remember }),
-          }
-        );
-
-        const data = await response.json();
+        const data = await loginAdmin({ email, password, remember });
         setDatas(data.message);
 
-        if (response.ok) {
-          // Simpan token dan tipe token
-          if (data.access_token) {
-            localStorage.setItem("token", data.access_token); // Simpan access_token
-            localStorage.setItem("token_type", data.token_type); // Simpan tipe token
-          }
+        // Simpan token dan tipe token
+        if (data.access_token) {
+          localStorage.setItem("token", data.access_token);
+          localStorage.setItem("token_type", data.token_type);
+        }
 
-          try {
-            const response = await fetch("https://campushub.web.id/api/user", {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            });
-
-            if (response.ok) {
-              const data = await response.json();
-              localStorage.setItem("user", JSON.stringify(data));
-            }
-          } finally {
-            setTimeout(() => {
-              window.location.href = redirectPath;
-            }, 200);
-            setTimeout(() => {
-              setIsLoading(false);
-            }, 1000);
-          }
-        } else {
-          showGagal(true);
-          setIsLoading(false);
+        try {
+          const userData = await fetchUserProfile(data.access_token);
+          localStorage.setItem("user", JSON.stringify(userData));
+        } finally {
+          setTimeout(() => {
+            window.location.href = redirectPath;
+          }, 200);
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 1000);
         }
       } catch (error) {
-        setDatas("Koneksi Timeout, Silahkan Coba Lagi");
+        setDatas(error.message || "Koneksi Timeout, Silahkan Coba Lagi");
         setShowGagal(true);
         setIsLoading(false);
       }

@@ -8,6 +8,7 @@ import PopUpGagal from "../../components/PopUpGagal";
 import PopUpBerhasil from "../../components/PopUpBerhasil";
 import { useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import { checkInParticipant } from "../services/api";
 
 const KodeUnik = () => {
   const [code, setCode] = useState(["", "", "", ""]);
@@ -42,34 +43,14 @@ const KodeUnik = () => {
       navigate(`/my-events/${id}/participants`);
     }, 1000);
   };
-
   const handleCheckIn = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(
-        `https://campushub.web.id/api/my-events/${id}/check-in`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({
-            kode: code.join(""),
-          }),
-        }
-      );
-
-      const data = await response.json();
+      const data = await checkInParticipant(id, code.join(""));
       setDatas(data.message);
-
-      if (response.ok) {
-        setShowPopup(true);
-      } else {
-        setShowGagal(true);
-      }
+      setShowPopup(true);
     } catch (error) {
-      setDatas("Koneksi bermasalah, silahkan coba lagi");
+      setDatas(error.message || "Koneksi bermasalah, silahkan coba lagi");
       setShowGagal(true);
     } finally {
       setCode(["", "", "", ""]);

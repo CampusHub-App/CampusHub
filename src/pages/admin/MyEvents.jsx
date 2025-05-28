@@ -4,6 +4,7 @@ import Menu from "../assets/image/menu.svg";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import PopUpDeleteEvent from "../components/PopUpDeleteEvent";
+import { fetchMyEvents } from "../../services/api";
 
 const MyEvents = () => {
   const [events, setEvents] = useState([]);
@@ -78,9 +79,8 @@ const MyEvents = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchEventsData = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
         navigate("/welcome?redirect=/my-events", { replace: true });
@@ -88,26 +88,15 @@ const MyEvents = () => {
       }
 
       try {
-        const response = await fetch(
-          "https://campushub.web.id/api/my-events/all",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setEvents(data);
-          setIsLoading(false);
-        }
+        const data = await fetchMyEvents(token);
+        setEvents(data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching events:", error);
       }
     };
 
-    fetchEvents();
+    fetchEventsData();
   }, [navigate]);
 
   const toggleDropdown = () => {

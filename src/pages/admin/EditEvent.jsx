@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { fetchEventDetails } from "../services/api";
 
 function EditEvent() {
   const [event_img, setEventImg] = useState();
@@ -140,35 +141,27 @@ function EditEvent() {
       setSpeaker(state.data.speaker || "");
       setRole(state.data.role || "");
       setSlot(state.data.slot || "");
-      setVenue(state.data.location || "");
-    } else {
+      setVenue(state.data.location || "");    } else {
       const FetchEvent = async () => {
         try {
-          const response = await fetch(
-            `https://campushub.web.id/api/events/${id}/view`
-          );
-          const data = await response.json();
-
-          if (response.ok) {
-            setEventsPreview(data.foto_event);
-            setSpeakerPreview(data.foto_pembicara);
-            setCategory(data.kategori_id);
-            setTitle(data.judul);
-            setDate(data.date);
-            setStartTime(data.start_time);
-            setEndTime(data.end_time);
-            setDes(data.deskripsi);
-            setSpeaker(data.pembicara);
-            setRole(data.role);
-            setSlot(data.available_slot);
-            setVenue(data.tempat);
-            setIsOffline(data.tempat !== "Online");
-          } else {
-            alert(`Booking gagal: ${data.message || "Coba lagi nanti."}`);
-          }
-        } catch (err) {
-          alert("Terjadi kesalahan saat booking. Silakan coba lagi.");
-          console.log(err);
+          const data = await fetchEventDetails(id);
+          
+          setEventsPreview(data.foto_event);
+          setSpeakerPreview(data.foto_pembicara);
+          setCategory(data.kategori_id);
+          setTitle(data.judul);
+          setDate(data.date);
+          setStartTime(data.start_time);
+          setEndTime(data.end_time);
+          setDes(data.deskripsi);
+          setSpeaker(data.pembicara);
+          setRole(data.role);
+          setSlot(data.available_slot);
+          setVenue(data.tempat);
+          setIsOffline(data.tempat !== "Online");
+        } catch (error) {
+          alert("Terjadi kesalahan saat memuat data event. Silakan coba lagi.");
+          console.error("Error fetching event details:", error);
         }
       };
 

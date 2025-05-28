@@ -1,8 +1,9 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import admin from "../assets/image/adminimage/admin.svg";
-import admin2 from "../assets/image/adminimage/admin2.svg";
-import circle5 from "../assets/image/circle5.svg";
+import { useState } from "react";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import admin from "../../assets/image/admin/admin.svg";
+import admin2 from "../../assets/image/admin/admin2.svg";
+import circle5 from "../../assets/image/user/circle5.svg";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { Link } from "react-router-dom";
 import CountUp from "react-countup";
@@ -9,14 +9,14 @@ import CardPage from "../../components/CardPage";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 
-import gambar from "./assets/image/gambarutama.svg";
-import webinar from "./assets/image/webinar.svg";
-import seminar from "./assets/image/seminar.svg";
-import kuliah from "./assets/image/kuliah.svg";
-import workshop from "./assets/image/workshop.svg";
-import sertifikasi from "./assets/image/sertifikasi.svg";
-import circle5 from "./assets/image/circle5.svg";
-import circle6 from "./assets/image/circle6.svg";
+import gambar from "../../assets/image/user/gambarutama.svg";
+import webinar from "../../assets/image/user/webinar.svg";
+import seminar from "../../assets/image/user/seminar.svg";
+import kuliah from "../../assets/image/user/kuliah.svg";
+import workshop from "../../assets/image/user/workshop.svg";
+import sertifikasi from "../../assets/image/user/sertifikasi.svg";
+import circle5 from "../../assets/image/user/circle5.svg";
+import circle6 from "../../assets/image/user/circle6.svg";
 
 const pageVariants = {
   initial: { opacity: 0.4 },

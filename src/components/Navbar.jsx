@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import logo from "../assets/image/logo.svg";
-import logo2 from "../assets/image/logo2.svg";
+import logo from "../assets/image/user/logo.svg";
+import logo2 from "../assets/image/user/logo2.svg";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 const Navbar = () => {

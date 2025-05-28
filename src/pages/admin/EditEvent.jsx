@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import upload from "../assets/image/adminimage/upload.svg";
-import Navbar from "../components/Navbar";
+import upload from "../../assets/image/admin/upload.svg";
+import Navbar from "../../components/Navbar";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
-import { fetchEventDetails } from "../services/api";
+import { fetchEventDetails } from "../../services/api";
 
 function EditEvent() {
   const [event_img, setEventImg] = useState();

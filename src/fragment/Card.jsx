@@ -1,5 +1,4 @@
-import React from "react";
-import date from "../assets/image/date.svg";
+import date from "../assets/image/user/date.svg";
 
 export const Card = ({ children, onClick }) => {
   return (

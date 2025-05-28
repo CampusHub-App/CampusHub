@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../services/api";
-import circle from "./assets/image/circle3.svg";
-import circle2 from "./assets/image/circle4.svg";
-import logo from "./assets/image/logo2.svg";
+import circle from "../../assets/image/user/circle3.svg";
+import circle2 from "../../assets/image/user/circle4.svg";
+import logo from "../../assets/image/user/logo2.svg";
 import { useEffect, useState } from "react";
 import PopUpGagal from "../../components/PopUpGagal";
 import PopUpBerhasil from "../../components/PopUpBerhasil";

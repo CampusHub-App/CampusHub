@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Menu from "../../src/assets/image/menu.svg";
-import "../css/MyEvents.css";
+import Menu from "../../assets/image/admin/menu.svg";
+import "../../css/MyEvents.css";
 import { motion } from "framer-motion";
-import Navbar from "../../src/components/Navbar";
+import Navbar from "../../components/Navbar";
 import { useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { fetchEventParticipants } from "../../services/api";

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import arrowLeft from "../assets/image/icon/arrow-circle-left.svg";
-import arrowRight from "../assets/image/icon/arrow-circle-right.svg";
+import arrowLeft from "../assets/icon/arrow-circle-left.svg";
+import arrowRight from "../assets/icon/arrow-circle-right.svg";
 import { Card, Body, Kategori, Image, Tanggal, Creator } from "../fragment/Card";
 
 const CardPage = ({ events }) => {

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Menu from "../assets/image/menu.svg";
+import Menu from "../../assets/image/admin/menu.svg";
 import { motion } from "framer-motion";
-import Navbar from "../components/Navbar";
-import PopUpDeleteEvent from "../components/PopUpDeleteEvent";
+import Navbar from "../../components/Navbar";
+import PopUpDeleteEvent from "../../components/PopUpDeleteEvent";
 import { fetchMyEvents } from "../../services/api";
 
 const MyEvents = () => {

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import circle2 from "../assets/image/circle4.svg";
-import logo from "../assets/image/logo2.svg";
+import circle2 from "../../assets/image/admin/circleadmin.svg";
+import logo from "../../assets/image/admin/logo2.svg";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import PopUpGagal from "../components/PopUpGagal";
+import PopUpGagal from "../../components/PopUpGagal";
 import { useNavigate } from "react-router-dom";
 import { loginAdmin, fetchUserProfile } from "../../services/api";
 

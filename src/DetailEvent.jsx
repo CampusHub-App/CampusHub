@@ -28,7 +28,6 @@ function DetailEvent() {
   const [errorMessage, setErrorMessage] = useState("");
   const [user, setUser] = useState(null);
 
-  // Fetch event details
   useEffect(() => {
     const loadEventData = async () => {
       try {
@@ -41,7 +40,6 @@ function DetailEvent() {
       }
     };
 
-    // Get user data from localStorage
     const userData = localStorage.getItem("user");
     if (userData) {
       setUser(JSON.parse(userData));
@@ -51,7 +49,6 @@ function DetailEvent() {
     window.scrollTo(0, 0);
   }, [id]);
 
-  // Handle registration
   const handleRegister = async () => {
     if (!user) {
       navigate("/welcome");
@@ -67,7 +64,6 @@ function DetailEvent() {
     }
   };
 
-  // Format date for display
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -153,7 +149,6 @@ function DetailEvent() {
               </div>
             </div>
 
-            {/* Right Column - Event Info & Registration */}
             <div className="md:w-1/3">
               <div className="bg-white p-6 rounded-lg shadow-md mb-6">
                 <h2 className="text-xl font-bold mb-4">Informasi Acara</h2>
@@ -197,7 +192,6 @@ function DetailEvent() {
 
       <Footer />
 
-      {/* Popups */}
       <PopUpCheckout
         isOpen={showPopup}
         onClose={() => setShowPopup(false)}

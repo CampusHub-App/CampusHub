@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { login } from "./api";
 
-// Animation configuration
 const pageVariants = {
   initial: { opacity: 0.4 },
   animate: { opacity: 1 },
@@ -20,7 +19,6 @@ function LoginPeserta() {
   const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -28,7 +26,6 @@ function LoginPeserta() {
       [name]: value,
     });
     
-    // Clear error when user types
     if (errors[name]) {
       setErrors({
         ...errors,
@@ -36,13 +33,11 @@ function LoginPeserta() {
       });
     }
     
-    // Clear login error when user types
     if (loginError) {
       setLoginError("");
     }
   };
 
-  // Validate form
   const validateForm = () => {
     const newErrors = {};
     
@@ -71,11 +66,9 @@ function LoginPeserta() {
     
     try {
       const data = await login(formData);
-      
-      // Store user data in localStorage
+
       localStorage.setItem("user", JSON.stringify(data));
-      
-      // Redirect based on user role
+
       navigate("/");
     } catch (error) {
       setLoginError(error.message || "Login failed. Please check your credentials.");

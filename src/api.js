@@ -1,11 +1,11 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://campushub.web.id/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const fetchEvents = async (category) => {
   const endpoint = category ? `/events/${category}` : '/events/all';
   const response = await fetch(`${API_BASE_URL}${endpoint}`);
   
   if (!response.ok) {
-    throw new Error('Failed to fetch events');
+    throw new Error(data.message);
   }
   
   return response.json();
@@ -15,7 +15,7 @@ export const fetchEvent = async (id) => {
   const response = await fetch(`${API_BASE_URL}/events/${id}`);
   
   if (!response.ok) {
-    throw new Error('Failed to fetch event details');
+    throw new Error(data.message);
   }
   
   return response.json();
@@ -31,7 +31,7 @@ export const login = async (credentials) => {
   const data = await response.json();
   
   if (!response.ok) {
-    throw new Error(data.message || 'Login failed');
+    throw new Error(data.message);
   }
   
   return data;
@@ -47,7 +47,7 @@ export const register = async (userData) => {
   const data = await response.json();
   
   if (!response.ok) {
-    throw new Error(data.message || 'Registration failed');
+    throw new Error(data.message);
   }
   
   return data;
@@ -66,7 +66,7 @@ export const registerForEvent = async (eventId, token) => {
   const data = await response.json();
   
   if (!response.ok) {
-    throw new Error(data.message || 'Failed to register for event');
+    throw new Error(data.message);
   }
   
   return data;
@@ -98,7 +98,7 @@ export const registerEventWithToken = async (eventId, token) => {
   const data = await response.json();
   
   if (!response.ok) {
-    throw new Error(data.message || 'Failed to register for event');
+    throw new Error(data.message);
   }
   
   return data;
@@ -114,7 +114,7 @@ export const fetchUniqueCode = async (eventId, token) => {
   const data = await response.json();
   
   if (!response.ok) {
-    throw new Error(data.message || 'Failed to fetch unique code');
+    throw new Error(data.message);
   }
   
   return data;
@@ -133,7 +133,7 @@ export const updatePassword = async (newPassword, token) => {
   const data = await response.json();
   
   if (!response.ok) {
-    throw new Error(data.message || 'Failed to update password');
+    throw new Error(data.message);
   }
   
   return data;
@@ -149,7 +149,7 @@ export const fetchEventStatus = async (eventId, token) => {
   const data = await response.json();
   
   if (!response.ok) {
-    throw new Error(data.message || 'Failed to fetch event status');
+    throw new Error(data.message);
   }
   
   return data;
@@ -165,7 +165,7 @@ export const fetchUserProfile = async (token) => {
   const data = await response.json();
   
   if (!response.ok) {
-    throw new Error(data.message || 'Failed to fetch user profile');
+    throw new Error(data.message);
   }
   
   return data;
@@ -190,7 +190,7 @@ export const updateUserProfile = async (userData, token) => {
   const data = await response.json();
   
   if (!response.ok) {
-    throw new Error(data.message || 'Failed to update user profile');
+    throw new Error(data.message);
   }
   
   return data;

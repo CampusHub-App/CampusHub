@@ -22,7 +22,7 @@ function MyEvents() {
   const [activeTab, setActiveTab] = useState("upcoming");
 
   useEffect(() => {
-    // Check if user is logged in
+
     const userData = localStorage.getItem("user");
     if (!userData) {
       navigate("/welcome");
@@ -32,7 +32,6 @@ function MyEvents() {
     const parsedUser = JSON.parse(userData);
     setUser(parsedUser);
     
-    // Fetch user's registered events
     const loadEvents = async () => {
       try {
         const data = await fetchUserRegistrations(parsedUser.token);
@@ -48,7 +47,6 @@ function MyEvents() {
     window.scrollTo(0, 0);
   }, [navigate]);
 
-  // Filter events based on active tab
   const filteredEvents = () => {
     if (!events || !events.length) return [];
 
@@ -72,14 +70,12 @@ function MyEvents() {
     }
   };
 
-  // Format date for display
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('id-ID', options);
   };
 
-  // Get status badge class
   const getStatusBadgeClass = (status) => {
     switch (status) {
       case "registered":

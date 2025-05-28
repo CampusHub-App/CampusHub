@@ -1,12 +1,6 @@
 import React from "react";
 import date from "../assets/image/date.svg";
 
-/**
- * Card component for displaying event information
- * @param {Object} props - Component props
- * @param {React.ReactNode} props.children - Child components
- * @param {Function} props.onClick - Click handler function
- */
 export const Card = ({ children, onClick }) => {
   return (
     <div
@@ -18,12 +12,6 @@ export const Card = ({ children, onClick }) => {
   );
 };
 
-/**
- * Body component for displaying event title and description
- * @param {Object} props - Component props
- * @param {React.ReactNode} props.children - Description text
- * @param {string} props.title - Event title
- */
 export const Body = ({ children, title }) => {
   const truncateText = (text, maxWords) => {
     if (!text) return "";
@@ -42,12 +30,6 @@ export const Body = ({ children, title }) => {
   );
 };
 
-/**
- * Kategori component for displaying event category
- * @param {Object} props - Component props
- * @param {string} props.kategori - Category name
- * @param {React.ReactNode} props.children - Additional information
- */
 export const Kategori = ({ kategori, children }) => {
   return (
     <div className="flex gap-x-[4px] text-white">
@@ -58,11 +40,6 @@ export const Kategori = ({ kategori, children }) => {
   );
 };
 
-/**
- * Image component for displaying event image
- * @param {Object} props - Component props
- * @param {string} props.image - Image URL
- */
 export const Image = ({ image }) => {
   return (
     <img
@@ -73,11 +50,6 @@ export const Image = ({ image }) => {
   );
 };
 
-/**
- * Tanggal component for displaying event date
- * @param {Object} props - Component props
- * @param {React.ReactNode} props.children - Date text
- */
 export const Tanggal = ({ children }) => {
   return (
     <div className="flex gap-x-[12px]">
@@ -87,13 +59,6 @@ export const Tanggal = ({ children }) => {
   );
 };
 
-/**
- * Creator component for displaying event creator information
- * @param {Object} props - Component props
- * @param {string} props.image - Creator image URL
- * @param {string} props.nama - Creator name
- * @param {string} props.title - Creator title/role
- */
 export const Creator = ({ image, nama, title }) => {
   return (
     <div className="flex gap-x-[16px] items-center mt-auto">

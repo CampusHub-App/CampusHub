@@ -7,8 +7,8 @@ const PopUpUpdate = ({ setShowPopUp, password, confirmation }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [status, setStatus] = useState(null);
-  const [counter, setCounter] = useState(5); // Countdown dimulai dari 5 detik
-  const navigate = useNavigate(); // atau gunakan Router hook yang sesuai
+  const [counter, setCounter] = useState(5);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);

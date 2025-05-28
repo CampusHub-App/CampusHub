@@ -5,12 +5,10 @@ import CountUp from "react-countup";
 import { motion } from "framer-motion";
 import { fetchEvents } from "./api";
 
-// Components
 import CardPage from "./components/CardPage";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 
-// Images
 import gambar from "./assets/image/gambarutama.svg";
 import webinar from "./assets/image/webinar.svg";
 import seminar from "./assets/image/seminar.svg";
@@ -20,30 +18,23 @@ import sertifikasi from "./assets/image/sertifikasi.svg";
 import circle5 from "./assets/image/circle5.svg";
 import circle6 from "./assets/image/circle6.svg";
 
-// Animation configuration
 const pageVariants = {
   initial: { opacity: 0.4 },
   animate: { opacity: 1 },
   exit: { opacity: 0.4 },
 };
 
-/**
- * Homepage component - Main landing page of the application
- */
 function Homepage() {
-  // State variables
   const [trendingCount, setTrendingCount] = useState(0);
   const [categoryCount, setCategoryCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
 
-  // Scroll to top on component mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Fetch events data
   useEffect(() => {
     setIsLoading(true);
     
@@ -70,7 +61,6 @@ function Homepage() {
     >
       <Navbar />
 
-      {/* Hero Section */}
       <header className="bg-[#003266] w-full">
         <main className="flex justify-around text-white items-center md:px-5 py-10">
           <div className="flex flex-col gap-y-[24px]">
@@ -89,7 +79,6 @@ function Homepage() {
               <p>Pesan</p>
             </ScrollLink>
 
-            {/* Stats Section */}
             <div className="flex gap-x-[20px] sm:gap-x-[15px] sm:max-w-[200px] lg:gap-x-[20px] tengah:max-w-[530px]">
               <div className="flex flex-col items-center">
                 <h1 className="font-bold text-[38px] sm:text-[20px] lg:text-[38px] md:text-[38px]">
@@ -127,7 +116,6 @@ function Homepage() {
         </main>
       </header>
 
-      {/* Categories Section */}
       <div className="flex flex-col gap-y-[12px] mb-[12px]" id="kategori">
         <h1 className="flex justify-center mt-[12px] items-center font-semibold text-[32px]">
           Kategori
@@ -163,7 +151,6 @@ function Homepage() {
         </div>
       </div>
 
-      {/* Featured Events Section */}
       <div
         id="acara"
         className="bg-[#EAF4FF] border-transparent rounded-t-[100px] flex flex-col items-center"
@@ -191,7 +178,6 @@ function Homepage() {
         </div>
       </div>
       
-      {/* Footer Section */}
       <div id="aboutus">
         <Footer />
       </div>

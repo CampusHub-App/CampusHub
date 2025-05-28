@@ -1,14 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import React from 'react';
 
-// Styles
 import './App.css';
 import 'animate.css';
 import 'remixicon/fonts/remixicon.css';
 
-// Page components
 import Welcome from './Welcome.jsx';
 import LoginPeserta from './LoginPeserta.jsx';
 import ErrorPage from './ErrorPage.jsx';
@@ -27,7 +24,6 @@ import DetailEvent from './DetailEvent.jsx';
 import KodeUnik from './KodeUnik.jsx';
 import SignInPeserta from './SignInPeserta.jsx';
 
-// Admin components
 import AdminPage from './admin/HomePage.jsx';
 import UploadEvent from './admin/UploadEvent.jsx';
 import LoginAdmin from './admin/LoginAdmin.jsx';
@@ -38,7 +34,6 @@ import EditEvent from './admin/EditEvent.jsx';
 import PreviewEdit from './admin/PreviewEdit.jsx';
 import CheckIn from './admin/CheckInPage.jsx';
 
-// Get user data from localStorage
 const getUserData = () => {
   try {
     return JSON.parse(localStorage.getItem('user'));
@@ -48,13 +43,11 @@ const getUserData = () => {
   }
 };
 
-// Check if user is admin
 const isAdmin = () => {
   const user = getUserData();
   return user?.is_admin === true;
 };
 
-// Define routes
 const router = createBrowserRouter([
   {
     path: "/welcome",
@@ -151,7 +144,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-// Render the app
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RouterProvider router={router} />

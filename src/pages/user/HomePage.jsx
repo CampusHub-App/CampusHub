@@ -116,8 +116,8 @@ function Homepage() {
         </main>
       </header>
 
-      <div className="flex flex-col gap-y-[12px] mb-[12px]" id="kategori">
-        <h1 className="flex justify-center mt-[12px] items-center font-semibold text-[32px]">
+      <div className="flex flex-col gap-y-[24px] my-[24px]" id="kategori">
+        <h1 className="flex justify-center items-center font-semibold text-[32px]">
           Kategori
         </h1>
         <div>
@@ -159,7 +159,7 @@ function Homepage() {
           Jelajahi Acara Unggulan
         </h1>
 
-        <div className="flex flex-wrap justify-center">
+        <div className="flex flex-wrap justify-center mb-[80px]">
           {isLoading ? (
             <div className="flex items-center justify-center h-screen w-full">
               <div className="loader w-16 h-16 border-4 border-[#027FFF] border-t-transparent rounded-full animate-spin"></div>

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../services/api";
-import circle from "../../assets/image/circle3.svg";
+import circle from "../../assets/image/circle.svg";
 import circle2 from "../../assets/image/circle4.svg";
 import logo from "../../assets/image/logo2.svg";
 import { useEffect, useState } from "react";
@@ -73,11 +73,11 @@ function Signinpeserta() {
         password: formData.password,
         phone: formData.telepon,
       };
-      
+
       const responseData = await register(userData);
       setData("Registrasi berhasil!");
       setShowPopup(true);
-      
+
       setTimeout(() => {
         navigate(`/user/login?redirect=${redirectPath}`);
       }, 1000);
@@ -213,9 +213,8 @@ function Signinpeserta() {
 
           {responseMessage && (
             <p
-              className={`text-sm mt-2 ${
-                errorMessage ? "text-red-500" : "text-green-500"
-              }`}
+              className={`text-sm mt-2 ${errorMessage ? "text-red-500" : "text-green-500"
+                }`}
             >
               {responseMessage}
             </p>
@@ -224,11 +223,10 @@ function Signinpeserta() {
           <button
             type="submit"
             disabled={!isFormValid || loading}
-            className={`w-full max-w-[420px] px-[24px] py-[16px] text-[20px] font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-              isFormValid
+            className={`w-full max-w-[420px] px-[24px] py-[16px] text-[20px] font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${isFormValid
                 ? "bg-[#003266] hover:bg-blue-800 focus:ring-[#003266]"
                 : "bg-[#A2A2A2] cursor-not-allowed"
-            }`}
+              }`}
           >
             {loading ? "Mengirim..." : "Daftar"}
           </button>
@@ -260,6 +258,12 @@ function Signinpeserta() {
           message={data}
         />
       )}
+
+      <img
+        src={circle}
+        alt="Circle"
+        className="absolute bottom-0 left-0 sm:hidden tengah:block"
+      />
 
       <div className="tengah:w-7/12 sm:w-1/2 bg-[#003266] flex items-center justify-center">
         <img src={logo} alt="" />

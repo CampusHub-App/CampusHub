@@ -60,7 +60,7 @@ function KuliahTamuPage() {
           <h1 className="font-semibold  text-[#003266] mt-[80px] mb-[80px] flex sm:text-[32px] md:text-[48px]">
             Jelajahi Kuliah Tamu
           </h1>
-          <div className="flex flex-wrap justify-center">
+          <div className="flex flex-wrap justify-center mb-[80px]">
             {isLoading ? (
               <div className="flex items-center justify-center h-screen w-full">
                 <div className="loader w-16 h-16 border-4 border-[#027FFF] border-t-transparent rounded-full animate-spin"></div>

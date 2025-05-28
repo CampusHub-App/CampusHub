@@ -1,5 +1,6 @@
 import { useState } from "react";
-import circle2 from "../../assets/image/circleadmin.svg";
+import circle from "../../assets/image/circle.svg";
+import circle2 from "../../assets/image/circle2.svg";
 import logo from "../../assets/image/logo2.svg";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
@@ -194,11 +195,10 @@ function Loginadmin() {
             <button
               type="submit"
               disabled={!isFormValid}
-              className={`w-full px-[24px] py-[16px] text-[20px] font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-                isFormValid
+              className={`w-full px-[24px] py-[16px] text-[20px] font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${isFormValid
                   ? "bg-[#003266] hover:bg-[#002855] focus:ring-[#003266]"
                   : "bg-[#A2A2A2] cursor-not-allowed"
-              }`}
+                }`}
             >
               {isLoading ? (
                 <div className="flex items-center justify-center">
@@ -257,6 +257,12 @@ function Loginadmin() {
         />
         <img src={logo} alt="" />
       </motion.div>
+
+      <img
+        src={circle}
+        alt="Circle"
+        className="absolute bottom-0 left-0 sm:hidden tengah:block"
+      />
     </motion.div>
   );
 }

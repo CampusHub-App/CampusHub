@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import peserta from "../../assets/image/peserta.svg";
+import peserta from "../../assets/image/newuser.svg";
 import circle from "../../assets/image/circle.svg";
-import admin from "../../assets/image/admin.svg";
+import admin from "../../assets/image/newadmin.svg";
 import circle2 from "../../assets/image/circle2.svg";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -71,7 +71,7 @@ function Welcome() {
             <img
               src={admin}
               alt="Admin"
-              className="tengah:max-w-[440px] tengah:max-h-[342px] sm:max-w-[400px] sm:max-h-[300px] "
+              className="max-w-[440px] max-h-[356px]"
             />
             <h1 className="text-[32px] font-semibold text-white">
               Sebagai penyelenggara

@@ -81,7 +81,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sm:px-[0px] md:p-5 tengah:px-6 ${styles.bg} w-full lg:px-10 xl:px-[85px] py-5`}
+      className={`sm:px-[0px] md:p-6 tengah:px-6 ${styles.bg} w-full lg:px-10 xl:px-[85px] py-6`}
     >
       <div className="flex justify-between items-center px-[0px] w-full">
         <Link to="/" className="flex items-center space-x-3">

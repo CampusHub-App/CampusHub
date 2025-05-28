@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { fetchEvent, registerEventWithToken } from "../../services/api";
 import PopUpCheckout from "../../components/PopUpCheckout";
-import "../../css/PreviewEvent.css";
-import Calendar from "../../assets/image/user/date.svg";
-import Chair from "../../assets/image/user/chair.svg";
+import "../../styles/PreviewEvent.css";
+import Calendar from "../../assets/image/date.svg";
+import Chair from "../../assets/image/chair.svg";
 import PopUpGagal from "../../components/PopUpGagal";
 import Navbar from "../../components/Navbar";
 

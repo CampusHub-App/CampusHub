@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import circle2 from "../../assets/image/admin/circleadmin.svg";
-import logo from "../../assets/image/admin/logo2.svg";
+import { useState } from "react";
+import circle2 from "../../assets/image/circleadmin.svg";
+import logo from "../../assets/image/logo2.svg";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import PopUpGagal from "../../components/PopUpGagal";

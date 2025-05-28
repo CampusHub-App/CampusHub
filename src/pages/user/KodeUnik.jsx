@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchUniqueCode } from "../../services/api";
-import Ellipse from "../../assets/image/user/Ellipse.svg";
-import Ellipse2 from "../../assets/image/user/Ellipse2.svg";
-import "../../css/KodeUnik.css";
+import Ellipse from "../../assets/image/Ellipse.svg";
+import Ellipse2 from "../../assets/image/Ellipse2.svg";
+import "../../styles/KodeUnik.css";
 import Navbar from "../../components/Navbar";
 
 const KodeUnik = () => {

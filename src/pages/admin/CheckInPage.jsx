@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Ellipse from "../../assets/image/admin/Ellipse.svg";
-import Ellipse2 from "../../assets/image/admin/Ellipse2.svg";
-import "../../css/KodeUnik.css";
+import Ellipse from "../../assets/image/Ellipse.svg";
+import Ellipse2 from "../../assets/image/Ellipse2.svg";
+import "./../styles/KodeUnik.css";
 import { useParams } from "react-router-dom";
 import PopUpGagal from "../../components/PopUpGagal";
 import PopUpBerhasil from "../../components/PopUpBerhasil";

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import upload from "../../assets/image/admin/upload.svg";
+import upload from "../../assets/image/upload.svg";
 import Navbar from "../../components/Navbar";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";

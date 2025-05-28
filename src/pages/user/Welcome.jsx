@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import peserta from "../../assets/image/user/peserta.svg";
-import circle from "../../assets/image/user/circle.svg";
-import admin from "../../assets/image/user/admin.svg";
-import circle2 from "../../assets/image/user/circle2.svg";
+import peserta from "../../assets/image/peserta.svg";
+import circle from "../../assets/image/circle.svg";
+import admin from "../../assets/image/admin.svg";
+import circle2 from "../../assets/image/circle2.svg";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 

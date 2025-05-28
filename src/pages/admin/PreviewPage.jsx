@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Ellipse2 from "../../assets/image/admin/Ellipse2.svg";
-import "../../css/DescriptionPageCancel.css";
-import Date from "../../assets/image/admin/date.svg";
-import Chair from "../../assets/image/admin/chair.svg";
+import Ellipse2 from "../../assets/image/Ellipse2.svg";
+import "../../styles/DescriptionPageCancel.css";
+import Date from "../../assets/image/date.svg";
+import Chair from "../../assets/image/chair.svg";
 import { useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { createEvent } from "../../services/api";

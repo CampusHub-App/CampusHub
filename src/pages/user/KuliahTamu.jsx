@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { fetchEvent } from "../../services/api";
+import { fetchEvents } from "../../services/api";
 import CardPage from "../../components/CardPage";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import circle6 from "../../assets/image/user/circle6.svg";
+import circle6 from "../../assets/image/circle6.svg";
 
 function KuliahTamuPage() {
   const [isLoading, setIsLoading] = useState(false);

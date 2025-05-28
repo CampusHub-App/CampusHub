@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/image/user/logo.svg";
-import facebook from "../assets/image/user/Facebook.svg";
-import instagram from "../assets/image/user/Instagram.svg";
-import linkedin from "../assets/image/user/Linkedin.svg";
-import tiktok from "../assets/image/user/TikTok.svg";
-import x from "../assets/image/user/X.svg";
+import logo from "../assets/image/logo.svg";
+import facebook from "../assets/image/Facebook.svg";
+import instagram from "../assets/image/Instagram.svg";
+import linkedin from "../assets/image/Linkedin.svg";
+import tiktok from "../assets/image/TikTok.svg";
+import x from "../assets/image/X.svg";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();

@@ -1,4 +1,4 @@
-import date from "../assets/image/user/date.svg";
+import date from "../assets/image/date.svg";
 
 export const Card = ({ children, onClick }) => {
   return (

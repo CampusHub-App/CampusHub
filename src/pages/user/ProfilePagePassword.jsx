@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { updatePassword } from "./api";
+import { updatePassword } from "../../api";
 import Ellipse from "./assets/image/Ellipse.svg";
-import PopUpDelete from "./components/PopUpDelete";
-import PopUpLogout from "./components/PopUpLogOut";
-import PopUpUpdate from "./components/PopUpUpdate";
+import PopUpDelete from "../../components/PopUpDelete";
+import PopUpLogout from "../../components/PopUpLogOut";
+import PopUpUpdate from "../../components/PopUpUpdate";
 import "./css/ProfilePagePassword.css";
-import Navbar from "./components/Navbar";
+import Navbar from "../../components/Navbar";
 import { motion } from "framer-motion";
 
 const ProfilePagePassword = () => {

@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchUserProfile, updateUserProfile } from "./api";
+import { fetchUserProfile, updateUserProfile } from "../../api.js";
 import Ellipse from "./assets/image/Ellipse.svg";
-import PopUpDelete from "./components/PopUpDelete.jsx";
-import PopUpLogout from "./components/PopUpLogOut.jsx";
-import Navbar from "./components/Navbar.jsx";
+import PopUpDelete from "../../components/PopUpDelete.jsx";
+import PopUpLogout from "../../components/PopUpLogOut.jsx";
+import Navbar from "../../components/Navbar.jsx";
 import "./css/ProfilePagePersonalInfo.css";
 import { motion } from "framer-motion";
-import PopUpBerhasil from "./components/PopUpBerhasil";
-import PopUpGagal from "./components/PopUpGagal";
+import PopUpBerhasil from "../../components/PopUpBerhasil.jsx";
+import PopUpGagal from "../../components/PopUpGagal.jsx";
 
 const ProfilePagePersonalInfo = () => {
   const [activePage, setActivePage] = useState("info-personal");

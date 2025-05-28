@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { fetchEvent } from "./api";
+import { fetchEvent } from "../../api";
 import Poster from "./assets/image/Poster.svg";
 import Ellipse from "./assets/image/Ellipse.svg";
 import Lecturer from "./assets/image/lecturer.svg";
 import "./css/DescriptionPageCancel.css";
 import Date from "./assets/image/date.svg";
 import Chair from "./assets/image/chair.svg";
-import Navbar from "./components/Navbar";
+import Navbar from "../../components/Navbar";
 
 const DescriptionPageCancel = () => {
   const [eventData, setEventData] = useState(null);

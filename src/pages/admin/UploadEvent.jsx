@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import upload from "../assets/image/adminimage/upload.svg";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";

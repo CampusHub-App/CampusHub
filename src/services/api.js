@@ -5,7 +5,8 @@ export const fetchEvents = async (category) => {
   const response = await fetch(`${API_BASE_URL}${endpoint}`);
   
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message);
   }
   
   return response.json();
@@ -15,7 +16,8 @@ export const fetchEvent = async (id) => {
   const response = await fetch(`${API_BASE_URL}/events/${id}`);
   
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message);
   }
   
   return response.json();
@@ -80,7 +82,8 @@ export const fetchUserRegistrations = async (token) => {
   });
   
   if (!response.ok) {
-    throw new Error('Failed to fetch registrations');
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message);
   }
   
   return response.json();

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { fetchEvent, registerEventWithToken } from "./api";
-import PopUpCheckout from "./components/PopUpCheckout";
+import { fetchEvent, registerEventWithToken } from "../../api";
+import PopUpCheckout from "../../components/PopUpCheckout";
 import "./css/PreviewEvent.css";
 import Calendar from "./assets/image/date.svg";
 import Chair from "./assets/image/chair.svg";
-import PopUpGagal from "./components/PopUpGagal";
-import Navbar from "./components/Navbar";
+import PopUpGagal from "../../components/PopUpGagal";
+import Navbar from "../../components/Navbar";
 
 const PreviewEvent = () => {
   const { id } = useParams();

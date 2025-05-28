@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { fetchEvents } from "./api";
-import CardPage from "./components/CardPage";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
+import { fetchEvents } from "../../api";
+import CardPage from "../../components/CardPage";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
 import circle6 from "./assets/image/circle6.svg";
 
-function KuliahTamuPage() {
+function SertifikasiPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
@@ -25,7 +25,7 @@ function KuliahTamuPage() {
     }
 
     setIsLoading(true);
-    fetchEvents("kuliah-tamu")
+    fetchEvents("sertifikasi")
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           setEvents(data);
@@ -57,8 +57,8 @@ function KuliahTamuPage() {
 
       <div className="font-sans flex flex-col box-border mx-auto w-full">
         <div className="bg-[#EAF4FF] border-transparent rounded-t-[100px] flex flex-col items-center justify-center">
-          <h1 className="font-semibold  text-[#003266] mt-[80px] mb-[80px] flex sm:text-[32px] md:text-[48px]">
-            Jelajahi Kuliah Tamu
+          <h1 className="font-semibold text-[#003266] mt-[80px] mb-[80px] flex sm:text-[32px] md:text-[48px]">
+            Jelajahi Sertifikasi
           </h1>
           <div className="flex flex-wrap justify-center">
             {isLoading ? (
@@ -88,4 +88,4 @@ function KuliahTamuPage() {
   );
 }
 
-export default KuliahTamuPage;
+export default SertifikasiPage;

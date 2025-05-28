@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchEventStatus } from "./api";
+import { fetchEventStatus } from "../../api";
 import DescriptionPageRegistered from "./DescriptionPageRegistered";
 import DescriptionPageCancel from "./DescriptionPageCancel";
 import DescriptionPageAbsent from "./DescriptionPageAbsent";

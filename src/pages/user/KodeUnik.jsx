@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchUniqueCode } from "./api";
+import { fetchUniqueCode } from "../../api";
 import Ellipse from "./assets/image/Ellipse.svg";
 import Ellipse2 from "./assets/image/Ellipse2.svg";
 import "./css/KodeUnik.css";
-import Navbar from "./components/Navbar";
+import Navbar from "../../components/Navbar";
 
 const KodeUnik = () => {
   const [code, setCode] = useState(["", "", "", ""]);

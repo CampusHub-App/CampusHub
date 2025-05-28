@@ -3,11 +3,11 @@ import { Link as ScrollLink } from "react-scroll";
 import { Link } from "react-router-dom";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
-import { fetchEvents } from "./api";
+import { fetchEvents } from "../../api";
 
-import CardPage from "./components/CardPage";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
+import CardPage from "../../components/CardPage";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
 
 import gambar from "./assets/image/gambarutama.svg";
 import webinar from "./assets/image/webinar.svg";

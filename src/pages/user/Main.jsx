@@ -24,15 +24,15 @@ import DetailEvent from './DetailEvent.jsx';
 import KodeUnik from './KodeUnik.jsx';
 import SignInPeserta from './SignInPeserta.jsx';
 
-import AdminPage from './admin/HomePage.jsx';
-import UploadEvent from './admin/UploadEvent.jsx';
-import LoginAdmin from './admin/LoginAdmin.jsx';
-import MyAdmin from './admin/MyEvents.jsx';
-import PreviewPage from './admin/PreviewPage.jsx';
-import MyParticipants from './admin/MyParticipants.jsx';
-import EditEvent from './admin/EditEvent.jsx';
-import PreviewEdit from './admin/PreviewEdit.jsx';
-import CheckIn from './admin/CheckInPage.jsx';
+import AdminPage from '../../admin/HomePage.jsx';
+import UploadEvent from '../../admin/UploadEvent.jsx';
+import LoginAdmin from '../../admin/LoginAdmin.jsx';
+import MyAdmin from '../../admin/MyEvents.jsx';
+import PreviewPage from '../../admin/PreviewPage.jsx';
+import MyParticipants from '../../admin/MyParticipants.jsx';
+import EditEvent from '../../admin/EditEvent.jsx';
+import PreviewEdit from '../../admin/PreviewEdit.jsx';
+import CheckIn from '../../admin/CheckInPage.jsx';
 
 const getUserData = () => {
   try {

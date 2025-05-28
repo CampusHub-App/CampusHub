@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { fetchEvent, registerForEvent } from "./api";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import PopUpCheckout from "./components/PopUpCheckout";
-import PopUpBerhasil from "./components/PopUpBerhasil";
-import PopUpGagal from "./components/PopUpGagal";
+import { fetchEvent, registerForEvent } from "../../api";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import PopUpCheckout from "../../components/PopUpCheckout";
+import PopUpBerhasil from "../../components/PopUpBerhasil";
+import PopUpGagal from "../../components/PopUpGagal";
 import "./css/DetailEvent.css";
 
 // Animation configuration

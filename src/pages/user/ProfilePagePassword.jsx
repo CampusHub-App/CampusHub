@@ -57,7 +57,6 @@ const ProfilePagePassword = () => {
       },
     },
   };
-
   const descriptionVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -65,19 +64,6 @@ const ProfilePagePassword = () => {
       transition: {
         duration: 0.6,
         delay: 0.4,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const profilePictureVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.8,
-        delay: 0.5,
         ease: "easeOut",
       },
     },
@@ -219,36 +205,12 @@ const ProfilePagePassword = () => {
               >
                 Profil Akun
               </span>
-            </div>
-            <div className="content flex flex-col sm:flex-row justify-between gap-8">              <div className="profile flex flex-col lg:flex-row lg:items-start justify-center lg:justify-between lg:w-10/12 py-10">
+            </div>            <div className="content flex flex-col sm:flex-row justify-between gap-8">              <div className="profile flex flex-col lg:w-10/12 py-10">
                 <motion.div 
-                  className="profile-picture w-[120px] lg:w-2/12 mx-auto lg:mx-0 rounded-full"
-                  variants={profilePictureVariants}
-                >                  {userData ? (
-                    <img
-                      src={
-                        (userData.photo ? `${API}/${userData.photo}` : null) ||
-                        `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(
-                          userData.fullname || "User"
-                        )}&size=250`
-                      }
-                      alt="Foto Profil"
-                      className="w-full aspect-square rounded-full object-cover"
-                    />
-                  ) : (
-                    <img
-                      src={`https://eu.ui-avatars.com/api/?name=User}&size=250`}
-                      alt="Foto Profil"
-                      className="w-full aspect-square rounded-full object-cover"
-                    />
-                  )}
-                </motion.div>
-                <motion.div 
-                  className="edit-password flex flex-col w-full lg:w-10/12 gap-4 lg:mb-0"
+                  className="edit-password flex flex-col w-full gap-4 lg:mb-0"
                   variants={formContainerVariants}
-                >
-                  <form onSubmit={handleSubmit}>
-                    <div className="form lg:flex lg:items-center gap-4 lg:w-11/12 pl-0 lg:pl-12 lg:mb-12">
+                >                  <form onSubmit={handleSubmit}>
+                    <div className="form lg:flex lg:items-center gap-4 lg:w-full pl-0 lg:mb-12">
                       <div className="form-label flex flex-col gap-6 lg:gap-20 w-full lg:w-4/12">
                         <label
                           htmlFor="new-password"

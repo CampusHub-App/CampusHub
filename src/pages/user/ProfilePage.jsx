@@ -26,7 +26,9 @@ const ProfilePagePersonalInfo = () => {
   const token = localStorage.getItem("token");
   const API = import.meta.env.VITE_STORAGE_BASE_URL;
   const containerVariants = {
+    hidden: { opacity: 0 },
     visible: {
+      opacity: 1,
       transition: {
         staggerChildren: 0.15,
         delayChildren: 0.1,

@@ -22,14 +22,118 @@ const ProfilePagePassword = () => {
   const [showLogoutPopUp, setShowLogoutPopUp] = useState(false);
   const [showUpdatePopUp, setShowUpdatePopUp] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
-  const API = import.meta.env.VITE_STORAGE_BASE_URL;
+  const [isLoading, setIsLoading] = useState(true);  const navigate = useNavigate();
+  const API = import.meta.env.VITE_STORAGE_BASE_URL;  // Animation variants similar to ProfilePage
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.0,
+      },
+    },
+  };
 
-  const pageVariants = {
-    initial: { opacity: 0.8 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0.8 },
+  const headerVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const titleVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.7,
+        delay: 0.2,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const descriptionVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        delay: 0.4,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const profilePictureVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        delay: 0.5,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const formContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        delay: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const passwordFieldVariants = {
+    hidden: { opacity: 0, x: 30, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        delay: 0.0,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const confirmationFieldVariants = {
+    hidden: { opacity: 0, x: 30, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        delay: 0.25,
+        ease: "easeOut",
+      },
+    },
+  };
+  const buttonContainerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        delay: 0.3,
+        ease: "easeOut",
+      },
+    },
   };
 
   const handlePageChange = (page) => {
@@ -87,32 +191,48 @@ const ProfilePagePassword = () => {
     } else {
       setIsLoading(false);
     }
-  }, []);
-
-  return (
-    <motion.div
-      className="font-sans flex flex-col box-border w-full"
+  }, []);  return (
+    <motion.div      className="font-sans flex flex-col box-border w-full"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
     >
       <div className="profile-page h-screen">
         <Navbar />
-        <div className="mx-4 sm:mx-10 md:mx-20 lg:mx-32">
-          <div className="content-box px-4 sm:px-8 md:px-16">
-            <div className="header flex flex-col lg:flex-row justify-between lg:py-10 py-6">
-              <div className="text-header flex flex-col">
-                <span className="page-title font-semibold text-[24px] sm:text-[32px]">
+        <div className="mx-4 sm:mx-10 md:mx-20 lg:mx-32">          <motion.div 
+            className="content-box px-4 sm:px-8 md:px-16"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >            <div className="header flex flex-col lg:flex-row justify-between lg:py-10 py-6">
+              <motion.div 
+                className="text-header flex flex-col"
+                variants={headerVariants}
+              >
+                <motion.span 
+                  className="page-title font-semibold text-[24px] sm:text-[32px]"
+                  variants={titleVariants}
+                >
                   Password
-                </span>
-                <span className="description text-regular text-[16px] sm:text-[18px]">
+                </motion.span>
+                <motion.span 
+                  className="description text-regular text-[16px] sm:text-[18px]"
+                  variants={descriptionVariants}
+                >
                   Anda dapat mengubah password akun Anda di sini.
-                </span>
-              </div>
-              <span className="title font-semibold text-[24px] sm:text-[32px] lg:text-[32px]">
+                </motion.span>
+              </motion.div>
+              <span 
+                className="title font-semibold text-[24px] sm:text-[32px] lg:text-[32px]"
+              >
                 Profil Akun
               </span>
             </div>
-            <div className="content flex fle  x-col sm:flex-row justify-between gap-8">
-              <div className="profile flex flex-col lg:flex-row lg:items-start justify-center lg:justify-between lg:w-10/12 py-10">
-                <div className="profile-picture w-[120px] lg:w-2/12 mx-auto lg:mx-0 rounded-full">
+            <div className="content flex flex-col sm:flex-row justify-between gap-8">              <div className="profile flex flex-col lg:flex-row lg:items-start justify-center lg:justify-between lg:w-10/12 py-10">
+                <motion.div 
+                  className="profile-picture w-[120px] lg:w-2/12 mx-auto lg:mx-0 rounded-full"
+                  variants={profilePictureVariants}
+                >
                   {isLoading ? (
                     <img
                       src={`https://eu.ui-avatars.com/api/?name=User}&size=250`}
@@ -129,10 +249,12 @@ const ProfilePagePassword = () => {
                       }
                       alt="Foto Profil"
                       className="w-full aspect-square rounded-full object-cover"
-                    />
-                  )}
-                </div>
-                <div className="edit-password flex flex-col w-full lg:w-10/12 gap-4 lg:mb-0">
+                    />                  )}
+                </motion.div>
+                <motion.div 
+                  className="edit-password flex flex-col w-full lg:w-10/12 gap-4 lg:mb-0"
+                  variants={formContainerVariants}
+                >
                   <form onSubmit={handleSubmit}>
                     <div className="form lg:flex lg:items-center gap-4 lg:w-11/12 pl-0 lg:pl-12 lg:mb-12">
                       <div className="form-label flex flex-col gap-6 lg:gap-20 w-full lg:w-4/12">
@@ -148,24 +270,28 @@ const ProfilePagePassword = () => {
                         >
                           Konfirmasi Password
                         </label>
-                      </div>
-                      <div className="form-input flex flex-col gap-4 sm:gap-20 w-full sm:w-8/12 lg:w-10/12">
-                        <div className="w-full flex flex-col relative">
+                      </div>                      <div className="form-input flex flex-col gap-4 sm:gap-20 w-full sm:w-8/12 lg:w-10/12">
+                        <motion.div 
+                          className="w-full flex flex-col relative"
+                          variants={passwordFieldVariants}
+                        >
                           <div className="flex flex-col sm:flex-col sm:items-start sm:gap-2">
                             <label
                               htmlFor="phone"
                               className="sm:block lg:hidden font-semibold text-[16px]"
                             >
                               Password Baru
-                            </label>
-                            <div className="flex py-2 w-full">
-                              <input
+                            </label>                            <div className="flex py-2 w-full">
+                              <motion.input
                                 type={showNewPassword ? "text" : "password"}
                                 id="newpassword"
                                 value={newPassword}
                                 onChange={handlePasswordChange}
                                 placeholder="Masukkan Password Anda..."
                                 className="p-3 border border-customBlue rounded-lg flex hover:shadow-lg transition duration-300 px-4 py-2 w-full focus:ring focus:ring-blue-200 focus:outline-none"
+                                whileHover={{ scale: 1.02 }}
+                                whileFocus={{ scale: 1.02 }}
+                                transition={{ duration: 0.2 }}
                               />
                               <button
                                 type="button"
@@ -185,19 +311,20 @@ const ProfilePagePassword = () => {
                           {passwordError && (
                             <div className="error-popup absolute left-0 top-full mt-2 p-3 w-full rounded-lg border-2 border-red-500 bg-red-100 text-red-500 text-sm shadow-lg z-10">
                               {passwordError}
-                            </div>
-                          )}
-                        </div>
-                        <div className="w-full flex flex-col relative">
+                            </div>                          )}
+                        </motion.div>
+                        <motion.div 
+                          className="w-full flex flex-col relative"
+                          variants={confirmationFieldVariants}
+                        >
                           <div className="flex flex-col sm:flex-col sm:items-start sm:gap-2">
                             <label
                               htmlFor="phone"
                               className="sm:block lg:hidden font-semibold text-[16px]"
                             >
                               Konfirmasi Password
-                            </label>
-                            <div className="flex py-2 w-full">
-                              <input
+                            </label>                            <div className="flex py-2 w-full">
+                              <motion.input
                                 type={
                                   showConfirmationPassword ? "text" : "password"
                                 }
@@ -206,6 +333,9 @@ const ProfilePagePassword = () => {
                                 onChange={handleConfirmationChange}
                                 placeholder="Konfirmasi Password Anda..."
                                 className="p-3 border border-customBlue rounded-lg flex hover:shadow-lg transition duration-300 px-4 py-2 w-full focus:ring focus:ring-blue-200 focus:outline-none"
+                                whileHover={{ scale: 1.02 }}
+                                whileFocus={{ scale: 1.02 }}
+                                transition={{ duration: 0.2 }}
                               />
                               <button
                                 type="button"
@@ -227,20 +357,24 @@ const ProfilePagePassword = () => {
                           {confirmationError && (
                             <div className="error-popup absolute left-0 top-full mt-2 p-3 w-full rounded-lg border-2 border-red-500 bg-red-100 text-red-500 text-sm shadow-lg z-10">
                               {confirmationError}
-                            </div>
-                          )}
-                        </div>
+                            </div>                          )}
+                        </motion.div>
                       </div>
                     </div>
-                    <div className="save-button flex flex-col lg:flex-row gap-4 items-center justify-center py-6 w-full">
-                      <button
+                    <motion.div 
+                      className="save-button flex flex-col lg:flex-row gap-4 items-center justify-center py-6 w-full"
+                      variants={buttonContainerVariants}
+                    >
+                      <motion.button
                         type="button"
                         onClick={() => navigate("/account/profile")}
                         className="bg-transparent border-2 border-customBlue font-medium w-full sm:w-1/3 h-11 my-2 rounded-lg text-medium text-black text-[16px] hover:shadow-lg transition duration-30"
-                      >
-                        Kembali
-                      </button>
-                      <button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                      >                        Kembali
+                      </motion.button>
+                      <motion.button
                         type="submit"
                         className={`${
                           isFormValid
@@ -248,14 +382,17 @@ const ProfilePagePassword = () => {
                             : "bg-[#A2A2A2] cursor-not-allowed border-2 border-white font-medium w-full sm:w-1/3 h-11 my-2 rounded-lg text-medium text-white text-[16px] transition duration-30"
                         }`}
                         disabled={!isFormValid}
-                      >
+                        whileHover={isFormValid ? { scale: 1.05 } : {}}
+                        whileTap={isFormValid ? { scale: 0.95 } : {}}
+                        transition={{ duration: 0.2 }}                      >
                         Simpan
-                      </button>
-                    </div>
+                      </motion.button>
+                    </motion.div>
                   </form>
-                </div>
-              </div>
-              <div className="action-list flex flex-col lg:text-right text-center gap-6 lg:gap-11">
+                </motion.div>              </div>
+              <div 
+                className="action-list flex flex-col lg:text-right text-center gap-6 lg:gap-11"
+              >
                 <ul className="flex flex-col gap-4 lg:gap-11">
                   <li>
                     <Link
@@ -311,12 +448,10 @@ const ProfilePagePassword = () => {
                       }}
                     >
                       Log Out
-                    </button>
-                  </li>
+                    </button>                  </li>
                 </ul>
-              </div>
-            </div>
-          </div>
+              </div>            </div>
+          </motion.div>
 
           <div className="absolute bottom-0 left-0">
             <img src={Ellipse} alt="Background" />

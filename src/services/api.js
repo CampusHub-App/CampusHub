@@ -24,7 +24,7 @@ export const fetchEvent = async (id) => {
 };
 
 export const login = async (credentials) => {
-  const response = await fetch(`${API_BASE_URL}/login/user`, {
+  const response = await fetch(`${API_BASE_URL}/auth/login/user`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials)
@@ -42,7 +42,7 @@ export const login = async (credentials) => {
 };
 
 export const register = async (userData) => {
-  const response = await fetch(`${API_BASE_URL}/register`, {
+  const response = await fetch(`${API_BASE_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData)
@@ -119,7 +119,7 @@ export const fetchUniqueCode = async (eventId, token) => {
 };
 
 export const updatePassword = async (newPassword, confirmation, token) => {
-  const response = await fetch(`${API_BASE_URL}/change-password`, {
+  const response = await fetch(`${API_BASE_URL}/auth/change-password`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -197,7 +197,7 @@ export const updateUserProfile = async (userData, token) => {
 };
 
 export const loginAdmin = async (credentials) => {
-  const response = await fetch(`${API_BASE_URL}/login/admin`, {
+  const response = await fetch(`${API_BASE_URL}/auth/login/admin`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials)
@@ -323,7 +323,7 @@ export const fetchEventDetails = async (eventId) => {
 };
 
 export const logout = async (token) => {
-  const response = await fetch(`${API_BASE_URL}/logout`, {
+  const response = await fetch(`${API_BASE_URL}/auth/logout`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`

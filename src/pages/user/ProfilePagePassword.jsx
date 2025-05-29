@@ -92,11 +92,6 @@ const ProfilePagePassword = () => {
   return (
     <motion.div
       className="font-sans flex flex-col box-border w-full"
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageVariants}
-      transition={{ duration: 1.6 }}
     >
       <div className="profile-page h-screen">
         <Navbar />

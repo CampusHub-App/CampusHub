@@ -21,15 +21,14 @@ const ProfilePagePersonalInfo = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [datas, setDatas] = useState(null);
   const [showBerhasil, setShowBerhasil] = useState(false);
-  const [showGagal, setShowGagal] = useState(false);
-  const token = localStorage.getItem("token");
+  const [showGagal, setShowGagal] = useState(false);  const token = localStorage.getItem("token");
   const API = import.meta.env.VITE_STORAGE_BASE_URL;
   const containerVariants = {
     hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.1,
         delayChildren: 0.1,
       },
     },
@@ -50,10 +49,8 @@ const ProfilePagePersonalInfo = () => {
   const titleVariants = {
     hidden: { opacity: 0, },
     visible: {
-      opacity: 1,
-      transition: {
+      opacity: 1,      transition: {
         duration: 0.7,
-        delay: 0.2,
         ease: "easeOut",
       },
     },
@@ -62,10 +59,8 @@ const ProfilePagePersonalInfo = () => {
   const descriptionVariants = {
     hidden: { opacity: 0, },
     visible: {
-      opacity: 1,
-      transition: {
+      opacity: 1,      transition: {
         duration: 0.6,
-        delay: 0.4,
         ease: "easeOut",
       },
     },
@@ -75,24 +70,20 @@ const ProfilePagePersonalInfo = () => {
     hidden: { opacity: 0, scale: 0.8 },
     visible: {
       opacity: 1,
-      scale: 1,
-      transition: {
+      scale: 1,      transition: {
         duration: 0.8,
-        delay: 0.5,
         ease: "easeOut",
       },
     },
   };const formContainerVariants = {
     hidden: { opacity: 0 },
     visible: {
-      opacity: 1,
-      transition: {
+      opacity: 1,      transition: {
         duration: 0.6,
-        delay: 0.6,
         ease: "easeOut",
       },
     },
-  }; const nameFieldVariants = {
+  };  const fieldPairVariants = {
     hidden: { opacity: 0, x: 30, scale: 0.95 },
     visible: {
       opacity: 1,
@@ -100,35 +91,6 @@ const ProfilePagePersonalInfo = () => {
       scale: 1,
       transition: {
         duration: 0.6,
-        delay: 0.0,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const emailFieldVariants = {
-    hidden: { opacity: 0, x: 30, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        delay: 0.25,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const phoneFieldVariants = {
-    hidden: { opacity: 0, x: 30, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        delay: 0.5,
         ease: "easeOut",
       },
     },
@@ -139,25 +101,10 @@ const ProfilePagePersonalInfo = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.7,
-        delay: 0.3,
+      transition: {        duration: 0.7,
         ease: "easeOut",
       },
-    },
-  };
-  const sidebarVariants = {
-    hidden: { opacity: 0, x: 50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.6,
-        delay: 0.8,
-        ease: "easeOut",
-      },
-    },
-  };
+    },  };
 
   const isFormValid = user?.fullname && user?.email && user?.nomor_telepon;
   useEffect(() => {
@@ -224,12 +171,13 @@ const ProfilePagePersonalInfo = () => {
       className="font-sans flex flex-col box-border w-full"
     >
       <div className="profile-page h-screen">
-        <Navbar />
-        <motion.div
-          className="mx-4 sm:mx-10 md:mx-20 lg:mx-32"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"        >          {user ? (<div className="content-box px-4 sm:px-8 md:px-16 py-0">
+        <Navbar />        <div className="mx-4 sm:mx-10 md:mx-20 lg:mx-32">
+          <motion.div 
+            className="content-box px-4 sm:px-8 md:px-16 py-0"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <div className="header flex flex-col lg:flex-row justify-between lg:py-10 py-6">
               <motion.div 
                 className="text-header flex flex-col"
@@ -259,11 +207,12 @@ const ProfilePagePersonalInfo = () => {
             </div>
 
             <div className="content flex flex-col sm:flex-row justify-between gap-8">
-              <div className="profile flex flex-col lg:flex-row lg:items-start justify-center lg:justify-between lg:w-10/12 py-10">
-                <motion.div
+              <div className="profile flex flex-col lg:flex-row lg:items-start justify-center lg:justify-between lg:w-10/12 py-10">                <motion.div
                   className="profile-picture w-[120px] lg:w-2/12 mx-auto rounded-full relative group"
                   variants={profilePictureVariants}
-                >                  <img
+                  initial="hidden"
+                  animate="visible"
+                ><img
                     src={
                       selectedImage ||
                       (user?.photo ? `${API}/${user.photo}` : null) ||
@@ -292,40 +241,24 @@ const ProfilePagePersonalInfo = () => {
                       className="hidden"
                       onChange={handleImageChange} />
                   </div>
-                </motion.div>
-
-                <motion.div
+                </motion.div>                <motion.div
                   className="form flex flex-col w-full lg:w-10/12 gap-12 mt-6 lg:mt-0"
                   variants={formContainerVariants}
-                >                    <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:w-11/12 pl-0 lg:pl-12">
-                    <div className="form-label flex flex-col gap-6 lg:gap-20 w-full lg:w-4/12">
+                  initial="hidden"
+                  animate="visible"
+                >                  <div className="flex flex-col gap-6 lg:gap-16 lg:w-11/12 pl-0 lg:pl-12">
+                    {/* Name Field Pair */}
+                    <motion.div 
+                      className="field-pair flex flex-col lg:flex-row lg:items-center gap-4 w-full"
+                      variants={fieldPairVariants}
+                    >
                       <motion.label
                         htmlFor="name"
-                        className="font-semibold text-[16px] lg:text-[20px] hidden sm:block"
-                        variants={nameFieldVariants}
+                        className="font-semibold text-[16px] lg:text-[20px] hidden sm:block lg:w-4/12"
                       >
                         Nama
                       </motion.label>
-                      <motion.label
-                        htmlFor="email"
-                        className="font-semibold text-[16px] lg:text-[20px] hidden sm:block"
-                        variants={emailFieldVariants}
-                      >
-                        Alamat Email
-                      </motion.label>
-                      <motion.label
-                        htmlFor="phone"
-                        className="font-semibold text-[16px] lg:text-[20px] hidden sm:block"
-                        variants={phoneFieldVariants}
-                      >
-                        Nomor Telepon
-                      </motion.label>
-                    </div>
-                    <div className="form-input flex flex-col gap-4 lg:gap-16 w-full lg:w-8/12">
-                      <motion.div
-                        className="flex flex-col sm:flex-col sm:items-start sm:gap-2"
-                        variants={nameFieldVariants}
-                      >
+                      <div className="flex flex-col sm:flex-col sm:items-start sm:gap-2 lg:w-8/12">
                         <label
                           htmlFor="name"
                           className="sm:block lg:hidden font-semibold text-[16px]"
@@ -353,40 +286,58 @@ const ProfilePagePersonalInfo = () => {
                             }
                           />
                         </motion.div>
-                      </motion.div>
-                      <motion.div
-                        className="relative"
-                        variants={emailFieldVariants}
+                      </div>
+                    </motion.div>
+
+                    {/* Email Field Pair */}
+                    <motion.div 
+                      className="field-pair flex flex-col lg:flex-row lg:items-center gap-4 w-full"
+                      variants={fieldPairVariants}
+                    >
+                      <motion.label
+                        htmlFor="email"
+                        className="font-semibold text-[16px] lg:text-[20px] hidden sm:block lg:w-4/12"
                       >
-                        <div className="flex flex-col sm:flex-col sm:items-start sm:gap-2">
-                          <label
-                            htmlFor="email"
-                            className="sm:block lg:hidden font-semibold text-[16px]"
-                          >
-                            Alamat Email
-                          </label>
-                          <div className="input-box p-3 border-2 border-[#027FFF] rounded-lg hover:shadow-lg transition duration-300 px-4 py-2 w-full focus:ring focus:ring-blue-200 focus:outline-none">
-                            <input
-                              type="email"
-                              id="email"
-                              name="email"
-                              className=" transition duration-300 w-full focus:outline-none"
-                              placeholder="Masukkan Email"
-                              value={user?.email || ""}
-                              onChange={(e) =>
-                                setUser((prev) => ({
-                                  ...prev,
-                                  email: e.target.value,
-                                }))
-                              }
-                            />
-                          </div>
+                        Alamat Email
+                      </motion.label>
+                      <div className="flex flex-col sm:flex-col sm:items-start sm:gap-2 lg:w-8/12">
+                        <label
+                          htmlFor="email"
+                          className="sm:block lg:hidden font-semibold text-[16px]"
+                        >
+                          Alamat Email
+                        </label>
+                        <div className="input-box p-3 border-2 border-[#027FFF] rounded-lg hover:shadow-lg transition duration-300 px-4 py-2 w-full focus:ring focus:ring-blue-200 focus:outline-none">
+                          <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            className=" transition duration-300 w-full focus:outline-none"
+                            placeholder="Masukkan Email"
+                            value={user?.email || ""}
+                            onChange={(e) =>
+                              setUser((prev) => ({
+                                ...prev,
+                                email: e.target.value,
+                              }))
+                            }
+                          />
                         </div>
-                      </motion.div>
-                      <motion.div
-                        className="relative"
-                        variants={phoneFieldVariants}
+                      </div>
+                    </motion.div>
+
+                    {/* Phone Field Pair */}
+                    <motion.div 
+                      className="field-pair flex flex-col lg:flex-row lg:items-center gap-4 w-full"
+                      variants={fieldPairVariants}
+                    >
+                      <motion.label
+                        htmlFor="phone"
+                        className="font-semibold text-[16px] lg:text-[20px] hidden sm:block lg:w-4/12"
                       >
+                        Nomor Telepon
+                      </motion.label>
+                      <div className="flex flex-col sm:flex-col sm:items-start sm:gap-2 lg:w-8/12">
                         <label
                           htmlFor="phone"
                           className="sm:block lg:hidden font-semibold text-[16px]"
@@ -411,12 +362,13 @@ const ProfilePagePersonalInfo = () => {
                             />
                           </span>
                         </div>
-                      </motion.div>
-                    </div>
-                  </div>
-                  <motion.div
+                      </div>
+                    </motion.div>
+                  </div><motion.div
                     className="save-button flex flex-col lg:flex-row gap-4 items-center justify-center py-6 w-full"
                     variants={buttonContainerVariants}
+                    initial="hidden"
+                    animate="visible"
                   >
                     <motion.button
                       type="button"
@@ -520,17 +472,18 @@ const ProfilePagePersonalInfo = () => {
                     </button>
                   </li>
                 </ul>
-              </div>
-            </div>
-          </div>          ) : null}
-          <motion.div 
+              </div>            </div>
+          </motion.div>
+          <div 
             className="absolute bottom-0 left-0"
           >
             <img src={Ellipse} alt="Background" />
-          </motion.div>{showDeletePopUp && <PopUpDelete setShowPopUp={setShowDeletePopUp} />}
+          </div>
+
+          {showDeletePopUp && <PopUpDelete setShowPopUp={setShowDeletePopUp} />}
           {showLogoutPopUp && <PopUpLogout setShowPopUp={setShowLogoutPopUp} />}          {showBerhasil && (<PopUpBerhasil isVisible={setShowBerhasil} message={datas} onClose={() => setShowBerhasil(false)} />)}
           {showGagal && (<PopUpGagal isVisible={setShowGagal} message={datas} onClose={() => setShowGagal(false)} />)}
-        </motion.div>
+        </div>
       </div>
     </div>
   );

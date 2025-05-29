@@ -3,6 +3,8 @@ import logo from "../assets/image/logo.svg";
 import logo2 from "../assets/image/logo2.svg";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
+const API = import.meta.env.VITE_STORAGE_BASE_URL;
+
 const Navbar = () => {
   const [userData, setUserData] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -55,15 +57,12 @@ const Navbar = () => {
       }, 100);
     }
   };
-
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
       setUserData(JSON.parse(user));
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
     }
+    setIsLoading(false);
 
     const savedMenuState = localStorage.getItem("isMenuOpen");
     if (savedMenuState === "true") {
@@ -82,51 +81,50 @@ const Navbar = () => {
   return (
     <nav
       className={`sm:px-[0px] md:p-6 tengah:px-6 ${styles.bg} w-full lg:px-10 xl:px-[85px] py-6`}
-    >
-      <div className="flex justify-between items-center px-[0px] w-full">
-        <Link to="/" className="flex items-center space-x-3">
+    >      <div className="flex items-center px-[0px] w-full">
+        <Link to="/" className="flex items-center space-x-3 flex-shrink-0">
           <img
             src={styles.logo}
             alt="Logo"
             className="hover:scale-105 hover:filter hover:drop-shadow-lg transition duration-300 sm:max-w-[150px] md:max-w-[229px] tengah:max-w-[180px]"
           />
         </Link>
-        <ul
-          className={`hidden lg:flex space-x-8 items-center ${styles.text} text-[20px] font-medium ${!userData ? 'flex-1 justify-center' : 'mr-[12rem]'}`}
-        >
-          <Link to="/" className="transition-all duration-3000 hover:scale-105">
-            <li>Home</li>
-          </Link>
-          <Link
-            to="/my-events"
-            className="transition-all duration-3000 hover:scale-105"
+        
+        <div className="flex-1 flex justify-center">
+          <ul
+            className={`hidden lg:flex space-x-8 items-center ${styles.text} text-[20px] font-medium`}
           >
-            <li>My Events</li>
-          </Link>
-          <li>
-            <button
-              onClick={aboutus}
-              className="transition-all duration-3000 hover:scale-105 cursor-pointer"
+            <Link to="/" className="transition-all duration-3000 hover:scale-105">
+              <li>Home</li>
+            </Link>
+            <Link
+              to="/my-events"
+              className="transition-all duration-3000 hover:scale-105"
             >
-              About Us
-            </button>
-          </li>
-        </ul>
-
-        <div className="flex justify-center gap-x-3 items-center">
+              <li>My Events</li>
+            </Link>
+            <li>
+              <button
+                onClick={aboutus}
+                className="transition-all duration-3000 hover:scale-105 cursor-pointer"
+              >
+                About Us
+              </button>
+            </li>
+          </ul>
+        </div>        <div className="flex justify-end gap-x-3 items-center flex-shrink-0 w-80">
           {isLoading ? (
-            <div className="sm:flex gap-x-[20px] sm:gap-x-[10px] item-center text-nowrap pl-[3rem]"></div>
+            <div className="w-12 h-12 rounded-full bg-gray-300"></div>
           ) : userData ? (
-            <Link to="/account/profile">
+            <Link to="/account/profile" className="block">
               <img
                 src={
-                  userData.photo ||
-                  `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(
-                    userData.fullname
-                  )}&size=250`
+                  userData.photo && userData.photo !== 'null' 
+                    ? `${API}/${userData.photo}` 
+                    : `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(userData.fullname)}&size=48&background=6b7280&color=ffffff`
                 }
                 alt="profile"
-                className="w-12 h-12 rounded-full hover:scale-105 transition duration-300 object-cover"
+                className="w-12 h-12 rounded-full object-cover bg-gray-300 hover:scale-105 transition-transform duration-300"
               />
             </Link>
           ) : (

@@ -24,6 +24,7 @@ const ProfilePagePassword = () => {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_STORAGE_BASE_URL;
 
   const pageVariants = {
     initial: { opacity: 0.8 },
@@ -111,7 +112,7 @@ const ProfilePagePassword = () => {
                 </span>
               </div>
               <span className="title font-semibold text-[24px] sm:text-[32px] lg:text-[32px]">
-                Profile Akun
+                Profil Akun
               </span>
             </div>
             <div className="content flex fle  x-col sm:flex-row justify-between gap-8">
@@ -126,7 +127,7 @@ const ProfilePagePassword = () => {
                   ) : (
                     <img
                       src={
-                        userData.photo ||
+                        `${API}/${userData.photo}` ||
                         `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(
                           userData.fullname || "User"
                         )}&size=250`

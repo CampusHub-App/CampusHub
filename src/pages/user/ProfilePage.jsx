@@ -24,11 +24,41 @@ const ProfilePagePersonalInfo = () => {
   const [showBerhasil, setShowBerhasil] = useState(false);
   const [showGagal, setShowGagal] = useState(false);
   const token = localStorage.getItem("token");
+  const API = import.meta.env.VITE_STORAGE_BASE_URL;
 
-  const pageVariants = {
-    initial: { opacity: 0.8 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0.8 },
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const profilePictureVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+  const formVariants = {
+    hidden: { opacity: 0, x: 30 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.5,
+        delay: 0.3,
+        ease: "easeOut",
+      },
+    },
   };
 
   const isFormValid = user?.fullname && user?.email && user?.nomor_telepon;
@@ -94,22 +124,22 @@ const ProfilePagePersonalInfo = () => {
       setIsProcessing(false);
     }
   };
-
   return (
     <motion.div
       className="font-sans flex flex-col box-border w-full"
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageVariants}
-      transition={{ duration: 1.6 }}
     >
       <div className="profile-page h-screen">
         <Navbar />
-        <div className="mx-4 sm:mx-10 md:mx-20 lg:mx-32">
-          {!isLoading ? (
-            <div className="content-box px-4 sm:px-8 md:px-16 py-0">
-              <div className="header flex flex-col lg:flex-row justify-between lg:py-10 py-6">
+        <motion.div 
+          className="mx-4 sm:mx-10 md:mx-20 lg:mx-32"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {!isLoading ? (            <div className="content-box px-4 sm:px-8 md:px-16 py-0">
+              <motion.div 
+                className="header flex flex-col lg:flex-row justify-between lg:py-10 py-6"
+              >
                 <div className="text-header flex flex-col">
                   <span className="page-title font-semibold text-[24px] lg:text-[32px]">
                     Info Personal
@@ -118,18 +148,19 @@ const ProfilePagePersonalInfo = () => {
                     Anda dapat mengubah foto profil dan informasi pribadi di
                     sini.
                   </span>
-                </div>
-                <span className="title font-semibold text-[24px] lg:text-[32px] mt-4 lg:mt-0">
+                </div>                <span className="title font-semibold text-[24px] lg:text-[32px] mt-4 lg:mt-0">
                   Profil Akun
                 </span>
-              </div>
-              <div className="content flex flex-col sm:flex-row justify-between gap-8">
+              </motion.div>              <div className="content flex flex-col sm:flex-row justify-between gap-8">
                 <div className="profile flex flex-col lg:flex-row lg:items-start justify-center lg:justify-between lg:w-10/12 py-10">
-                  <div className="profile-picture w-[120px] lg:w-2/12 mx-auto rounded-full relative group">
+                  <motion.div 
+                    className="profile-picture w-[120px] lg:w-2/12 mx-auto rounded-full relative group"
+                    variants={profilePictureVariants}
+                  >
                     <img
                       src={
                         selectedImage ||
-                        user.photo ||
+                        `${API}/${user.photo}` ||
                         `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(
                           user.fullname
                         )}&size=250`
@@ -153,12 +184,14 @@ const ProfilePagePersonalInfo = () => {
                         type="file"
                         accept="image/*"
                         className="hidden"
-                        onChange={handleImageChange}
-                      />
+                        onChange={handleImageChange}                      />
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div className="form flex flex-col w-full lg:w-10/12 gap-12 mt-6 lg:mt-0">
+                  <motion.div 
+                    className="form flex flex-col w-full lg:w-10/12 gap-12 mt-6 lg:mt-0"
+                    variants={formVariants}
+                  >
                     <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:w-11/12 pl-0 lg:pl-12">
                       <div className="form-label flex flex-col gap-6 lg:gap-20 w-full lg:w-4/12">
                         <label
@@ -181,29 +214,32 @@ const ProfilePagePersonalInfo = () => {
                         </label>
                       </div>
                       <div className="form-input flex flex-col gap-4 lg:gap-16 w-full lg:w-8/12">
-                        <div className="flex flex-col sm:flex-col sm:items-start sm:gap-2">
-                          <label
+                        <div className="flex flex-col sm:flex-col sm:items-start sm:gap-2">                          <label
                             htmlFor="name"
                             className="sm:block lg:hidden font-semibold text-[16px]"
                           >
                             Nama
                           </label>
-                          <div className="input-box p-3 border-2 border-[#027FFF] rounded-lg hover:shadow-lg transition duration-300 px-4 py-2 w-full focus:ring focus:ring-blue-200 focus:outline-none">
+                          <motion.div 
+                            className="input-box p-3 border-2 border-[#027FFF] rounded-lg hover:shadow-lg transition duration-300 px-4 py-2 w-full focus:ring focus:ring-blue-200 focus:outline-none"
+                            whileHover={{ scale: 1.02 }}
+                            whileFocus={{ scale: 1.02 }}
+                            transition={{ duration: 0.2 }}
+                          >
                             <input
                               type="text"
                               id="name"
                               name="name"
                               className=" transition duration-300 w-full focus:outline-none"
                               placeholder="Masukkan Nama"
-                              value={user?.fullname || ""}
-                              onChange={(e) =>
+                              value={user?.fullname || ""}                              onChange={(e) =>
                                 setUser((prev) => ({
                                   ...prev,
                                   fullname: e.target.value,
                                 }))
                               }
                             />
-                          </div>
+                          </motion.div>
                         </div>
                         <div className="relative">
                           <div className="flex flex-col sm:flex-col sm:items-start sm:gap-2">
@@ -258,16 +294,18 @@ const ProfilePagePersonalInfo = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="save-button flex flex-col lg:flex-row gap-4 items-center justify-center py-6 w-full">
-                      <button
+                    </div>                    <div className="save-button flex flex-col lg:flex-row gap-4 items-center justify-center py-6 w-full">
+                      <motion.button
                         type="button"
                         onClick={() => navigate("/")}
                         className="bg-transparent border-2 border-customBlue font-medium w-full sm:w-1/3 h-11 my-2 rounded-lg text-medium text-black text-[16px] hover:shadow-lg transition duration-30"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
                       >
                         Kembali
-                      </button>
-                      <button
+                      </motion.button>
+                      <motion.button
                         type="submit"
                         onClick={handleUpdate}
                         className={`${isFormValid
@@ -275,6 +313,9 @@ const ProfilePagePersonalInfo = () => {
                           : "bg-[#A2A2A2] cursor-not-allowed border-2 border-white font-medium w-full sm:w-1/3 h-11 my-2 rounded-lg text-medium text-white text-[16px] transition duration-30"
                           }`}
                         disabled={!isFormValid}
+                        whileHover={isFormValid ? { scale: 1.05 } : {}}
+                        whileTap={isFormValid ? { scale: 0.95 } : {}}
+                        transition={{ duration: 0.2 }}
                       >
                         {isProcessing ? (
                           <div className="flex items-center justify-center">
@@ -301,15 +342,14 @@ const ProfilePagePersonalInfo = () => {
                                 d="M22 12a10 10 0 01-10 10"
                               ></path>
                             </svg>
-                          </div>
-                        ) : (
+                          </div>                        ) : (
                           "Ubah Profil"
                         )}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="action-list flex flex-col lg:text-right text-center gap-6 lg:gap-11">
+                      </motion.button>
+                    </div>                  </motion.div>
+                </div>                <div 
+                  className="action-list flex flex-col lg:text-right text-center gap-6 lg:gap-11"
+                >
                   <ul className="flex flex-col gap-4 lg:gap-11">
                     <li>
                       <Link
@@ -364,12 +404,11 @@ const ProfilePagePersonalInfo = () => {
           ) : null}
           <div className="absolute bottom-0 left-0">
             <img src={Ellipse} alt="Background" />
-          </div>
-          {showDeletePopUp && <PopUpDelete setShowPopUp={setShowDeletePopUp} />}
+          </div>          {showDeletePopUp && <PopUpDelete setShowPopUp={setShowDeletePopUp} />}
           {showLogoutPopUp && <PopUpLogout setShowPopUp={setShowLogoutPopUp} />}
           {showBerhasil && (<PopUpBerhasil isVisible={setShowBerhasil} message={datas} onClose={() => setShowBerhasil(false)} />)}
           {showGagal && (<PopUpGagal isVisible={setShowGagal} message={datas} onClose={() => setShowGagal(false)} />)}
-        </div>
+        </motion.div>
       </div>
     </motion.div>
   );

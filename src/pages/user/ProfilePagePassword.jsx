@@ -25,7 +25,7 @@ const ProfilePagePassword = () => {
   const [isLoading, setIsLoading] = useState(true);  const navigate = useNavigate();
   const API = import.meta.env.VITE_STORAGE_BASE_URL;  // Animation variants similar to ProfilePage
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
@@ -192,10 +192,8 @@ const ProfilePagePassword = () => {
       setIsLoading(false);
     }
   }, []);  return (
-    <motion.div      className="font-sans flex flex-col box-border w-full"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
+    <div
+      className="font-sans flex flex-col box-border w-full"
     >
       <div className="profile-page h-screen">
         <Navbar />
@@ -464,10 +462,9 @@ const ProfilePagePassword = () => {
               password={newPassword}
               confirmation={passwordConfirmation}
             />
-          )}
-        </div>
+          )}        </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

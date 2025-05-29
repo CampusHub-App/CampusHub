@@ -13,10 +13,9 @@ import { fetchUserProfile, updateUserProfile } from "../../services/api.js";
 const ProfilePagePersonalInfo = () => {
   const [activePage, setActivePage] = useState("info-personal");
   const [user, setUser] = useState(null);
-  const [showDeletePopUp, setShowDeletePopUp] = useState(false);
-  const [showLogoutPopUp, setShowLogoutPopUp] = useState(false);
+  const [showDeletePopUp, setShowDeletePopUp] = useState(false);  const [showLogoutPopUp, setShowLogoutPopUp] = useState(false);
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [image, setImage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -26,7 +25,7 @@ const ProfilePagePersonalInfo = () => {
   const token = localStorage.getItem("token");
   const API = import.meta.env.VITE_STORAGE_BASE_URL;
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
@@ -161,7 +160,6 @@ const ProfilePagePersonalInfo = () => {
   };
 
   const isFormValid = user?.fullname && user?.email && user?.nomor_telepon;
-
   useEffect(() => {
     if (!token) {
       navigate("/welcome", { replace: true });
@@ -169,7 +167,6 @@ const ProfilePagePersonalInfo = () => {
     }
 
     setUser(JSON.parse(localStorage.getItem("user")));
-    setIsLoading(false);
 
   }, []);
 
@@ -222,9 +219,8 @@ const ProfilePagePersonalInfo = () => {
     } finally {
       setIsProcessing(false);
     }
-  };
-  return (
-    <motion.div
+  };  return (
+    <div
       className="font-sans flex flex-col box-border w-full"
     >
       <div className="profile-page h-screen">
@@ -233,8 +229,7 @@ const ProfilePagePersonalInfo = () => {
           className="mx-4 sm:mx-10 md:mx-20 lg:mx-32"
           variants={containerVariants}
           initial="hidden"
-          animate="visible"
-        >          {!isLoading ? (<div className="content-box px-4 sm:px-8 md:px-16 py-0">
+          animate="visible"        >          {user ? (<div className="content-box px-4 sm:px-8 md:px-16 py-0">
             <div className="header flex flex-col lg:flex-row justify-between lg:py-10 py-6">
               <motion.div 
                 className="text-header flex flex-col"
@@ -268,13 +263,12 @@ const ProfilePagePersonalInfo = () => {
                 <motion.div
                   className="profile-picture w-[120px] lg:w-2/12 mx-auto rounded-full relative group"
                   variants={profilePictureVariants}
-                >
-                  <img
+                >                  <img
                     src={
                       selectedImage ||
-                      `${API}/${user.photo}` ||
+                      (user?.photo ? `${API}/${user.photo}` : null) ||
                       `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(
-                        user.fullname
+                        user?.fullname || "User"
                       )}&size=250`
                     }
                     alt="Foto Profil"
@@ -534,12 +528,11 @@ const ProfilePagePersonalInfo = () => {
           >
             <img src={Ellipse} alt="Background" />
           </motion.div>{showDeletePopUp && <PopUpDelete setShowPopUp={setShowDeletePopUp} />}
-          {showLogoutPopUp && <PopUpLogout setShowPopUp={setShowLogoutPopUp} />}
-          {showBerhasil && (<PopUpBerhasil isVisible={setShowBerhasil} message={datas} onClose={() => setShowBerhasil(false)} />)}
+          {showLogoutPopUp && <PopUpLogout setShowPopUp={setShowLogoutPopUp} />}          {showBerhasil && (<PopUpBerhasil isVisible={setShowBerhasil} message={datas} onClose={() => setShowBerhasil(false)} />)}
           {showGagal && (<PopUpGagal isVisible={setShowGagal} message={datas} onClose={() => setShowGagal(false)} />)}
         </motion.div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

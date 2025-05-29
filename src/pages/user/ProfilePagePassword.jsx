@@ -20,9 +20,8 @@ const ProfilePagePassword = () => {
     useState(false);
   const [showDeletePopUp, setShowDeletePopUp] = useState(false);
   const [showLogoutPopUp, setShowLogoutPopUp] = useState(false);
-  const [showUpdatePopUp, setShowUpdatePopUp] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);  const navigate = useNavigate();
+  const [showUpdatePopUp, setShowUpdatePopUp] = useState(false);  const [userData, setUserData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);  const navigate = useNavigate();
   const API = import.meta.env.VITE_STORAGE_BASE_URL;  // Animation variants similar to ProfilePage
   const containerVariants = {
     hidden: { opacity: 1 },
@@ -182,16 +181,11 @@ const ProfilePagePassword = () => {
     if (!token) {
       navigate("/welcome", { replace: true });
       return;
-    }
-
-    const user = localStorage.getItem("user");
+    }    const user = localStorage.getItem("user");
     if (user) {
       setUserData(JSON.parse(user));
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
     }
-  }, []);  return (
+  }, []);return (
     <div
       className="font-sans flex flex-col box-border w-full"
     >
@@ -230,24 +224,24 @@ const ProfilePagePassword = () => {
                 <motion.div 
                   className="profile-picture w-[120px] lg:w-2/12 mx-auto lg:mx-0 rounded-full"
                   variants={profilePictureVariants}
-                >
-                  {isLoading ? (
-                    <img
-                      src={`https://eu.ui-avatars.com/api/?name=User}&size=250`}
-                      alt="Foto Profil"
-                      className="w-full aspect-square rounded-full object-cover"
-                    />
-                  ) : (
+                >                  {userData ? (
                     <img
                       src={
-                        `${API}/${userData.photo}` ||
+                        (userData.photo ? `${API}/${userData.photo}` : null) ||
                         `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(
                           userData.fullname || "User"
                         )}&size=250`
                       }
                       alt="Foto Profil"
                       className="w-full aspect-square rounded-full object-cover"
-                    />                  )}
+                    />
+                  ) : (
+                    <img
+                      src={`https://eu.ui-avatars.com/api/?name=User}&size=250`}
+                      alt="Foto Profil"
+                      className="w-full aspect-square rounded-full object-cover"
+                    />
+                  )}
                 </motion.div>
                 <motion.div 
                   className="edit-password flex flex-col w-full lg:w-10/12 gap-4 lg:mb-0"

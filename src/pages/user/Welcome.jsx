@@ -5,7 +5,7 @@ import circle from "../../assets/image/circle.svg";
 import admin from "../../assets/image/newadmin.svg";
 import circle2 from "../../assets/image/circle2.svg";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -16,6 +16,7 @@ const pageVariants = {
 function Welcome() {
 
   const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
 
     const token = localStorage.getItem("token");
@@ -23,7 +24,7 @@ function Welcome() {
       navigate("/", { replace: true });
       return;
     }
-  }, []);
+  }, [navigate]);
 
   const params = new URLSearchParams(location.search);
   const redirectPath = params.get("redirect") || "/";

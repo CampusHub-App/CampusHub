@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import { logout } from "../services/api";
 
 const PopUpLogout = ({ setShowPopUp }) => {
   const bookingRef = useRef(null);
@@ -6,6 +7,7 @@ const PopUpLogout = ({ setShowPopUp }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [gagal, setGagal] = useState(false);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     setIsVisible(true);
@@ -32,27 +34,16 @@ const PopUpLogout = ({ setShowPopUp }) => {
   const handleLogout = async () => {
     setIsProcessing(true);
     try {
-      const response = await fetch("https://campushub.web.id/api/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-
-      if (!response.ok) {
-        setGagal(true);
-      }
+      const data = await logout(localStorage.getItem("token"));
+      setData(data);
 
       localStorage.removeItem("token");
-      localStorage.removeItem("token_type");
       localStorage.removeItem("user");
 
       setTimeout(() => {
         window.location.href = "/";
       }, 200);
     } catch (error) {
-      console.error("Error saat logout:", error);
       setGagal(true);
     } finally {
       setTimeout(() => {
@@ -67,33 +58,30 @@ const PopUpLogout = ({ setShowPopUp }) => {
     >
       {gagal ? (
         <div
-          className={`fixed inset-0 flex items-center justify-center transition-all ${
-            isExiting
+          className={`fixed inset-0 flex items-center justify-center transition-all ${isExiting
               ? "opacity-0 duration-700"
               : isVisible
-              ? "opacity-100 duration-700"
-              : "opacity-0"
-          }`}
-        >
-          <div
-            className={`absolute inset-0 bg-black transition-all ${
-              isExiting
-                ? "opacity-0 duration-700"
-                : isVisible
-                ? "opacity-30 duration-700"
+                ? "opacity-100 duration-700"
                 : "opacity-0"
             }`}
+        >
+          <div
+            className={`absolute inset-0 bg-black transition-all ${isExiting
+                ? "opacity-0 duration-700"
+                : isVisible
+                  ? "opacity-30 duration-700"
+                  : "opacity-0"
+              }`}
           ></div>
 
           <div
             ref={bookingRef}
-            className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${
-              isExiting
+            className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${isExiting
                 ? "opacity-0 scale-90 duration-700"
                 : isVisible
-                ? "opacity-100 scale-100 duration-700"
-                : "opacity-0 scale-50 duration-700"
-            }`}
+                  ? "opacity-100 scale-100 duration-700"
+                  : "opacity-0 scale-50 duration-700"
+              }`}
           >
             <div className="flex flex-col items-center animate__animated animate__shakeX">
               <div className="relative p-4 border-4 border-red-600 rounded-full animate-pulse">
@@ -113,41 +101,37 @@ const PopUpLogout = ({ setShowPopUp }) => {
                 </svg>
               </div>
               <span className="mt-4 font-medium text-[20px] text-center text-red-500">
-                Gagal logout, silahkan cek koneksi internet anda atau
-                hapus cache browser anda.
+                {data?.message || "Koneksi Timeout, Silahkan Coba Lagi."}
               </span>
             </div>
           </div>
         </div>
       ) : (
         <div
-          className={`fixed inset-0 flex items-center justify-center transition-all ${
-            isExiting
+          className={`fixed inset-0 flex items-center justify-center transition-all ${isExiting
               ? "opacity-0 duration-700"
               : isVisible
-              ? "opacity-100 duration-700"
-              : "opacity-0"
-          }`}
-        >
-          <div
-            className={`absolute inset-0 bg-black transition-all ${
-              isExiting
-                ? "opacity-0 duration-700"
-                : isVisible
-                ? "opacity-30 duration-700"
+                ? "opacity-100 duration-700"
                 : "opacity-0"
             }`}
+        >
+          <div
+            className={`absolute inset-0 bg-black transition-all ${isExiting
+                ? "opacity-0 duration-700"
+                : isVisible
+                  ? "opacity-30 duration-700"
+                  : "opacity-0"
+              }`}
           ></div>
 
           <div
             ref={bookingRef}
-            className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${
-              isExiting
+            className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${isExiting
                 ? "opacity-0 scale-90 duration-700"
                 : isVisible
-                ? "opacity-100 scale-100 duration-700"
-                : "opacity-0 scale-50 duration-700"
-            }`}
+                  ? "opacity-100 scale-100 duration-700"
+                  : "opacity-0 scale-50 duration-700"
+              }`}
           >
             <div className="confirmation-message flex flex-col items-center">
               <span className="font-medium text-[32px] text-center px-12 py-2">
@@ -168,11 +152,10 @@ const PopUpLogout = ({ setShowPopUp }) => {
               <button
                 onClick={handleLogout}
                 disabled={isProcessing}
-                className={`bg-transparent border-2 ${
-                  isProcessing
+                className={`bg-transparent border-2 ${isProcessing
                     ? "border-gray-400 text-gray-400"
                     : "border-[#027FFF] text-black"
-                } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500`}
+                  } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500`}
               >
                 {isProcessing ? (
                   <div className="flex items-center justify-center">

@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { updatePassword } from "../services/api";
 
 const PopUpUpdate = ({ setShowPopUp, password, confirmation }) => {
   const bookingRef = useRef(null);
@@ -52,29 +53,11 @@ const PopUpUpdate = ({ setShowPopUp, password, confirmation }) => {
   const handleUpdate = async () => {
     setIsProcessing(true);
     try {
-      const response = await fetch(
-        "https://campushub.web.id/api/change-password",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({
-            password: password,
-            confirmation: confirmation,
-          }),
-        }
-      );
-
-      if (response.ok) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        localStorage.removeItem("token_type");
-        setStatus("success");
-      } else {
-        setStatus("error");
-      }
+      await updatePassword(password, confirmation);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("token_type");
+      setStatus("success");
     } catch (error) {
       setStatus("error");
     } finally {
@@ -84,33 +67,30 @@ const PopUpUpdate = ({ setShowPopUp, password, confirmation }) => {
 
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center transition-all ${
-        isExiting
+      className={`fixed inset-0 flex items-center justify-center transition-all ${isExiting
           ? "opacity-0 duration-700"
           : isVisible
-          ? "opacity-100 duration-700"
-          : "opacity-0"
-      }`}
-    >
-      <div
-        className={`absolute inset-0 bg-black transition-all ${
-          isExiting
-            ? "opacity-0 duration-700"
-            : isVisible
-            ? "opacity-30 duration-700"
+            ? "opacity-100 duration-700"
             : "opacity-0"
         }`}
+    >
+      <div
+        className={`absolute inset-0 bg-black transition-all ${isExiting
+            ? "opacity-0 duration-700"
+            : isVisible
+              ? "opacity-30 duration-700"
+              : "opacity-0"
+          }`}
       ></div>
 
       <div
         ref={bookingRef}
-        className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${
-          isExiting
+        className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${isExiting
             ? "opacity-0 scale-90 duration-700"
             : isVisible
-            ? "opacity-100 scale-100 duration-700"
-            : "opacity-0 scale-50 duration-700"
-        }`}
+              ? "opacity-100 scale-100 duration-700"
+              : "opacity-0 scale-50 duration-700"
+          }`}
       >
         {status === null && (
           <>
@@ -133,11 +113,10 @@ const PopUpUpdate = ({ setShowPopUp, password, confirmation }) => {
               <button
                 onClick={handleUpdate}
                 disabled={isProcessing}
-                className={`bg-transparent border-2 ${
-                  isProcessing
+                className={`bg-transparent border-2 ${isProcessing
                     ? "border-gray-400 text-gray-400"
                     : "border-[#027FFF] text-black"
-                } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500`}
+                  } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500`}
               >
                 {isProcessing ? (
                   <div className="flex items-center justify-center">

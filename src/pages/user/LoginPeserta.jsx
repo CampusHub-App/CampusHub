@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import PopUpGagal from "../../components/PopUpGagal";
 import { useNavigate } from "react-router-dom";
+import { fetchUserProfile, login } from "../../services/api";
+import { jwtDecode } from 'jwt-decode'
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -62,55 +64,20 @@ function Loginpeserta() {
     if (isFormValid) {
       try {
         setIsLoading(true);
-        const response = await fetch(
-          "https://campushub.web.id/api/login/user",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password, remember }),
-          }
-        );
-
-        const data = await response.json();
+        const data = await login({ email, password, remember });
         setDatas(data.message);
+        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("user", JSON.stringify(jwtDecode(data.access_token))); 
 
-        if (response.ok) {
-          if (data.access_token) {
-            localStorage.setItem("token", data.access_token);
-            localStorage.setItem("token_type", data.token_type);
-          }
-        } else {
-          setShowGagal(true);
+        setTimeout(() => {
+          window.location.href = redirectPath;
+        }, 200);
+        setTimeout(() => {
           setIsLoading(false);
-        }
+        }, 1000);
+
       } catch (error) {
-        setDatas("Koneksi Timeout, Silahkan Coba Lagi");
-        setShowGagal(true);
-        setIsLoading(false);
-      }
-
-      try {
-        const response = await fetch("https://campushub.web.id/api/user", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          localStorage.setItem("user", JSON.stringify(data));
-
-          setTimeout(() => {
-            window.location.href = redirectPath;
-          }, 200);
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 1000);
-        }
-      } catch (error) {
-        setDatas("Koneksi Timeout, Silahkan Coba Lagi");
+        setDatas(error.data || "Koneksi Timeout, Silahkan Coba Lagi");
         setShowGagal(true);
         setIsLoading(false);
       }
@@ -232,8 +199,8 @@ function Loginpeserta() {
               type="submit"
               disabled={!isFormValid}
               className={`w-full px-[24px] py-[16px] text-[20px] font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${isFormValid
-                  ? "bg-[#003266] hover:bg-[#002855] focus:ring-[#003266]"
-                  : "bg-[#A2A2A2] cursor-not-allowed"
+                ? "bg-[#003266] hover:bg-[#002855] focus:ring-[#003266]"
+                : "bg-[#A2A2A2] cursor-not-allowed"
                 }`}
             >
               {isLoading ? (

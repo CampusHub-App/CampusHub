@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Menu from "../../assets/image/menu.svg";
 import { motion } from "framer-motion";
@@ -13,6 +13,7 @@ const MyEvents = () => {
   const [statusFilter, setStatusFilter] = useState("All");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState(null);
+  const [error, setError] = useState(null);
   const dropdownRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
   const [categoryFilter, setCategoryFilter] = useState("All");
@@ -23,23 +24,6 @@ const MyEvents = () => {
     animate: { opacity: 1 },
     exit: { opacity: 0.6 },
   };
-  const lokasi = useLocation();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate(`/welcome?redirect=${encodeURIComponent(lokasi.pathname)}`);
-      return;
-    }
-
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      if (!user.is_admin) {
-        navigate("/", { replace: true });
-        return;
-      }
-    }
-  }, []);
 
   const handleDelete = (e, id) => {
     e.stopPropagation();
@@ -80,23 +64,28 @@ const MyEvents = () => {
     window.scrollTo(0, 0);
   }, []);
   useEffect(() => {
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/welcome?redirect=/my-events", { replace: true });
+      return;
+    }
+
     const fetchEventsData = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        navigate("/welcome?redirect=/my-events", { replace: true });
-        return;
-      }
 
       try {
         const data = await fetchMyEvents(token);
         setEvents(data);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching events:", error);
+        setError(error.data) || "Koneksi Timeout, Silahkan Coba Lagi";
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchEventsData();
+    window.scrollTo(0, 0);
   }, [navigate]);
 
   const toggleDropdown = () => {
@@ -216,54 +205,54 @@ const MyEvents = () => {
               <div className="event-status flex flex-wrap gap-8 sm:gap-12 lg:gap-16 py-4">
                 <ul className="flex gap-8 sm:gap-12 lg:gap-16 w-full text-sm sm:text-base justify-center lg:justify-start lg:px-20">
                   <li
-                    className={`cursor-pointer ${
-                      categoryFilter === "All" ? "font-bold underline" : ""
-                    }`}
+                    className={`cursor-pointer ${categoryFilter === "All" ? "font-bold underline" : ""
+                      }`}
                     onClick={() => handleCategoryFilter("All")}
                   >
                     All ({allCount})
                   </li>
                   <li
-                    className={`cursor-pointer ${
-                      categoryFilter === 1 ? "font-bold underline" : ""
-                    }`}
+                    className={`cursor-pointer ${categoryFilter === 1 ? "font-bold underline" : ""
+                      }`}
                     onClick={() => handleCategoryFilter(1)}
                   >
                     Webinar ({webinarCount})
                   </li>
                   <li
-                    className={`cursor-pointer ${
-                      categoryFilter === 2 ? "font-bold underline" : ""
-                    }`}
+                    className={`cursor-pointer ${categoryFilter === 2 ? "font-bold underline" : ""
+                      }`}
                     onClick={() => handleCategoryFilter(2)}
                   >
                     Seminar ({seminarCount})
                   </li>
                   <li
-                    className={`cursor-pointer ${
-                      categoryFilter === 3 ? "font-bold underline" : ""
-                    }`}
+                    className={`cursor-pointer ${categoryFilter === 3 ? "font-bold underline" : ""
+                      }`}
                     onClick={() => handleCategoryFilter(3)}
                   >
                     Kuliah Tamu ({kuliahTamuCount})
                   </li>
                   <li
-                    className={`cursor-pointer ${
-                      categoryFilter === 4 ? "font-bold underline" : ""
-                    }`}
+                    className={`cursor-pointer ${categoryFilter === 4 ? "font-bold underline" : ""
+                      }`}
                     onClick={() => handleCategoryFilter(4)}
                   >
                     Workshop ({workshopCount})
                   </li>
                   <li
-                    className={`cursor-pointer ${
-                      categoryFilter === 5 ? "font-bold underline" : ""
-                    }`}
+                    className={`cursor-pointer ${categoryFilter === 5 ? "font-bold underline" : ""
+                      }`}
                     onClick={() => handleCategoryFilter(5)}
                   >
                     Sertifikasi ({sertifikasiCount})
                   </li>
                 </ul>
+
+                {error && (
+                  <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+                    {error}
+                  </div>
+                )}
               </div>
 
               <div className="event-list flex flex-col gap-6 px-4 sm:px-6 lg:px-20 py-2">

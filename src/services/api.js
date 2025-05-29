@@ -3,39 +3,41 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const fetchEvents = async (category) => {
   const endpoint = category ? `/events/${category}` : '/events/all';
   const response = await fetch(`${API_BASE_URL}${endpoint}`);
-  
+
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
     throw new Error(error.message);
   }
-  
+
   return response.json();
 };
 
 export const fetchEvent = async (id) => {
-  const response = await fetch(`${API_BASE_URL}/events/${id}`);
-  
+  const response = await fetch(`${API_BASE_URL}/events/${id}/view`);
+
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
     throw new Error(error.message);
   }
-  
+
   return response.json();
 };
 
 export const login = async (credentials) => {
-  const response = await fetch(`${API_BASE_URL}/login`, {
+  const response = await fetch(`${API_BASE_URL}/login/user`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials)
   });
-  
+
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = new Error();
+    error.data = data.message;
+    throw error;
   }
-  
+
   return data;
 };
 
@@ -45,13 +47,15 @@ export const register = async (userData) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData)
   });
-  
+
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = new Error();
+    error.data = data.message;
+    throw error;
   }
-  
+
   return data;
 };
 
@@ -64,29 +68,16 @@ export const registerForEvent = async (eventId, token) => {
     },
     body: JSON.stringify({ event_id: eventId })
   });
-  
-  const data = await response.json();
-  
-  if (!response.ok) {
-    throw new Error(data.message);
-  }
-  
-  return data;
-};
 
-export const fetchUserRegistrations = async (token) => {
-  const response = await fetch(`${API_BASE_URL}/registrations`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  });
-  
+  const data = await response.json();
+
   if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw new Error(error.message);
+    const error = new Error();
+    error.data = data.message;
+    throw error;
   }
-  
-  return response.json();
+
+  return data;
 };
 
 export const registerEventWithToken = async (eventId, token) => {
@@ -97,13 +88,15 @@ export const registerEventWithToken = async (eventId, token) => {
       'Authorization': `Bearer ${token}`
     }
   });
-  
+
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = new Error();
+    error.data = data.message;
+    throw error;
   }
-  
+
   return data;
 };
 
@@ -113,32 +106,36 @@ export const fetchUniqueCode = async (eventId, token) => {
       'Authorization': `Bearer ${token}`
     }
   });
-  
+
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = new Error();
+    error.data = data.message;
+    throw error;
   }
-  
+
   return data;
 };
 
-export const updatePassword = async (newPassword, token) => {
-  const response = await fetch(`${API_BASE_URL}/user/password`, {
-    method: 'PUT',
+export const updatePassword = async (newPassword, confirmation, token) => {
+  const response = await fetch(`${API_BASE_URL}/change-password`, {
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     },
-    body: JSON.stringify({ password: newPassword })
+    body: JSON.stringify({ password: newPassword, confirmation: confirmation })
   });
-  
+
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = new Error();
+    error.data = data.message;
+    throw error;
   }
-  
+
   return data;
 };
 
@@ -148,13 +145,15 @@ export const fetchEventStatus = async (eventId, token) => {
       'Authorization': `Bearer ${token}`
     }
   });
-  
+
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = new Error();
+    error.data = data.message;
+    throw error;
   }
-  
+
   return data;
 };
 
@@ -164,55 +163,54 @@ export const fetchUserProfile = async (token) => {
       'Authorization': `Bearer ${token}`
     }
   });
-  
+
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = new Error();
+    error.data = data.message;
+    throw error;
   }
-  
+
   return data;
 };
 
 export const updateUserProfile = async (userData, token) => {
-  const formData = new FormData();
-  
-  if (userData.name) formData.append('name', userData.name);
-  if (userData.email) formData.append('email', userData.email);
-  if (userData.phone) formData.append('phone', userData.phone);
-  if (userData.photo) formData.append('photo', userData.photo);
-  
+
   const response = await fetch(`${API_BASE_URL}/user`, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`
     },
-    body: formData
+    body: userData
   });
-  
+
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = new Error();
+    error.data = data.message;
+    throw error;
   }
-  
+
   return data;
 };
 
-// Admin API methods
 export const loginAdmin = async (credentials) => {
   const response = await fetch(`${API_BASE_URL}/login/admin`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials)
   });
-  
+
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = new Error();
+    error.data = data.message;
+    throw error;
   }
-  
+
   return data;
 };
 
@@ -222,15 +220,17 @@ export const createEvent = async (eventData, token) => {
     headers: {
       'Authorization': `Bearer ${token}`
     },
-    body: eventData // FormData object
+    body: eventData
   });
-  
+
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = new Error();
+    error.data = data.message;
+    throw error;
   }
-  
+
   return data;
 };
 
@@ -240,89 +240,103 @@ export const updateEvent = async (eventId, eventData, token) => {
     headers: {
       'Authorization': `Bearer ${token}`
     },
-    body: eventData // FormData object
+    body: eventData
   });
-  
+
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = new Error();
+    error.data = data.message;
+    throw error;
   }
-  
+
   return data;
 };
 
 export const fetchMyEvents = async () => {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    throw new Error('No authentication token found');
-  }
+
 
   const response = await fetch(`${API_BASE_URL}/my-events/all`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
   });
-  
+
+  const data = await response.json();
   if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw new Error(error.message);
+    const error = new Error();
+    error.data = data.message;
+    error.status = response.status;
+    throw error;
   }
-  
-  return response.json();
+
+  return data;
 };
 
 export const fetchEventParticipants = async (eventId) => {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    throw new Error('No authentication token found');
-  }
 
   const response = await fetch(`${API_BASE_URL}/events/${eventId}/participants/all`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
   });
-  
+
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
     throw new Error(error.message);
   }
-  
+
   return response.json();
 };
 
 export const checkInParticipant = async (eventId, uniqueCode) => {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    throw new Error('No authentication token found');
-  }
 
   const response = await fetch(`${API_BASE_URL}/my-events/${eventId}/check-in`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify({ kode: uniqueCode })
   });
-  
+
   const data = await response.json();
-  
+
   if (!response.ok) {
-    throw new Error(data.message);
+    const error = new Error();
+    error.data = data.message;
+    throw error;
   }
-  
+
   return data;
 };
 
 export const fetchEventDetails = async (eventId) => {
   const response = await fetch(`${API_BASE_URL}/events/${eventId}/view`);
-  
+
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
     throw new Error(error.message);
   }
-  
+
   return response.json();
 };
+
+export const logout = async (token) => {
+  const response = await fetch(`${API_BASE_URL}/logout`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    const error = new Error();
+    error.data = data.message;
+    throw error;
+  }
+  
+  return data;
+}

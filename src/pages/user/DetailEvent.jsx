@@ -1,225 +1,182 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { fetchEvent } from "../../services/api";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
-import PopUpCheckout from "../../components/PopUpCheckout";
-import PopUpBerhasil from "../../components/PopUpBerhasil";
-import PopUpGagal from "../../components/PopUpGagal";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import Ellipse from "../../assets/image/Ellipse.svg";
+import Date from "../../assets/image/date.svg";
+import Chair from "../../assets/image/chair.svg";
 import "../../styles/DetailEvent.css";
+import Navbar from "../../components/Navbar";
+import { fetchEvent } from "../../services/api";
 
-// Animation configuration
-const pageVariants = {
-  initial: { opacity: 0.4 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0.4 },
-};
+const storage = import.meta.env.VITE_STORAGE_BASE_URL + "/";
 
-function DetailEvent() {
+const DetailEvent = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const [event, setEvent] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [eventData, setEventData] = useState(null);
   const [error, setError] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [user, setUser] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const loadEventData = async () => {
+    const fetchEventData = async () => {
       try {
         const data = await fetchEvent(id);
-        setEvent(data);
+        setEventData(data);
       } catch (err) {
         setError(err.message);
-      } finally {
-        setIsLoading(false);
       }
     };
 
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
+    fetchEventData();
 
-    loadEventData();
-    window.scrollTo(0, 0);
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [id]);
 
-  const handleRegister = async () => {
-    if (!user) {
-      navigate("/welcome");
-      return;
-    }
-
-    try {
-      await registerForEvent(id, user.token);
-      setShowSuccess(true);
-    } catch (err) {
-      setErrorMessage(err.message || "Failed to register for event");
-      setShowError(true);
-    }
+  const handleExit = () => {
+    setIsExiting(true);
+    setTimeout(() => {
+      navigate(`/events/${eventData.id}/preview`);
+    }, 500);
   };
-
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('id-ID', options);
-  };
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="loader w-16 h-16 border-4 border-[#027FFF] border-t-transparent rounded-full animate-spin"></div>
-        <p className="ml-4 text-lg font-medium">Loading...</p>
-      </div>
-    );
-  }
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen">
-        <h2 className="text-2xl font-bold text-red-600 mb-4">Error</h2>
-        <p className="text-gray-700">{error}</p>
-        <button 
-          onClick={() => navigate("/")}
-          className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-        >
-          Back to Home
-        </button>
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-center">
+          <h1 className="text-red-500 text-2xl font-semibold">Error</h1>
+          <p className="text-red-700 text-lg">{error}</p>
+        </div>
       </div>
     );
   }
 
-  if (!event) return null;
+  if (!eventData) {
+    return null;
+  }
 
   return (
-    <motion.div
-      className="font-sans flex flex-col min-h-screen"
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageVariants}
-      transition={{ duration: 1.6, ease: "easeInOut" }}
-    >
+    <div className="detail-event h-screen">
       <Navbar />
 
-      <main className="flex-grow">
-        {/* Event Header */}
-        <div className="bg-[#003266] text-white py-12">
-          <div className="container mx-auto px-4">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">{event.judul}</h1>
-            <p className="text-lg opacity-90">{event.category_name}</p>
-          </div>
+      <div
+        className={`detail-event-container ${isLoaded ? "loaded" : ""} ${
+          isExiting ? "exiting" : ""
+        } [1024px] pt-10 mx-4 lg:mx-20`}
+      >
+        <div className="breadcrumb pt-auto flex ml-2 pb-10">
+          <ol className="list-none flex text-black text-medium">
+            <li>
+              <Link to="/" className="hover:underline">
+                Home
+              </Link>
+            </li>
+            <li className="mx-2"> &gt; </li>
+            <li>
+              <Link
+                to={
+                  eventData.category_name === "Seminar"
+                    ? "/seminar"
+                    : eventData.category_name === "Webinar"
+                    ? "/webinar"
+                    : eventData.category_name === "Kuliah Tamu"
+                    ? "/kuliah-tamu"
+                    : eventData.category_name === "Sertifikasi"
+                    ? "/sertifikasi"
+                    : eventData.category_name === "Workshop"
+                    ? "/workshop"
+                    : "/home"
+                }
+                className="hover:underline"
+              >
+                {eventData.category_name}
+              </Link>
+            </li>
+          </ol>
         </div>
-
-        {/* Event Content */}
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Left Column - Event Details */}
-            <div className="md:w-2/3">
-              <img 
-                src={event.foto_event} 
-                alt={event.judul} 
-                className="w-full h-auto rounded-lg mb-6 object-cover"
-                style={{ maxHeight: "400px" }}
+        <div className="content-box flex flex-col md:flex-row">
+          <div className="PosterEvent w-full md:w-1/2 h-1/2">
+            <img
+              className="w-full h-full object-cover rounded-2xl shadow-lg"
+              src={storage + eventData.foto_event}
+              alt="Poster Event"
+            />
+          </div>
+          <div className="description text-left mx-8 mt-4 md:mt-0 md:ml-8 w-1/2">
+            <span className="bg-[#027FFF] font-regular px-8 py-1 rounded-full text-white text-[14px] sm:text-[12px]">
+              {eventData.category_name}
+            </span>
+            <h1 className="font-bold text-[32px] py-4 sm:text-[24px]">
+              {eventData.judul}
+            </h1>
+            <div className="border-b-2 border-[#003266] w-full my-4"></div>
+            <div className="flex gap-2 ml-2">
+              <img src={Date} alt="Calendar" className="text-4xl sm:text-3xl" />
+              <span className="font-medium text-[16px] sm:text-[14px] mt-2">
+                {eventData.date}
+              </span>
+              <span className="font-medium text-[16px] sm:text-[14px] mt-2 ml-auto mr-2">
+                {eventData.start_time} - {eventData.end_time}
+              </span>
+            </div>
+            <div className="flex gap-2 ml-1 my-4">
+              <i className="ri-map-pin-2-fill text-4xl sm:text-3xl"></i>
+              <span className="font-medium text-[16px] sm:text-[14px] mt-2">
+                {eventData.tempat}
+              </span>
+              <img
+                src={Chair}
+                alt="Location"
+                className="text-4xl sm:text-3xl ml-auto"
               />
-
-              <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-                <h2 className="text-2xl font-bold mb-4">Deskripsi</h2>
-                <p className="text-gray-700 whitespace-pre-line">{event.deskripsi}</p>
-              </div>
-
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h2 className="text-2xl font-bold mb-4">Pembicara</h2>
-                <div className="flex items-center">
-                  <img 
-                    src={event.foto_pembicara} 
-                    alt={event.pembicara} 
-                    className="w-16 h-16 rounded-full object-cover mr-4"
-                  />
-                  <div>
-                    <h3 className="text-lg font-semibold">{event.pembicara}</h3>
-                    <p className="text-gray-600">{event.role}</p>
-                  </div>
-                </div>
+              <span className="font-medium text-[16px] sm:text-[14px] mt-2 mr-2">
+                {eventData.available_slot} Kursi
+              </span>
+            </div>
+            <div className="border-b-2 border-[#003266] w-full my-4"></div>
+            <div className="lecturer flex gap-2 ml-2 w-auto">
+              <img
+                src={storage + eventData.foto_pembicara}
+                alt="Profile"
+                className="w-16 h-16 text-4xl sm:text-3xl rounded-full"
+              />
+              <div className="lecturername flex flex-col ml-4 gap-2 justify-center">
+                <span className="font-semibold text-[16px] sm:text-[14px]">
+                  {eventData.pembicara}
+                </span>
+                <span className="text-regular text-[14px] sm:text-[12px]">
+                  {eventData.role}
+                </span>
               </div>
             </div>
-
-            <div className="md:w-1/3">
-              <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-                <h2 className="text-xl font-bold mb-4">Informasi Acara</h2>
-                
-                <div className="mb-4">
-                  <h3 className="font-semibold text-gray-700">Tanggal</h3>
-                  <p>{formatDate(event.date)}</p>
-                </div>
-                
-                <div className="mb-4">
-                  <h3 className="font-semibold text-gray-700">Waktu</h3>
-                  <p>{event.time}</p>
-                </div>
-                
-                <div className="mb-4">
-                  <h3 className="font-semibold text-gray-700">Lokasi</h3>
-                  <p>{event.location}</p>
-                </div>
-                
-                <div className="mb-4">
-                  <h3 className="font-semibold text-gray-700">Harga</h3>
-                  <p>{event.price === 0 ? "Gratis" : `Rp ${event.price.toLocaleString('id-ID')}`}</p>
-                </div>
-                
-                <div className="mb-4">
-                  <h3 className="font-semibold text-gray-700">Kuota</h3>
-                  <p>{event.quota} peserta</p>
-                </div>
-                
-                <button
-                  onClick={() => setShowPopup(true)}
-                  className="w-full bg-[#027FFF] text-white py-3 rounded-md font-medium hover:bg-blue-600 transition-colors mt-4"
-                >
-                  Daftar Sekarang
-                </button>
-              </div>
+            <div className="border-b-2 border-[#003266] w-full my-4"></div>
+            <div>
+              <p className="eventdescription font-regular text-wrap text-[16px] sm:text-[14px] block w-full max-w-[486px]">
+                {eventData.deskripsi}
+              </p>
             </div>
           </div>
+          <div className="booking w-full md:w-4/12 h-36 px-6 mx-auto bg-white shadow-lg rounded-2xl flex flex-col mt-4 md:mt-0">
+            <h1 className="text-left my-4 font-semibold text-[20px] sm:text-[18px] pl-2 lg:text-left sm:text-center ">
+              Pesan Sekarang!
+            </h1>
+            <button
+              className="bg-[#027FFF] font-regular w-full h-11 my-4 rounded-lg text-medium text-white text-[16px] sm:text-[14px]"
+              onClick={handleExit}
+            >
+              Pesan
+            </button>
+          </div>
         </div>
-      </main>
-
-      <Footer />
-
-      <PopUpCheckout
-        isOpen={showPopup}
-        onClose={() => setShowPopup(false)}
-        onConfirm={handleRegister}
-        eventDetails={{
-          title: event?.judul,
-          date: formatDate(event?.date),
-          location: event?.location,
-          price: event?.price,
-        }}
-      />
-
-      <PopUpBerhasil
-        isOpen={showSuccess}
-        onClose={() => {
-          setShowSuccess(false);
-          navigate("/my-events");
-        }}
-        message="Pendaftaran berhasil! Silakan cek di halaman My Events."
-      />
-
-      <PopUpGagal
-        isOpen={showError}
-        onClose={() => setShowError(false)}
-        message={errorMessage}
-      />
-    </motion.div>
+      </div>
+      <div className="fixed bottom-0 left-0 -z-10">
+        <img src={Ellipse} alt="Background" className="w-[300px]" />
+      </div>
+    </div>
   );
-}
+};
 
 export default DetailEvent;

@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchUserProfile, updateUserProfile } from "../../services/api.js";
 import Ellipse from "../../assets/image/Ellipse.svg";
 import PopUpDelete from "../../components/PopUpDelete.jsx";
 import PopUpLogout from "../../components/PopUpLogOut.jsx";
 import Navbar from "../../components/Navbar.jsx";
 import "../../styles/ProfilePagePersonalInfo.css";
 import { motion } from "framer-motion";
-import PopUpBerhasil from "../../components/PopUpBerhasil.jsx";
-import PopUpGagal from "../../components/PopUpGagal.jsx";
+import PopUpBerhasil from "../../components/PopUpBerhasil";
+import PopUpGagal from "../../components/PopUpGagal";
+import { fetchUserProfile, updateUserProfile } from "../../services/api.js";
 
 const ProfilePagePersonalInfo = () => {
   const [activePage, setActivePage] = useState("info-personal");
@@ -20,9 +20,10 @@ const ProfilePagePersonalInfo = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [image, setImage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [message, setMessage] = useState(null);
+  const [datas, setDatas] = useState(null);
   const [showBerhasil, setShowBerhasil] = useState(false);
   const [showGagal, setShowGagal] = useState(false);
+  const token = localStorage.getItem("token");
 
   const pageVariants = {
     initial: { opacity: 0.8 },
@@ -33,31 +34,15 @@ const ProfilePagePersonalInfo = () => {
   const isFormValid = user?.fullname && user?.email && user?.nomor_telepon;
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (!token) {
       navigate("/welcome", { replace: true });
       return;
     }
 
-    const loadUserProfile = async () => {
-      try {
-        const userData = await fetchUserProfile(token);
-        setUser(userData);
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    setUser(JSON.parse(localStorage.getItem("user")));
+    setIsLoading(false);
 
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setIsLoading(false);
-    } else {
-      loadUserProfile();
-    }
-  }, [navigate]);
+  }, []);
 
   const handlePageChange = (page) => {
     setActivePage(page);
@@ -74,32 +59,36 @@ const ProfilePagePersonalInfo = () => {
 
   const handleUpdate = async () => {
     setIsProcessing(true);
-    
+    const formData = new FormData();
+    formData.append("name", user.fullname);
+    formData.append("email", user.email);
+    formData.append("phone", user.nomor_telepon);
+    if (selectedImage) {
+      formData.append("photo", image);
+    }
+
     try {
-      const token = localStorage.getItem("token");
-      const userData = {
-        name: user.fullname,
-        email: user.email,
-        phone: user.nomor_telepon,
-        photo: image
-      };
-      
-      await updateUserProfile(userData, token);
-      
-      // Fetch updated user data
-      const updatedUserData = await fetchUserProfile(token);
-      
-      // Update localStorage
-      localStorage.setItem("user", JSON.stringify(updatedUserData));
-      
-      setMessage("Profil berhasil diubah");
-      setShowBerhasil(true);
-      
-      setTimeout(() => {
-        window.location.reload();
-      }, 2800);
+      await updateUserProfile(formData, token);
+
+      try {
+        const data = await fetchUserProfile(token);
+
+        localStorage.removeItem("user");
+        localStorage.setItem("user", JSON.stringify(data));
+        setDatas("Profil berhasil diubah");
+        setShowBerhasil(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2800);
+
+      } catch (error) {
+        setDatas(error.data || "Koneksi bermasalah, silahkan coba lagi");
+        setShowGagal(true);
+      } finally {
+        setIsProcessing(false);
+      }
     } catch (error) {
-      setMessage(error.message || "Koneksi bermasalah, silahkan coba lagi");
+      setDatas(error.data || "Koneksi bermasalah, silahkan coba lagi");
       setShowGagal(true);
     } finally {
       setIsProcessing(false);
@@ -281,11 +270,10 @@ const ProfilePagePersonalInfo = () => {
                       <button
                         type="submit"
                         onClick={handleUpdate}
-                        className={`${
-                          isFormValid
-                            ? "bg-[#027FFF] border-2 border-white font-medium w-full sm:w-1/3 h-11 my-2 rounded-lg text-medium text-white text-[16px] hover:shadow-lg transition duration-30"
-                            : "bg-[#A2A2A2] cursor-not-allowed border-2 border-white font-medium w-full sm:w-1/3 h-11 my-2 rounded-lg text-medium text-white text-[16px] transition duration-30"
-                        }`}
+                        className={`${isFormValid
+                          ? "bg-[#027FFF] border-2 border-white font-medium w-full sm:w-1/3 h-11 my-2 rounded-lg text-medium text-white text-[16px] hover:shadow-lg transition duration-30"
+                          : "bg-[#A2A2A2] cursor-not-allowed border-2 border-white font-medium w-full sm:w-1/3 h-11 my-2 rounded-lg text-medium text-white text-[16px] transition duration-30"
+                          }`}
                         disabled={!isFormValid}
                       >
                         {isProcessing ? (
@@ -326,11 +314,10 @@ const ProfilePagePersonalInfo = () => {
                     <li>
                       <Link
                         to="/account/profile"
-                        className={`font-regular text-lg ${
-                          activePage === "info-personal"
-                            ? "font-semibold underline"
-                            : ""
-                        } hover:underline`}
+                        className={`font-regular text-lg ${activePage === "info-personal"
+                          ? "font-semibold underline"
+                          : ""
+                          } hover:underline`}
                         onClick={() => handlePageChange("info-personal")}
                       >
                         Info Personal
@@ -339,11 +326,10 @@ const ProfilePagePersonalInfo = () => {
                     <li>
                       <Link
                         to="/account/password"
-                        className={`font-regular text-lg ${
-                          activePage === "password"
-                            ? "font-semibold underline"
-                            : ""
-                        } hover:underline`}
+                        className={`font-regular text-lg ${activePage === "password"
+                          ? "font-semibold underline"
+                          : ""
+                          } hover:underline`}
                         onClick={() => handlePageChange("password")}
                       >
                         Password
@@ -351,11 +337,10 @@ const ProfilePagePersonalInfo = () => {
                     </li>
                     <li>
                       <button
-                        className={`font-regular text-lg ${
-                          activePage === "delete-account"
-                            ? "font-semibold underline"
-                            : ""
-                        } hover:underline`}
+                        className={`font-regular text-lg ${activePage === "delete-account"
+                          ? "font-semibold underline"
+                          : ""
+                          } hover:underline`}
                         onClick={() => setShowDeletePopUp(true)}
                       >
                         Hapus Akun
@@ -363,11 +348,10 @@ const ProfilePagePersonalInfo = () => {
                     </li>
                     <li>
                       <button
-                        className={`font-regular text-lg ${
-                          activePage === "logout"
-                            ? "font-semibold underline"
-                            : ""
-                        } hover:underline`}
+                        className={`font-regular text-lg ${activePage === "logout"
+                          ? "font-semibold underline"
+                          : ""
+                          } hover:underline`}
                         onClick={() => setShowLogoutPopUp(true)}
                       >
                         Log Out
@@ -383,20 +367,8 @@ const ProfilePagePersonalInfo = () => {
           </div>
           {showDeletePopUp && <PopUpDelete setShowPopUp={setShowDeletePopUp} />}
           {showLogoutPopUp && <PopUpLogout setShowPopUp={setShowLogoutPopUp} />}
-          {showBerhasil && (
-            <PopUpBerhasil
-              isVisible={setShowBerhasil}
-              message={message}
-              onClose={() => setShowBerhasil(false)}
-            />
-          )}
-          {showGagal && (
-            <PopUpGagal
-              isVisible={setShowGagal}
-              message={message}
-              onClose={() => setShowGagal(false)}
-            />
-          )}
+          {showBerhasil && (<PopUpBerhasil isVisible={setShowBerhasil} message={datas} onClose={() => setShowBerhasil(false)} />)}
+          {showGagal && (<PopUpGagal isVisible={setShowGagal} message={datas} onClose={() => setShowGagal(false)} />)}
         </div>
       </div>
     </motion.div>

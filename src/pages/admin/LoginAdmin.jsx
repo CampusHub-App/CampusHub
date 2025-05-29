@@ -65,7 +65,6 @@ function Loginadmin() {
         const data = await loginAdmin({ email, password, remember });
         setDatas(data.message);
 
-        // Simpan token dan tipe token
         if (data.access_token) {
           localStorage.setItem("token", data.access_token);
           localStorage.setItem("token_type", data.token_type);

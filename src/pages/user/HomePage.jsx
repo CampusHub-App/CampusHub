@@ -86,9 +86,9 @@ function Homepage() {
       <Navbar />
 
       <header className="bg-[#003266] w-full">
-        <main className="flex justify-around text-white items-center md:px-5 py-10">
+        <main className="max-w-7xl mx-auto flex justify-around text-white items-center px-5 py-10">
           <motion.div 
-            className="flex flex-col gap-y-[24px]"
+            className="flex flex-col gap-y-[24px] flex-1 pr-12"
             variants={heroTextVariants}
             initial="hidden"
             animate="visible"

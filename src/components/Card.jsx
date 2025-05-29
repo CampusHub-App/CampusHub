@@ -61,7 +61,7 @@ export const Tanggal = ({ children }) => {
 export const Creator = ({ image, nama, title }) => {
   return (
     <div className="flex gap-x-[16px] items-center mt-auto">
-      <img src={`${import.meta.env.VITE_STORAGE_BASE_URL}/${image}`} alt={`${nama}'s profile`} className="w-[40px] h-[40px] rounded-full" />
+      <img src={`${import.meta.env.VITE_STORAGE_BASE_URL}/${image}`} alt={`${nama}'s profile`} className="w-[40px] h-[40px] rounded-full object-cover" />
       <div>
         <p className="font-medium text-[16px]">{nama}</p>
         <p className="font-normal text-[14px]">{title}</p>

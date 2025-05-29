@@ -92,7 +92,7 @@ const Navbar = () => {
           />
         </Link>
         <ul
-          className={`hidden mr-[12rem] lg:flex space-x-8 items-center ${styles.text} text-[20px] font-medium`}
+          className={`hidden lg:flex space-x-8 items-center ${styles.text} text-[20px] font-medium ${!userData ? 'flex-1 justify-center' : 'mr-[12rem]'}`}
         >
           <Link to="/" className="transition-all duration-3000 hover:scale-105">
             <li>Home</li>
@@ -162,7 +162,7 @@ const Navbar = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M1 1h15M1 7h15M1 13h15"
+                d="M1 1h15M1 7h15M1 13h15" 
               />
             </svg>
           </button>

@@ -22,14 +22,13 @@ const ProfilePagePersonalInfo = () => {
   const [datas, setDatas] = useState(null);
   const [showBerhasil, setShowBerhasil] = useState(false);
   const [showGagal, setShowGagal] = useState(false);  const token = localStorage.getItem("token");
-  const API = import.meta.env.VITE_STORAGE_BASE_URL;
-  const containerVariants = {
+  const API = import.meta.env.VITE_STORAGE_BASE_URL;  const containerVariants = {
     hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.1,
+        staggerChildren: 0.15,
+        delayChildren: 0.0,
       },
     },
   };
@@ -47,20 +46,24 @@ const ProfilePagePersonalInfo = () => {
   };
 
   const titleVariants = {
-    hidden: { opacity: 0, },
+    hidden: { opacity: 0 },
     visible: {
-      opacity: 1,      transition: {
+      opacity: 1,
+      transition: {
         duration: 0.7,
+        delay: 0.2,
         ease: "easeOut",
       },
     },
   };
 
   const descriptionVariants = {
-    hidden: { opacity: 0, },
+    hidden: { opacity: 0 },
     visible: {
-      opacity: 1,      transition: {
+      opacity: 1,
+      transition: {
         duration: 0.6,
+        delay: 0.4,
         ease: "easeOut",
       },
     },
@@ -70,20 +73,28 @@ const ProfilePagePersonalInfo = () => {
     hidden: { opacity: 0, scale: 0.8 },
     visible: {
       opacity: 1,
-      scale: 1,      transition: {
+      scale: 1,
+      transition: {
         duration: 0.8,
+        delay: 0.5,
         ease: "easeOut",
       },
     },
-  };const formContainerVariants = {
+  };
+
+  const formContainerVariants = {
     hidden: { opacity: 0 },
     visible: {
-      opacity: 1,      transition: {
+      opacity: 1,
+      transition: {
         duration: 0.6,
+        delay: 0.6,
         ease: "easeOut",
       },
     },
-  };  const fieldPairVariants = {
+  };
+
+  const nameFieldVariants = {
     hidden: { opacity: 0, x: 30, scale: 0.95 },
     visible: {
       opacity: 1,
@@ -91,6 +102,35 @@ const ProfilePagePersonalInfo = () => {
       scale: 1,
       transition: {
         duration: 0.6,
+        delay: 0.0,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const emailFieldVariants = {
+    hidden: { opacity: 0, x: 30, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        delay: 0.15,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const phoneFieldVariants = {
+    hidden: { opacity: 0, x: 30, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        delay: 0.3,
         ease: "easeOut",
       },
     },
@@ -101,10 +141,13 @@ const ProfilePagePersonalInfo = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {        duration: 0.7,
+      transition: {
+        duration: 0.7,
+        delay: 0.45,
         ease: "easeOut",
       },
-    },  };
+    },
+  };
 
   const isFormValid = user?.fullname && user?.email && user?.nomor_telepon;
   useEffect(() => {
@@ -246,11 +289,12 @@ const ProfilePagePersonalInfo = () => {
                   variants={formContainerVariants}
                   initial="hidden"
                   animate="visible"
-                >                  <div className="flex flex-col gap-6 lg:gap-16 lg:w-11/12 pl-0 lg:pl-12">
-                    {/* Name Field Pair */}
+                >                  <div className="flex flex-col gap-6 lg:gap-16 lg:w-11/12 pl-0 lg:pl-12">                    {/* Name Field Pair */}
                     <motion.div 
                       className="field-pair flex flex-col lg:flex-row lg:items-center gap-4 w-full"
-                      variants={fieldPairVariants}
+                      variants={nameFieldVariants}
+                      initial="hidden"
+                      animate="visible"
                     >
                       <motion.label
                         htmlFor="name"
@@ -287,12 +331,12 @@ const ProfilePagePersonalInfo = () => {
                           />
                         </motion.div>
                       </div>
-                    </motion.div>
-
-                    {/* Email Field Pair */}
+                    </motion.div>                    {/* Email Field Pair */}
                     <motion.div 
                       className="field-pair flex flex-col lg:flex-row lg:items-center gap-4 w-full"
-                      variants={fieldPairVariants}
+                      variants={emailFieldVariants}
+                      initial="hidden"
+                      animate="visible"
                     >
                       <motion.label
                         htmlFor="email"
@@ -306,8 +350,12 @@ const ProfilePagePersonalInfo = () => {
                           className="sm:block lg:hidden font-semibold text-[16px]"
                         >
                           Alamat Email
-                        </label>
-                        <div className="input-box p-3 border-2 border-[#027FFF] rounded-lg hover:shadow-lg transition duration-300 px-4 py-2 w-full focus:ring focus:ring-blue-200 focus:outline-none">
+                        </label>                        <motion.div
+                          className="input-box p-3 border-2 border-[#027FFF] rounded-lg hover:shadow-lg transition duration-300 px-4 py-2 w-full focus:ring focus:ring-blue-200 focus:outline-none"
+                          whileHover={{ scale: 1.02 }}
+                          whileFocus={{ scale: 1.02 }}
+                          transition={{ duration: 0.2 }}
+                        >
                           <input
                             type="email"
                             id="email"
@@ -322,14 +370,14 @@ const ProfilePagePersonalInfo = () => {
                               }))
                             }
                           />
-                        </div>
+                        </motion.div>
                       </div>
-                    </motion.div>
-
-                    {/* Phone Field Pair */}
+                    </motion.div>                    {/* Phone Field Pair */}
                     <motion.div 
                       className="field-pair flex flex-col lg:flex-row lg:items-center gap-4 w-full"
-                      variants={fieldPairVariants}
+                      variants={phoneFieldVariants}
+                      initial="hidden"
+                      animate="visible"
                     >
                       <motion.label
                         htmlFor="phone"
@@ -343,8 +391,12 @@ const ProfilePagePersonalInfo = () => {
                           className="sm:block lg:hidden font-semibold text-[16px]"
                         >
                           Nomor Telepon
-                        </label>
-                        <div className="input-box p-3 border-2 border-[#027FFF] rounded-lg hover:shadow-lg transition duration-300 px-4 py-2 w-full focus:ring focus:ring-blue-200 focus:outline-none">
+                        </label>                        <motion.div
+                          className="input-box p-3 border-2 border-[#027FFF] rounded-lg hover:shadow-lg transition duration-300 px-4 py-2 w-full focus:ring focus:ring-blue-200 focus:outline-none"
+                          whileHover={{ scale: 1.02 }}
+                          whileFocus={{ scale: 1.02 }}
+                          transition={{ duration: 0.2 }}
+                        >
                           <span>
                             <input
                               type="text"
@@ -361,7 +413,7 @@ const ProfilePagePersonalInfo = () => {
                               }
                             />
                           </span>
-                        </div>
+                        </motion.div>
                       </div>
                     </motion.div>
                   </div><motion.div

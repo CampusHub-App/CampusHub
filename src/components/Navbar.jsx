@@ -23,10 +23,10 @@ const Navbar = () => {
 
   const isDarkTheme = () => {
     const currentPath = location.pathname;
-    return darkThemePaths.includes(currentPath) || 
-           currentPath.includes(`/my-events/${id}/`) ||
-           currentPath.includes(`/events/${id}/`) ||
-           currentPath.includes(`/my-participants/${id}/`);
+    return darkThemePaths.includes(currentPath) ||
+      currentPath.includes(`/my-events/${id}/`) ||
+      currentPath.includes(`/events/${id}/`) ||
+      currentPath.includes(`/my-participants/${id}/`);
   };
 
   const getStyles = () => {
@@ -89,7 +89,7 @@ const Navbar = () => {
             className="hover:scale-105 hover:filter hover:drop-shadow-lg transition duration-300 sm:max-w-[150px] md:max-w-[229px] tengah:max-w-[180px]"
           />
         </Link>
-        
+
         <div className="flex-1 flex justify-center">
           <ul
             className={`hidden lg:flex space-x-8 items-center ${styles.text} text-[20px] font-medium`}
@@ -119,8 +119,8 @@ const Navbar = () => {
             <Link to="/account/profile" className="block">
               <img
                 src={
-                  userData.photo && userData.photo !== 'null' 
-                    ? `${API}/${userData.photo}` 
+                  userData.photo && userData.photo !== 'null'
+                    ? `${API}/${userData.photo}`
                     : `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(userData.fullname)}&size=48&background=6b7280&color=ffffff`
                 }
                 alt="profile"
@@ -160,7 +160,7 @@ const Navbar = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M1 1h15M1 7h15M1 13h15" 
+                d="M1 1h15M1 7h15M1 13h15"
               />
             </svg>
           </button>

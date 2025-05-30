@@ -106,7 +106,7 @@ function Signinpeserta() {
         navigate(`/user/login?redirect=${redirectPath}`);
       }, 1000);
     } catch (error) {
-      setData(error.message || "Koneksi Timeout, Silahkan Coba Lagi");
+      setData(error.data || "Koneksi Timeout, Silahkan Coba Lagi");
       setShowGagal(true);
     } finally {
       setLoading(false);

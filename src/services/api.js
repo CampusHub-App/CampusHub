@@ -294,7 +294,7 @@ export const createEvent = async (eventData, token) => {
 
 export const updateEvent = async (eventId, eventData, token) => {
   const response = await fetch(`${API_BASE_URL}/events/${eventId}/edit`, {
-    method: 'POST',
+    method: 'PATCH',
     headers: {
       'Authorization': `Bearer ${token}`
     },

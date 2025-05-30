@@ -122,9 +122,9 @@ const DescriptionPageRegistered = () => {
             <div className="border-b-2 border-[#003266] w-full lg:w-[486px] my-4"></div>
             
             {/* Event Details Grid */}
-            <div className="event-details grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">
+            <div className="event-details grid grid-cols-1 lg:grid-cols-2 gap-8 my-6">
               {/* Date and Time Row */}
-              <div className="detail-item flex items-center gap-3">
+              <div className="detail-item flex items-start gap-3">
                 <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
                   <img src={Date} alt="Calendar" className="w-5 h-5 object-contain" />
                 </div>
@@ -136,7 +136,7 @@ const DescriptionPageRegistered = () => {
                 </div>
               </div>
 
-              <div className="detail-item flex items-center gap-3">
+              <div className="detail-item flex items-start gap-3">
                 <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
                   <img src={clock} alt="Clock" className="w-5 h-5 object-contain" />
                 </div>
@@ -149,7 +149,7 @@ const DescriptionPageRegistered = () => {
               </div>
 
               {/* Location and Capacity Row */}
-              <div className="detail-item flex items-center gap-3">
+              <div className="detail-item flex items-start gap-3">
                 <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
                   <img src={location} alt="Location" className="w-5 h-5 object-contain" />
                 </div>
@@ -161,7 +161,7 @@ const DescriptionPageRegistered = () => {
                 </div>
               </div>
 
-              <div className="detail-item flex items-center gap-3">
+              <div className="detail-item flex items-start gap-3">
                 <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
                   <img src={Chair} alt="Capacity" className="w-5 h-5 object-contain" />
                 </div>

@@ -112,7 +112,8 @@ const Navbar = () => {
               </button>
             </li>
           </ul>
-        </div>        <div className="flex justify-end gap-x-3 items-center flex-shrink-0 w-80">
+        </div>        
+        <div className="flex justify-end gap-x-3 items-center flex-shrink-0 w-56">
           {isLoading ? (
             <div className="w-12 h-12 rounded-full bg-gray-300"></div>
           ) : userData ? (

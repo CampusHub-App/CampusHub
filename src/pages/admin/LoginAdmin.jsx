@@ -94,7 +94,7 @@ function Loginadmin() {
           }, 1000);
         }
       } catch (error) {
-        setDatas(error.message || "Koneksi Timeout, Silahkan Coba Lagi");
+        setDatas(error.data || "Koneksi Timeout, Silahkan Coba Lagi");
         setShowGagal(true);
         setIsLoading(false);
       }

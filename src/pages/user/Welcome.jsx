@@ -24,9 +24,6 @@ function Welcome() {
   const redirectPath = params.get("redirect") || "/"; return (
     <motion.div
       className="flex delay-100 transition-transform"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
     >
       <div className="h-screen w-full flex md:flex-col sm:flex-col lg:flex-row relative">
         <div className="h-screen w-full flex flex-col justify-center mx-auto gap-y-[20px] pb-[70px] relative">          <motion.div

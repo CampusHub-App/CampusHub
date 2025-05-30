@@ -6,21 +6,10 @@ import circle5 from "../../assets/image/circle5.svg";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
-const pageVariants = {
-  initial: { opacity: 0.4 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0.4 },
-};
-
 function Adminpage() {
   return (
     <motion.div
       className="font-sans flex flex-col box-border mx-auto w-full relative"
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageVariants}
-      transition={{ duration: 1.6, ease: "easeInOut" }}
     >
       <Navbar />
 

@@ -6,9 +6,10 @@ import "../../styles/PreviewEvent.css";
 import Calendar from "../../assets/image/date.svg";
 import Chair from "../../assets/image/chair.svg";
 import Clock from "../../assets/image/clock.svg";
-import location from "../../assets/image/location.svg";
+import Location from "../../assets/image/location.svg";
 import PopUpGagal from "../../components/PopUpGagal";
 import Navbar from "../../components/Navbar";
+import { useLocation } from "react-router-dom";
 
 const PreviewEvent = () => {
   const { id } = useParams();
@@ -19,6 +20,8 @@ const PreviewEvent = () => {
   const [isExiting, setIsExiting] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [registered, setRegistered] = useState(false);
+  const [message, setMessage] = useState("");
+  const location = useLocation();
   const navigate = useNavigate();
   const API = import.meta.env.VITE_STORAGE_BASE_URL;
 
@@ -61,6 +64,7 @@ const PreviewEvent = () => {
         navigate(`/my-events/${eventData.id}/kode-unik`);
       }, 2000);
     } catch (err) {
+      setMessage(err.data || "Koneksi Timeout, Silahkan Coba Lagi");
       setGagalPopup(true);
     }
   };
@@ -174,7 +178,7 @@ const PreviewEvent = () => {
 
                   <div className="detail-item flex items-center gap-3">
                     <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
-                      <img src={location} alt="Location" className="w-5 h-5 object-contain" />
+                      <img src={Location} alt="Location" className="w-5 h-5 object-contain" />
                     </div>
                     <div className="detail-content">
                       <p className="text-sm text-gray-500 font-medium">Lokasi</p>
@@ -263,16 +267,16 @@ const PreviewEvent = () => {
       </div>
       {showPopup && (
         <PopUpCheckout
-          isOpen={showPopup}
+          isVisible={showPopup}
           onClose={() => setShowPopup(false)}
           onConfirm={() => {}}
         />
       )}
       {gagalPopup && (
         <PopUpGagal
-          isOpen={gagalPopup}
+          isVisible={gagalPopup}
           onClose={onCLose}
-          message="Gagal melakukan booking. Silakan coba lagi."
+          message={message}
         />
       )}
     </div>

@@ -20,9 +20,10 @@ const ProfilePagePassword = () => {
     useState(false);
   const [showDeletePopUp, setShowDeletePopUp] = useState(false);
   const [showLogoutPopUp, setShowLogoutPopUp] = useState(false);
-  const [showUpdatePopUp, setShowUpdatePopUp] = useState(false);  const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);  const navigate = useNavigate();
-  const API = import.meta.env.VITE_STORAGE_BASE_URL;  // Animation variants similar to ProfilePage
+  const [showUpdatePopUp, setShowUpdatePopUp] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
+
   const containerVariants = {
     hidden: { opacity: 1 },
     visible: {

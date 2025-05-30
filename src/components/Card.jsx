@@ -1,6 +1,6 @@
 import date from "../assets/image/date.svg";
 
-const API = import.meta.env.VITE_STORAGE_BASE_URL;
+const storage = import.meta.env.VITE_STORAGE_BASE_URL;
 
 export const Card = ({ children, onClick }) => {
   return (
@@ -49,7 +49,7 @@ export const Image = ({ image }) => {
   return (
     <div className="relative overflow-hidden rounded-[16px] group">
       <img
-        src={`${API}/${image}`}
+        src={`${storage}/${image}`}
         alt="Event image"
         className="w-[372px] h-[232px] object-cover transition-transform duration-300 group-hover:scale-105"
       />
@@ -72,7 +72,7 @@ export const Creator = ({ image, nama, title }) => {
     <div className="flex gap-x-[16px] items-center pt-4 border-t border-gray-100 mt-auto">
       <div className="relative">
         <img 
-          src={`${API}/${image}`} 
+          src={`${storage}/${image}`} 
           alt={`${nama}'s profile`} 
           className="w-[44px] h-[44px] rounded-full object-cover ring-2 ring-gray-100" 
         />

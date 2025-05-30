@@ -44,7 +44,7 @@ const MyEvents = () => {
    
     const loadEvents = async () => {
       try {
-        const data = await fetchUserRegistrations(token);
+        const data = await fetchMyEvents(token);
         setEvents(data);
       } catch (err) {
         setError(err.data);

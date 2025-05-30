@@ -3,7 +3,7 @@ import logo from "../assets/image/logo.svg";
 import logo2 from "../assets/image/logo2.svg";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
-const API = import.meta.env.VITE_STORAGE_BASE_URL;
+const storage = import.meta.env.VITE_STORAGE_BASE_URL;
 
 const Navbar = () => {
   const [userData, setUserData] = useState(null);
@@ -120,7 +120,7 @@ const Navbar = () => {
               <img
                 src={
                   userData.photo && userData.photo !== 'null'
-                    ? `${API}/${userData.photo}`
+                    ? `${storage}/${userData.photo}`
                     : `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(userData.fullname)}&size=48&background=6b7280&color=ffffff`
                 }
                 alt="profile"

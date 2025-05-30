@@ -23,7 +23,7 @@ const PreviewEvent = () => {
   const [message, setMessage] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  const API = import.meta.env.VITE_STORAGE_BASE_URL;
+  const storage = import.meta.env.VITE_STORAGE_BASE_URL;
 
   const onCLose = () => {
     setGagalPopup(false);
@@ -138,7 +138,7 @@ const PreviewEvent = () => {
               <div className="PosterEvent w-full lg:w-1/2 h-11/12 mr-4">
                 <img
                   className="w-full h-full object-cover rounded-2xl shadow-lg"
-                  src={`${API}/${eventData.foto_event}`}
+                  src={`${storage}/${eventData.foto_event}`}
                   alt="Poster Event"
                 />
               </div>
@@ -204,7 +204,7 @@ const PreviewEvent = () => {
                 <div className="lecturer-container flex items-center py-4">
                   <div className="lecturer flex gap-2 items-center ml-2">
                     <img
-                      src={`${API}/${eventData.foto_pembicara}`}
+                      src={`${storage}/${eventData.foto_pembicara}`}
                       alt="Profile"
                       className="w-16 h-16 text-4xl sm:text-3xl rounded-full object-cover"
                     />

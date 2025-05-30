@@ -139,6 +139,24 @@ export const updatePassword = async (newPassword, confirmation, token) => {
   return data;
 };
 
+export const fetchMyEvents = async (token) => {
+
+  const response = await fetch(`${API_BASE_URL}/my-events/all`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    const error = new Error();
+    error.data = data.message;
+    error.status = response.status;
+    throw error;
+  }
+
+  return data;
+};
+
 export const fetchEventStatus = async (eventId, token) => {
   const response = await fetch(`${API_BASE_URL}/my-events/${eventId}/status`, {
     headers: {
@@ -254,26 +272,6 @@ export const updateEvent = async (eventId, eventData, token) => {
   return data;
 };
 
-export const fetchMyEvents = async () => {
-
-
-  const response = await fetch(`${API_BASE_URL}/my-events/all`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  });
-
-  const data = await response.json();
-  if (!response.ok) {
-    const error = new Error();
-    error.data = data.message;
-    error.status = response.status;
-    throw error;
-  }
-
-  return data;
-};
-
 export const fetchEventParticipants = async (eventId) => {
 
   const response = await fetch(`${API_BASE_URL}/events/${eventId}/participants/all`, {
@@ -337,6 +335,6 @@ export const logout = async (token) => {
     error.data = data.message;
     throw error;
   }
-  
+
   return data;
 }

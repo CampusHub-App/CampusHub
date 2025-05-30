@@ -15,14 +15,16 @@ const ProfilePagePersonalInfo = () => {
   const [user, setUser] = useState(null);
   const [showDeletePopUp, setShowDeletePopUp] = useState(false);  const [showLogoutPopUp, setShowLogoutPopUp] = useState(false);
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [image, setImage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [datas, setDatas] = useState(null);
   const [showBerhasil, setShowBerhasil] = useState(false);
-  const [showGagal, setShowGagal] = useState(false);  const token = localStorage.getItem("token");
-  const API = import.meta.env.VITE_STORAGE_BASE_URL;  const containerVariants = {
+  const [showGagal, setShowGagal] = useState(false); 
+  const token = localStorage.getItem("token");
+  const storage = import.meta.env.VITE_STORAGE_BASE_URL;
+
+  const containerVariants = {
     hidden: { opacity: 1 },
     visible: {
       opacity: 1,
@@ -258,7 +260,7 @@ const ProfilePagePersonalInfo = () => {
                 ><img
                     src={
                       selectedImage ||
-                      (user?.photo ? `${API}/${user.photo}` : null) ||
+                      (user?.photo ? `${storage}/${user.photo}` : null) ||
                       `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(
                         user?.fullname || "User"
                       )}&size=250`

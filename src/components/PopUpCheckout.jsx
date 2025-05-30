@@ -88,9 +88,6 @@ const PopUpGagal = ({ isVisible, onClose, message }) => {
           <span className="font-medium text-[24px] text-center justify-center py-2 text-green-500">
             Pemesanan Berhasil!
           </span>
-          <p className="font-regular text-[20px] text-center py-2 px-4">
-            Tunjukan kode unik ini kepada panitia atau narahubung terkait
-          </p>
         </div>
       </div>
     </div>

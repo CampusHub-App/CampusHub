@@ -69,12 +69,11 @@ const DescriptionPageCancel = () => {
       </div>
     );
   }
-
   return (
-    <div className="detail-event h-screen">
+    <div className="detail-event min-h-screen">
       <Navbar />
-      <div className={`container ${pageAnimation} pt-10 mx-4 lg:mx-20`}>
-        <div className="breadcrumb pt-auto flex ml-2 pb-10">
+      <div className={`${pageAnimation} pt-10 px-8 lg:px-16 w-full`}>
+        <div className="breadcrumb pt-auto flex pb-10 px-4">
           <ol className="list-none flex text-black text-medium">
             <li>
               <Link to="/my-events" className="hover:underline">
@@ -89,27 +88,26 @@ const DescriptionPageCancel = () => {
             </li>
           </ol>
         </div>
-        <div className="content-box flex flex-col md:flex-row">
-          <div className="PosterEvent w-full md:w-5/12 h-1/2">
+        <div className="content-box flex flex-col lg:flex-row gap-8 px-4 w-full">
+          <div className="PosterEvent w-full lg:w-3/12">
             <img
-              className="w-full h-full object-cover rounded-2xl shadow-lg"
+              className="w-full h-64 lg:h-96 object-cover rounded-2xl shadow-lg"
               src={`${import.meta.env.VITE_STORAGE_BASE_URL}/${eventData.foto_event}` || Poster}
               alt="Poster Event"
             />
           </div>
-          <div className="description text-left mx-8 mt-4 md:mt-0 md:ml-8 w-1/2">
+          <div className="description text-left flex-1 max-w-full px-6">
             <span className="bg-[#027FFF] font-regular px-8 py-1 rounded-full text-white text-[14px] sm:text-[12px]">
               {eventData.category_name}
             </span>
             <h1 className="font-bold text-[32px] py-4 sm:text-[24px]">
               {eventData.judul}
-            </h1>
-            <div className="border-b-2 border-[#003266] w-full my-4"></div>
+            </h1>            <div className="border-b-2 border-[#003266] w-full my-4"></div>
             
             {/* Event Details Grid */}
-            <div className="event-details grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">
+            <div className="event-details grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
               {/* Date and Time Row */}
-              <div className="detail-item flex items-center gap-3">
+              <div className="detail-item flex items-start gap-3">
                 <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
                   <img src={Date} alt="Calendar" className="w-5 h-5 object-contain" />
                 </div>
@@ -119,9 +117,7 @@ const DescriptionPageCancel = () => {
                     {eventData.date}
                   </p>
                 </div>
-              </div>
-
-              <div className="detail-item flex items-center gap-3">
+              </div>              <div className="detail-item flex items-start gap-3">
                 <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
                   <img src={clock} alt="Clock" className="w-5 h-5 object-contain" />
                 </div>
@@ -134,7 +130,7 @@ const DescriptionPageCancel = () => {
               </div>
 
               {/* Location and Capacity Row */}
-              <div className="detail-item flex items-center gap-3">
+              <div className="detail-item flex items-start gap-3">
                 <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
                   <img src={location} alt="Location" className="w-5 h-5 object-contain" />
                 </div>
@@ -144,9 +140,7 @@ const DescriptionPageCancel = () => {
                     {eventData.tempat}
                   </p>
                 </div>
-              </div>
-
-              <div className="detail-item flex items-center gap-3">
+              </div>              <div className="detail-item flex items-start gap-3">
                 <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
                   <img src={Chair} alt="Capacity" className="w-5 h-5 object-contain" />
                 </div>
@@ -160,7 +154,7 @@ const DescriptionPageCancel = () => {
             </div>
             
             <div className="border-b-2 border-[#003266] w-full my-4"></div>
-            <div className="lecturer flex gap-2 ml-2 w-auto">
+            <div className="lecturer flex gap-2 w-auto">
               <img
                 src={`${import.meta.env.VITE_STORAGE_BASE_URL}/${eventData.foto_pembicara}` || Lecturer}
                 alt="Profile"
@@ -174,16 +168,15 @@ const DescriptionPageCancel = () => {
                   {eventData.role}
                 </span>
               </div>
-            </div>
-            <div className="border-b-2 border-[#003266] w-full my-4"></div>
+            </div>            <div className="border-b-2 border-[#003266] w-full my-4"></div>
             <div>
-              <p className="eventdescription font-regular text-wrap text-[16px] sm:text-[14px] block w-full max-w-[486px]">
+              <p className="eventdescription font-regular text-wrap text-[16px] sm:text-[14px] block w-full">
                 {eventData.deskripsi}
               </p>
             </div>
           </div>
 
-          <div className="booking w-full md:w-4/12 h-fit px-6 py-6 mt-4 md:mt-0 lg:mx-8 bg-white shadow-lg rounded-2xl flex flex-col">
+          <div className="booking w-full lg:w-3/12 h-fit px-6 py-6 bg-white shadow-lg rounded-2xl flex flex-col">
             {/* Cancel Status Section */}
             <div className="cancel-status-section mb-4">
               <div className="status-display bg-gradient-to-r from-red-500 to-red-600 p-4 rounded-xl shadow-md">

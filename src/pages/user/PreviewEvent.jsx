@@ -5,6 +5,8 @@ import PopUpCheckout from "../../components/PopUpCheckout";
 import "../../styles/PreviewEvent.css";
 import Calendar from "../../assets/image/date.svg";
 import Chair from "../../assets/image/chair.svg";
+import Clock from "../../assets/image/clock.svg";
+import location from "../../assets/image/location.svg";
 import PopUpGagal from "../../components/PopUpGagal";
 import Navbar from "../../components/Navbar";
 
@@ -18,12 +20,12 @@ const PreviewEvent = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [registered, setRegistered] = useState(false);
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_STORAGE_BASE_URL;
 
   const onCLose = () => {
     setGagalPopup(false);
   }
   
-  // Fetch event data using the API service
   useEffect(() => {
     const loadEventData = async () => {
       try {
@@ -127,12 +129,12 @@ const PreviewEvent = () => {
           </ol>
         </div>
         <div className="content-box flex flex-col lg:flex-row gap-8">
-          <div className="event-description border-2 border-dashed border-black p-4 custom-dashed rounded-2xl lg:w-[1000px] w-full">
+          <div className="event-description border-2 border-dashed border-black pl-4 py-8 custom-dashed rounded-2xl lg:w-[1000px] w-full">
             <div className="event-detail flex flex-col lg:flex-row px-4">
-              <div className="PosterEvent w-full lg:w-1/2 h-11/12">
+              <div className="PosterEvent w-full lg:w-1/2 h-11/12 mr-4">
                 <img
                   className="w-full h-full object-cover rounded-2xl shadow-lg"
-                  src={eventData.foto_event}
+                  src={`${API}/${eventData.foto_event}`}
                   alt="Poster Event"
                 />
               </div>
@@ -144,45 +146,72 @@ const PreviewEvent = () => {
                   {eventData.judul}
                 </h1>
                 <div className="border-b-2 border-[#003266] w-full my-4"></div>
-                <div className="flex gap-2 ml-2">
-                  <img src={Calendar} alt="Calendar" className="text-4xl" />
-                  <div className="flex w-full">
-                    <span className="font-medium text-[16px] mt-2">
-                      {eventData.date}
-                    </span>
-                    <span className="font-medium text-[16px] mt-2 ml-auto">
-                      {eventData.start_time} - {eventData.end_time}
-                    </span>
+                
+                <div className="event-details grid grid-cols-1 sm:grid-cols-2 gap-6 ml-2">
+                  <div className="detail-item flex items-center gap-3">
+                    <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
+                      <img src={Calendar} alt="Date" className="w-5 h-5 object-contain" />
+                    </div>
+                    <div className="detail-content">
+                      <p className="text-sm text-gray-500 font-medium">Tanggal</p>
+                      <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
+                        {eventData.date}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="detail-item flex items-center gap-3">
+                    <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
+                      <img src={Clock} alt="Time" className="w-5 h-5 object-contain" />
+                    </div>
+                    <div className="detail-content">
+                      <p className="text-sm text-gray-500 font-medium">Waktu</p>
+                      <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
+                        {eventData.start_time} - {eventData.end_time}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="detail-item flex items-center gap-3">
+                    <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
+                      <img src={location} alt="Location" className="w-5 h-5 object-contain" />
+                    </div>
+                    <div className="detail-content">
+                      <p className="text-sm text-gray-500 font-medium">Lokasi</p>
+                      <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
+                        {eventData.tempat}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="detail-item flex items-center gap-3">
+                    <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
+                      <img src={Chair} alt="Capacity" className="w-5 h-5 object-contain" />
+                    </div>
+                    <div className="detail-content">
+                      <p className="text-sm text-gray-500 font-medium">Kapasitas</p>
+                      <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
+                        {eventData.available_slot} Kursi Tersedia
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <div className="flex gap-2 ml-1 my-4">
-                  <i className="ri-map-pin-2-fill text-4xl"></i>
-                  <span className="font-medium text-[16px] mt-2">
-                    {eventData.tempat}
-                  </span>
-                  <img
-                    src={Chair}
-                    alt="Location"
-                    className="text-4xl ml-auto"
-                  />
-                  <span className="font-medium text-[16px] mt-2">
-                    {eventData.available_slot} Kursi
-                  </span>
-                </div>
                 <div className="border-b-2 border-[#003266] w-full my-4"></div>
-                <div className="lecturer flex gap-2 ml-2 items-center">
-                  <img
-                    src={eventData.foto_pembicara}
-                    alt="Profile"
-                    className="w-16 h-16 text-4xl sm:text-3xl rounded-full"
-                  />
-                  <div className="lecturername flex flex-col ml-4 gap-4">
-                    <span className="font-semibold text-[20px]">
-                      {eventData.pembicara}
-                    </span>
-                    <span className="text-regular text-[16px]">
-                      {eventData.role}
-                    </span>
+                <div className="lecturer-container flex items-center py-4">
+                  <div className="lecturer flex gap-2 items-center ml-2">
+                    <img
+                      src={`${API}/${eventData.foto_pembicara}`}
+                      alt="Profile"
+                      className="w-16 h-16 text-4xl sm:text-3xl rounded-full object-cover"
+                    />
+                    <div className="lecturername flex flex-col ml-4">
+                      <span className="font-semibold text-base">
+                        {eventData.pembicara}
+                      </span>
+                      <span className="text-regular text-sm text-gray-600">
+                        {eventData.role}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -194,7 +223,7 @@ const PreviewEvent = () => {
               </p>
             </div>
           </div>
-          <div className="booking w-full h-full px-6 py-6 mx-auto lg:mx-8 bg-white shadow-lg rounded-2xl flex flex-col lg:relative">
+          <div className="booking w-full h-full px-6 py-6 mx-auto lg:mx-2 bg-white shadow-lg rounded-2xl flex flex-col lg:relative">
             <div className="sub-total flex gap-4">
               <span className="text-left my-2 font-medium text-[14px] pl-2 me-auto">
                 Sub Total
@@ -232,16 +261,20 @@ const PreviewEvent = () => {
           </div>
         </div>
       </div>
-      <PopUpCheckout
-        isOpen={showPopup}
-        onClose={() => setShowPopup(false)}
-        onConfirm={() => {}}
-      />
-      <PopUpGagal
-        isOpen={gagalPopup}
-        onClose={onCLose}
-        message="Gagal melakukan booking. Silakan coba lagi."
-      />
+      {showPopup && (
+        <PopUpCheckout
+          isOpen={showPopup}
+          onClose={() => setShowPopup(false)}
+          onConfirm={() => {}}
+        />
+      )}
+      {gagalPopup && (
+        <PopUpGagal
+          isOpen={gagalPopup}
+          onClose={onCLose}
+          message="Gagal melakukan booking. Silakan coba lagi."
+        />
+      )}
     </div>
   );
 };

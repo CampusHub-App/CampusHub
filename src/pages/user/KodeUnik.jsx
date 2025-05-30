@@ -73,8 +73,8 @@ const KodeUnik = () => {
             Tunjukkan kode ini kepada panitia saat acara sebagai bukti pemesanan tiket Anda. Simpan kode dengan baik dan pastikan Anda siap menunjukkannya saat diminta.
           </p>
           
-          <div className="unique-code bg-[#027FFF] w-full sm:w-11/12 lg:w-8/12 h-full flex flex-col mb-4 items-center px-2 sm:px-12 py-4 sm:py-6 rounded-xl mx-auto">
-            <div className="unique-code-output flex gap-4 sm:gap-6 px-4">
+          <div className="unique-code bg-[#027FFF] w-full sm:w-11/12 lg:w-8/12 flex flex-col mb-4 items-center px-4 sm:px-8 py-6 sm:py-8 rounded-xl mx-auto">
+            <div className="unique-code-output flex gap-2 sm:gap-4 justify-center w-full">
               {code.map((char, index) => (
                 <input
                   key={index}
@@ -82,7 +82,7 @@ const KodeUnik = () => {
                   maxLength={1}
                   value={char}
                   readOnly
-                  className="w-14 sm:w-16 lg:w-20 h-16 sm:h-20 lg:h-24 text-center text-[24px] sm:text-[32px] lg:text-2xl font-bold border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-12 sm:w-14 lg:w-16 h-14 sm:h-16 lg:h-18 text-center text-[20px] sm:text-[24px] lg:text-[28px] font-bold border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 flex-shrink-0"
                 />
               ))}
             </div>

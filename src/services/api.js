@@ -378,3 +378,22 @@ export const logout = async (token) => {
 
   return data;
 }
+
+export const deleteEvent = async (eventId, token) => {
+  const response = await fetch(`${API_BASE_URL}/events/${eventId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    const error = new Error();
+    error.data = data.message;
+    throw error;
+  }
+  
+  return data;
+}

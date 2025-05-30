@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import { deleteEvent } from "../services/api";
 
 const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) => {
   const bookingRef = useRef(null);
@@ -40,47 +41,26 @@ const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) =>
     const currentId = localId;
     setIsProcessing(true);
     try {
-      const response = await fetch(
-        `https://campushub.web.id/api/events/${currentId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      const data = await response.json();
+      const data = await deleteEvent(currentId, localStorage.getItem("token"));
       setMessage(data.message);
 
-      if (response.ok) {
-        setStatus("success");
-        setTimeout(() => {
-          setIsExiting(true)
-        }, 1600);
-        setTimeout(() => {
-          setShowPopUp(false);
-        }, 2000);
-        setTimeout(() => {
-          window.location.reload();
-        }, 2100);
-        setTimeout(() => {
-          onSuccess();
-        }, 2200);
-      } else {
-        setStatus("error");
-        setTimeout(() => {
-          setIsExiting(true)
-        }, 1600);
-        setTimeout(() => {
-          setShowPopUp(false);
-        }, 2000);
-        setTimeout(() => {
-          onFailure();
-        }, 2200);
-      }
+      setStatus("success");
+      setTimeout(() => {
+        setIsExiting(true)
+      }, 1600);
+      setTimeout(() => {
+        setShowPopUp(false);
+      }, 2000);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2100);
+      setTimeout(() => {
+        onSuccess();
+      }, 2200);
+
     } catch (error) {
       setStatus("error");
+      setMessage(error.data || "Koneksi Timeout, Silahkan Coba Lagi");
       setTimeout(() => {
         setIsExiting(true)
       }, 1600);
@@ -97,33 +77,30 @@ const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) =>
 
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center transition-all ${
-        isExiting
+      className={`fixed inset-0 flex items-center justify-center transition-all ${isExiting
           ? "opacity-0 duration-700"
           : isVisible
-          ? "opacity-100 duration-700"
-          : "opacity-0"
-      }`}
-    >
-      <div
-        className={`absolute inset-0 bg-black transition-all ${
-          isExiting
-            ? "opacity-0 duration-700"
-            : isVisible
-            ? "opacity-30 duration-700"
+            ? "opacity-100 duration-700"
             : "opacity-0"
         }`}
+    >
+      <div
+        className={`absolute inset-0 bg-black transition-all ${isExiting
+            ? "opacity-0 duration-700"
+            : isVisible
+              ? "opacity-30 duration-700"
+              : "opacity-0"
+          }`}
       ></div>
 
       <div
         ref={bookingRef}
-        className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${
-          isExiting
+        className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${isExiting
             ? "opacity-0 scale-90 duration-700"
             : isVisible
-            ? "opacity-100 scale-100 duration-700"
-            : "opacity-0 scale-50 duration-700"
-        }`}
+              ? "opacity-100 scale-100 duration-700"
+              : "opacity-0 scale-50 duration-700"
+          }`}
       >
         {status === null && (
           <>
@@ -146,11 +123,10 @@ const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) =>
               <button
                 onClick={() => handleUpdate(id)}
                 disabled={isProcessing}
-                className={`bg-transparent border-2 ${
-                  isProcessing
+                className={`bg-transparent border-2 ${isProcessing
                     ? "border-gray-400 text-gray-400"
                     : "border-[#027FFF] text-black"
-                } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500`}
+                  } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500`}
               >
                 {isProcessing ? (
                   <div className="flex items-center justify-center">
@@ -204,7 +180,7 @@ const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) =>
               </svg>
             </div>
             <span className="mt-4 font-medium text-[20px] text-center text-green-500">
-              Event Berhasil Dihapus!
+              {message}
             </span>
           </div>
         )}
@@ -227,9 +203,8 @@ const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) =>
               </svg>
             </div>
             <span className="mt-4 font-medium text-[20px] text-center text-red-500">
-              Gagal Menghapus Event!
+              {message}
             </span>
-            <p className="text-center text-[16px] text-red-500">{message}</p>
           </div>
         )}
       </div>

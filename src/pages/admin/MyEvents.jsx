@@ -72,13 +72,16 @@ const MyEvents = () => {
       try {
         const data = await fetchMyEvents(token);
         setEvents(data);
-        setIsLoading(false);
-      } catch (error) {
-        setError(error.data) || "Koneksi Timeout, Silahkan Coba Lagi";
+      } catch (err) {
+        setError(err.data || "Koneksi Timeout. Silahkan Coba Lagi");
+        if (err.status === 403) {
+          navigate("/my-events");
+        }
       } finally {
         setIsLoading(false);
       }
     };
+
 
     fetchEventsData();
     window.scrollTo(0, 0);

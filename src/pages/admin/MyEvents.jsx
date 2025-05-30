@@ -19,11 +19,7 @@ const MyEvents = () => {
   const [categoryFilter, setCategoryFilter] = useState("All");
   const location = useLocation();
   const [showConfirm, setshowConfirm] = useState(false);
-  const pageVariants = {
-    initial: { opacity: 0.6 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0.6 },
-  };
+  const storage = import.meta.env.VITE_STORAGE_BASE_URL;
 
   const handleDelete = (e, id) => {
     e.stopPropagation();
@@ -138,11 +134,6 @@ const MyEvents = () => {
   return (
     <motion.div
       className="font-sans flex flex-col box-border w-full"
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageVariants}
-      transition={{ duration: 1.6 }}
     >
       <div className="myevents">
         <Navbar />
@@ -271,7 +262,7 @@ const MyEvents = () => {
                     >
                       <div className="event-data flex items-center">
                         <img
-                          src={event.foto_event}
+                          src={`${storage}/${event.foto_event}`}
                           alt={event.judul}
                           className="w-20 h-20 object-cover rounded-full my-2"
                         />

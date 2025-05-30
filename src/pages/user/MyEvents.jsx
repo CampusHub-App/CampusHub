@@ -16,6 +16,9 @@ const MyEvents = () => {
   const dropdownRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
+
+  const storage = import.meta.env.VITE_STORAGE_BASE_URL;
+
   const pageVariants = {
     initial: { opacity: 0.6 },
     animate: { opacity: 1 },
@@ -243,7 +246,7 @@ const MyEvents = () => {
                     >
                       <div className="event-data flex items-center">
                         <img
-                          src={event.foto_event}
+                          src={`${storage}/${event.foto_event}`}
                           alt={event.judul}
                           className="w-20 h-20 object-cover rounded-full my-2"
                         />

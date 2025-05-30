@@ -9,7 +9,7 @@ import location from "../../assets/image/location.svg";
 import { fetchEvent } from "../../services/api";
 import clock from "../../assets/image/clock.svg";
 
-const storage = import.meta.env.VITE_STORAGE_BASE_URL + "/";
+const storage = import.meta.env.VITE_STORAGE_BASE_URL;
 
 const DetailEvent = () => {
   const { id } = useParams();
@@ -102,7 +102,7 @@ const DetailEvent = () => {
           <div className="PosterEvent w-full md:w-5/12 h-1/2">
             <img
               className="w-full h-full object-cover rounded-2xl shadow-lg"
-              src={storage + eventData.foto_event}
+              src={`${storage}/${eventData.foto_event}`}
               alt="Poster Event"
             />
           </div>
@@ -165,7 +165,7 @@ const DetailEvent = () => {
             
             <div className="border-b-2 border-[#003266] w-full my-4"></div>            <div className="lecturer flex gap-2 ml-2 w-auto">
               <img
-                src={storage + eventData.foto_pembicara}
+                src={`${storage}/${eventData.foto_pembicara}`}
                 alt="Profile"
                 className="w-16 h-16 rounded-full object-cover"
               />

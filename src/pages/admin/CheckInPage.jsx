@@ -124,10 +124,7 @@ const KodeUnik = () => {
               Masukkan kode unik sebagai bukti pemesanan tiket peserta.
               Perhatikan kode dengan baik dan daftarkan peserta terdaftar dalam
               acara Anda.
-            </p>
-
-            <div className="unique-code bg-[#027FFF] w-full sm:w-11/12 lg:w-8/12 h-full flex flex-col mb-4 items-center px-2 sm:px-12 py-4 sm:py-6 rounded-xl mx-auto">
-              <form className="unique-code-output grid grid-cols-4 gap-4 sm:gap-6 px-4">
+            </p>            <div className="unique-code bg-[#027FFF] w-fit flex flex-col mb-4 items-center px-6 py-6 rounded-xl mx-auto">              <form className="unique-code-output flex gap-2 sm:gap-4 justify-center">
                 {code.map((char, index) => (
                   <input
                     key={index}
@@ -137,7 +134,7 @@ const KodeUnik = () => {
                     value={char}
                     onChange={(e) => handleInputChange(e, index)}
                     onKeyDown={(e) => handleBackspace(e, index)}
-                    className="w-14 sm:w-16 lg:w-20 h-16 sm:h-20 lg:h-24 text-center text-[24px] sm:text-[32px] lg:text-2xl font-bold border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-12 h-14 sm:w-16 sm:h-20 lg:w-20 lg:h-24 text-center text-[16px] sm:text-[24px] lg:text-[32px] font-bold border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 flex-shrink-0"
                   />
                 ))}
               </form>

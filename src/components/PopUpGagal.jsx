@@ -25,17 +25,20 @@ const PopUpGagal = ({ isVisible, onClose, message }) => {
       setIsEntering(false);
       setIsExiting(false);
       onClose();
-    }, 700);
-  };
+    }, 700);  };
+
+  if (!isVisible && !isEntering && !isExiting) {
+    return null;
+  }
 
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center transition-all ${
+      className={`fixed inset-0 z-50 flex items-center justify-center transition-all ${
         isExiting
-          ? "opacity-0 duration-700"
+          ? "opacity-0 duration-700 pointer-events-none"
           : isEntering
           ? "opacity-100 duration-700"
-          : "opacity-0"
+          : "opacity-0 pointer-events-none"
       }`}
     >
       <div

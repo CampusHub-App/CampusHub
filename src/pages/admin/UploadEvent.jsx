@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import upload from "../../assets/image/upload.svg";
 import Date from "../../assets/image/date.svg";
@@ -7,6 +7,8 @@ import Chair from "../../assets/image/chair.svg";
 import Location from "../../assets/image/location.svg";
 import clock from "../../assets/image/clock.svg";
 import Navbar from "../../components/Navbar";
+import PopUpGagal from "../../components/PopUpGagal";
+import { createEvent } from "../../services/api";
 
 function UploadEvent() {
 
@@ -23,9 +25,12 @@ function UploadEvent() {
   const [desc, setDes] = useState("");
   const [speaker, setSpeaker] = useState("");
   const [role, setRole] = useState("");
-  const [slot, setSlot] = useState("");
-  const [location, setVenue] = useState("");
+  const [slot, setSlot] = useState("");  const [location, setVenue] = useState("");
   const [isOffline, setIsOffline] = useState(false);
+  
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -73,7 +78,6 @@ function UploadEvent() {
     }
   }, [state]);
 
-  // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -144,27 +148,42 @@ function UploadEvent() {
     if (step === 2) setStep(1);
     else if (step === 3) setStep(2);
   };
+  const handlePreview = async () => {
+    setIsLoading(true);
+    
+    try {
+      const token = localStorage.getItem("token");
+      
+      const formData = new FormData();
+      formData.append("category", category);
+      formData.append("title", title);
+      formData.append("date", date);
+      formData.append("start_time", start_time);
+      formData.append("end_time", end_time);
+      formData.append("desc", desc);
+      formData.append("speaker", speaker);
+      formData.append("role", role);
+      formData.append("slot", slot);
+      formData.append("location", location);
+      formData.append("isOffline", isOffline);
+      
+      if (event_img) {
+        formData.append("event_img", event_img);
+      }
+      if (speaker_img) {
+        formData.append("speaker_img", speaker_img);
+      }
 
-  const handlePreview = () => {
-    navigate("/events/preview", {
-      state: {
-        eventsPreview,
-        speakerPreview,
-        event_img,
-        category,
-        title,
-        date,
-        start_time,
-        end_time,
-        desc,
-        speaker,
-        role,
-        slot,
-        location,
-        isOffline,
-        speaker_img,
-      },
-    });
+      await createEvent(formData, token);
+      
+      navigate("/my-events");
+      
+    } catch (error) {
+      setPopupMessage(error.data || "Koneksi Timeout, Silahkan Coba Lagi");
+      setIsPopupVisible(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
   const pageVariants = {
     initial: { opacity: 0, y: 20 },
@@ -343,12 +362,12 @@ function UploadEvent() {
                       onClick={handleBack}
                     >
                       Kembali
-                    </button>
-                    <button
-                      className="bg-green-500 hover:bg-green-600 font-semibold py-3 px-8 rounded-lg text-white transition-colors"
+                    </button>                    <button
+                      className="bg-green-500 hover:bg-green-600 font-semibold py-3 px-8 rounded-lg text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       onClick={handlePreview}
+                      disabled={isLoading}
                     >
-                      Publikasi
+                      {isLoading ? "Mempublikasi..." : "Publikasi"}
                     </button>
                   </div>
                 </div>
@@ -635,8 +654,14 @@ function UploadEvent() {
               )}
             </div>
           </div>
-        </div>
-      </motion.div>
+        </div>      </motion.div>
+      
+      {/* PopUp Gagal */}
+      <PopUpGagal
+        isVisible={isPopupVisible}
+        onClose={() => setIsPopupVisible(false)}
+        message={popupMessage}
+      />
     </div>
   );
 }

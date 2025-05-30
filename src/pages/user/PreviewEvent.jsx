@@ -227,7 +227,7 @@ const PreviewEvent = () => {
               </p>
             </div>
           </div>
-          <div className="booking w-full h-full px-6 py-6 mx-auto lg:mx-2 bg-white shadow-lg rounded-2xl flex flex-col lg:relative">
+          <div className="booking w-full max-w-md h-full px-6 py-6 mx-auto lg:mx-2 bg-white shadow-lg rounded-2xl flex flex-col lg:relative">
             <div className="sub-total flex gap-4">
               <span className="text-left my-2 font-medium text-[14px] pl-2 me-auto">
                 Sub Total

@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { fetchEvent, fetchUniqueCode } from "../../services/api";
-import Poster from "../../assets/image/Poster.svg";
 import Ellipse from "../../assets/image/Ellipse.svg";
-import Lecturer from "../../assets/image/lecturer.svg";
 import PopUpCancel from "../../components/PopUpCancel";
 import "../../styles/DescriptionPageRegistered.css";
 import Date from "../../assets/image/date.svg";
@@ -82,14 +80,10 @@ const DescriptionPageRegistered = () => {
         </div>
       </div>
     );
-  }
-
-  return (
-    <div className="detail-event h-screen">
-      <Navbar />
-
-      <div className={`container ${pageAnimation} pt-10 mx-4 lg:mx-20`}>
-        <div className="breadcrumb pt-auto flex ml-2 pb-10">
+  }  return (
+    <div className="detail-event min-h-screen">
+      <Navbar />      <div className={`${pageAnimation} pt-10 px-8 lg:px-16 w-full`}>
+        <div className="breadcrumb pt-auto flex pb-10 px-4">
           <ol className="list-none flex text-black text-medium">
           <li>
               <Link to="/my-events" className="hover:underline">
@@ -102,27 +96,24 @@ const DescriptionPageRegistered = () => {
                 Registered
               </Link>
             </li>
-          </ol>
-        </div>
-        <div className="content-box flex flex-col md:flex-row">
-          <div className="PosterEvent w-full md:w-5/12 h-1/2">
+          </ol>        </div>
+        <div className="content-box flex flex-col lg:flex-row gap-8 px-4 w-full">
+          <div className="PosterEvent w-full lg:w-3/12">
             <img
-              className="w-full h-full object-cover rounded-2xl shadow-lg"
+              className="w-full object-cover rounded-2xl shadow-lg"
               src={`${storage}/${eventData.foto_event}`}
               alt="Poster Event"
-            />
-          </div>
-          <div className="description text-left mx-8 mt-4 md:mt-0 md:ml-8 w-1/2">
+            />          </div>
+          <div className="description text-left flex-1 max-w-full px-6">
             <span className="bg-[#027FFF] font-regular px-8 py-1 rounded-full text-white text-[14px] sm:text-[12px]">
               {eventData.category_name}
             </span>
             <h1 className="font-bold text-[32px] py-4 sm:text-[24px]">
               {eventData.judul}
-            </h1>
-            <div className="border-b-2 border-[#003266] w-full lg:w-[486px] my-4"></div>
+            </h1>            <div className="border-b-2 border-[#003266] w-full my-4"></div>
             
             {/* Event Details Grid */}
-            <div className="event-details grid grid-cols-1 lg:grid-cols-2 gap-8 my-6">
+            <div className="event-details grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
               {/* Date and Time Row */}
               <div className="detail-item flex items-start gap-3">
                 <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
@@ -173,9 +164,8 @@ const DescriptionPageRegistered = () => {
                 </div>
               </div>
             </div>
-            
-            <div className="border-b-2 border-[#003266] w-full lg:w-[486px] my-4"></div>
-            <div className="lecturer flex gap-2 ml-2 w-auto">
+              <div className="border-b-2 border-[#003266] w-full my-4"></div>
+            <div className="lecturer flex gap-2 w-auto">
               <img
                 src={`${storage}/${eventData.foto_pembicara}`}
                 alt="Profile"
@@ -192,17 +182,14 @@ const DescriptionPageRegistered = () => {
             </div>
             <div className="border-b-2 border-[#003266] w-full my-4"></div>
             <div>
-              <p className="eventdescription font-regular text-wrap text-[16px] sm:text-[14px] block w-full max-w-[486px]">
+              <p className="eventdescription font-regular text-wrap text-[16px] sm:text-[14px] block w-full">
                 {eventData.deskripsi}
               </p>
             </div>
           </div>
-          <div className="booking w-full md:w-4/12 h-fit px-6 py-6 mt-4 md:mt-0 lg:mx-8 bg-white shadow-lg rounded-2xl flex flex-col">
+          <div className="booking w-full lg:w-3/12 h-fit px-6 py-6 bg-white shadow-lg rounded-2xl flex flex-col">
             {/* Unique Code Section */}
             <div className="uniq-code-section mb-4">
-              <h2 className="text-center font-semibold text-[18px] lg:text-[20px] text-gray-800 mb-3">
-                Kode Unik Anda
-              </h2>
               <div className="uniq-code bg-gradient-to-r from-[#027FFF] to-[#0066CC] p-4 rounded-xl shadow-md">
                 <div className="uniq-code-output flex justify-center gap-2">
                   {code.map((char, index) => (
@@ -221,7 +208,7 @@ const DescriptionPageRegistered = () => {
 
             {/* Status and Instructions */}
             <div className="confirmation-message flex flex-col items-center py-4 border-b border-gray-200">
-              <div className="status-badge bg-green-100 text-green-800 px-4 py-2 rounded-full mb-2">
+              <div className="status-badge bg-green-100 text-green-800 px-4 py-2 rounded-full mb-6">
                 <span className="font-semibold text-[14px] lg:text-[16px]">
                   ✓ Terdaftar
                 </span>

@@ -18,6 +18,7 @@ const DescriptionPageCancel = () => {
   const [error, setError] = useState(null);
   const [pageAnimation, setPageAnimation] = useState("page-enter");
   const { id } = useParams();
+  const storage = import.meta.env.VITE_STORAGE_BASE_URL;
 
   const navigate = useNavigate();
 
@@ -92,7 +93,7 @@ const DescriptionPageCancel = () => {
           <div className="PosterEvent w-full lg:w-3/12">
             <img
               className="w-full h-64 lg:h-96 object-cover rounded-2xl shadow-lg"
-              src={`${import.meta.env.VITE_STORAGE_BASE_URL}/${eventData.foto_event}` || Poster}
+              src={`${storage}/${eventData.foto_event}` || Poster}
               alt="Poster Event"
             />
           </div>
@@ -156,7 +157,7 @@ const DescriptionPageCancel = () => {
             <div className="border-b-2 border-[#003266] w-full my-4"></div>
             <div className="lecturer flex gap-2 w-auto">
               <img
-                src={`${import.meta.env.VITE_STORAGE_BASE_URL}/${eventData.foto_pembicara}` || Lecturer}
+                src={`${storage}/${eventData.foto_pembicara}` || Lecturer}
                 alt="Profile"
                 className="w-16 h-16 rounded-full object-cover"
               />

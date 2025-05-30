@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { cancelRegistration } from "../services/api";
+import PopUpGagal from "./PopUpGagal";
 
 const PopUpCancel = ({ setShowPopUp, bookingId }) => {
   const bookingRef = useRef(null);
@@ -8,6 +9,8 @@ const PopUpCancel = ({ setShowPopUp, bookingId }) => {
   const [isExiting, setIsExiting] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     setIsVisible(true);
@@ -44,10 +47,9 @@ const PopUpCancel = ({ setShowPopUp, bookingId }) => {
     try {
       await cancelRegistration(id, accessToken);
 
-      window.location.reload();
-
-    } catch (error) {
-      alert(error.data || "Koneksi Timeout, Silahkan Coba Lagi");
+      window.location.reload();    } catch (error) {
+      setErrorMessage(error.data || "Koneksi Timeout, Silahkan Coba Lagi");
+      setShowError(true);
     } finally {
       setIsProcessing(false);
     }
@@ -95,19 +97,29 @@ const PopUpCancel = ({ setShowPopUp, bookingId }) => {
             className="bg-[#027FFF] font-regular w-full h-11 my-2 rounded-lg font-medium text-white text-[20px] shadow-md hover:shadow-lg transition duration-300"
           >
             Kembali
-          </button>
-          <button
+          </button>          <button
             onClick={handleCancelBooking}
             disabled={isProcessing}
             className={`bg-transparent border-2 ${isProcessing
                 ? "border-gray-400 text-gray-400"
                 : "border-[#027FFF] text-black"
-              } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500`}
+              } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500 flex items-center justify-center`}
           >
-            {isProcessing ? "Memproses..." : "Batalkan"}
-          </button>
-        </div>
+            {isProcessing ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-400"></div>
+            ) : (
+              "Batalkan"
+            )}
+          </button>        </div>
       </div>
+      
+      {showError && (
+        <PopUpGagal
+          isVisible={showError}
+          onClose={() => setShowError(false)}
+          message={errorMessage}
+        />
+      )}
     </div>
   );
 };

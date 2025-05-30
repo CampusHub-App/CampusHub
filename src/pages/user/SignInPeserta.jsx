@@ -119,10 +119,9 @@ function Signinpeserta() {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
-  };
-  return (
+  };  return (
     <motion.div
-      className="delay-100 transition-transform flex relative min-h-screen h-[1024px] xl:h-[1024px]"
+      className="flex h-screen relative"
       initial="initial"
       animate="animate"
       exit="exit"
@@ -131,9 +130,8 @@ function Signinpeserta() {
         duration: 0.6,
         ease: "easeInOut"
       }}
-    >
-      <motion.div 
-        className="tengah:w-5/12 sm:w-1/2 flex mb-32 flex-col justify-center items-center sm:px-1 tengah:px-0 bg-white"
+    >      <motion.div 
+        className="w-5/12 sm:w-1/2 flex mb-32 flex-col justify-center items-center sm:px-1 bg-white"
         initial="initial"
         animate="animate"
         exit="exit"
@@ -477,10 +475,8 @@ function Signinpeserta() {
           ease: [0.25, 0.46, 0.45, 0.94],
           delay: 0.9
         }}
-      />
-
-      <motion.div 
-        className="tengah:w-7/12 sm:w-1/2 bg-[#003266] flex items-center justify-center"
+      />      <motion.div 
+        className="w-7/12 sm:w-1/2 bg-[#003266] flex items-center justify-center"
         initial="initial"
         animate="animate"
         exit="exit"

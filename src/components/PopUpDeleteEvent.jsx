@@ -27,7 +27,6 @@ const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) =>
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      // Clear all timeouts when popup unmounts
       timeoutIds.current.forEach(clearTimeout);
       timeoutIds.current = [];
     };

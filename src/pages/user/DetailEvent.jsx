@@ -5,7 +5,9 @@ import Date from "../../assets/image/date.svg";
 import Chair from "../../assets/image/chair.svg";
 import "../../styles/DetailEvent.css";
 import Navbar from "../../components/Navbar";
+import location from "../../assets/image/location.svg";
 import { fetchEvent } from "../../services/api";
+import clock from "../../assets/image/clock.svg";
 
 const storage = import.meta.env.VITE_STORAGE_BASE_URL + "/";
 
@@ -96,9 +98,8 @@ const DetailEvent = () => {
               </Link>
             </li>
           </ol>
-        </div>
-        <div className="content-box flex flex-col md:flex-row">
-          <div className="PosterEvent w-full md:w-1/2 h-1/2">
+        </div>        <div className="content-box flex flex-col md:flex-row">
+          <div className="PosterEvent w-full md:w-5/12 h-1/2">
             <img
               className="w-full h-full object-cover rounded-2xl shadow-lg"
               src={storage + eventData.foto_event}
@@ -111,37 +112,62 @@ const DetailEvent = () => {
             </span>
             <h1 className="font-bold text-[32px] py-4 sm:text-[24px]">
               {eventData.judul}
-            </h1>
-            <div className="border-b-2 border-[#003266] w-full my-4"></div>
-            <div className="flex gap-2 ml-2">
-              <img src={Date} alt="Calendar" className="text-4xl sm:text-3xl" />
-              <span className="font-medium text-[16px] sm:text-[14px] mt-2">
-                {eventData.date}
-              </span>
-              <span className="font-medium text-[16px] sm:text-[14px] mt-2 ml-auto mr-2">
-                {eventData.start_time} - {eventData.end_time}
-              </span>
+            </h1>            <div className="border-b-2 border-[#003266] w-full my-4"></div>
+              {/* Event Details Grid */}
+            <div className="event-details grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">{/* Date and Time Row */}
+              <div className="detail-item flex items-center gap-3">
+                <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
+                  <img src={Date} alt="Calendar" className="w-5 h-5 object-contain" />
+                </div>
+                <div className="detail-content">
+                  <p className="text-sm text-gray-500 font-medium">Tanggal</p>
+                  <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
+                    {eventData.date}
+                  </p>
+                </div>
+              </div>
+
+              <div className="detail-item flex items-center gap-3">
+                <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
+                  <img src={clock} alt="Clock" className="w-5 h-5 object-contain" />
+                </div>
+                <div className="detail-content">
+                  <p className="text-sm text-gray-500 font-medium">Waktu</p>
+                  <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
+                    {eventData.start_time} - {eventData.end_time}
+                  </p>
+                </div>
+              </div>{/* Location and Capacity Row */}
+              <div className="detail-item flex items-center gap-3">
+                <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
+                  <img src={location} alt="Location" className="w-5 h-5 object-contain" />
+                </div>
+                <div className="detail-content">
+                  <p className="text-sm text-gray-500 font-medium">Lokasi</p>
+                  <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
+                    {eventData.tempat}
+                  </p>
+                </div>
+              </div>
+
+              <div className="detail-item flex items-center gap-3">
+                <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
+                  <img src={Chair} alt="Capacity" className="w-5 h-5 object-contain" />
+                </div>
+                <div className="detail-content">
+                  <p className="text-sm text-gray-500 font-medium">Kapasitas</p>
+                  <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
+                    {eventData.available_slot} Kursi Tersedia
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="flex gap-2 ml-1 my-4">
-              <i className="ri-map-pin-2-fill text-4xl sm:text-3xl"></i>
-              <span className="font-medium text-[16px] sm:text-[14px] mt-2">
-                {eventData.tempat}
-              </span>
-              <img
-                src={Chair}
-                alt="Location"
-                className="text-4xl sm:text-3xl ml-auto"
-              />
-              <span className="font-medium text-[16px] sm:text-[14px] mt-2 mr-2">
-                {eventData.available_slot} Kursi
-              </span>
-            </div>
-            <div className="border-b-2 border-[#003266] w-full my-4"></div>
-            <div className="lecturer flex gap-2 ml-2 w-auto">
+            
+            <div className="border-b-2 border-[#003266] w-full my-4"></div>            <div className="lecturer flex gap-2 ml-2 w-auto">
               <img
                 src={storage + eventData.foto_pembicara}
                 alt="Profile"
-                className="w-16 h-16 text-4xl sm:text-3xl rounded-full"
+                className="w-16 h-16 rounded-full object-cover"
               />
               <div className="lecturername flex flex-col ml-4 gap-2 justify-center">
                 <span className="font-semibold text-[16px] sm:text-[14px]">

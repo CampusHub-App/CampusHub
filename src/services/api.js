@@ -293,12 +293,26 @@ export const createEvent = async (eventData, token) => {
 };
 
 export const updateEvent = async (eventId, eventData, token) => {
+  const event = Object.fromEntries(eventData.entries());
   const response = await fetch(`${API_BASE_URL}/events/${eventId}/edit`, {
-    method: 'PATCH',
+    method: 'PUT',
     headers: {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
     },
-    body: eventData
+    body: JSON.stringify({
+      title: event.title,
+      desc: event.desc,
+      category: event.category,
+      date: event.date,
+      start_time: event.start_time,
+      end_time: event.end_time,
+      speaker: event.speaker,
+      role: event.role,
+      slot: event.slot,
+      location: event.location,
+      isOffline: event.isOffline
+    })
   });
 
   const data = await response.json();
@@ -395,6 +409,6 @@ export const deleteEvent = async (eventId, token) => {
     error.data = data.message;
     throw error;
   }
-  
+
   return data;
 }

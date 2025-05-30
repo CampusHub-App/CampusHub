@@ -19,12 +19,6 @@ const MyEvents = () => {
 
   const storage = import.meta.env.VITE_STORAGE_BASE_URL;
 
-  const pageVariants = {
-    initial: { opacity: 0.6 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0.6 },
-  };
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -123,11 +117,6 @@ const MyEvents = () => {
   return (
     <motion.div
       className="font-sans flex flex-col box-border w-full"
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageVariants}
-      transition={{ duration: 1.6 }}
     >
       <div className="myevents">
         <Navbar />

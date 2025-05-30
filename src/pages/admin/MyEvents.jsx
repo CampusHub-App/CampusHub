@@ -232,8 +232,7 @@ const MyEvents = () => {
                     onClick={() => handleCategoryFilter(4)}
                   >
                     Workshop ({workshopCount})
-                  </li>
-                  <li
+                  </li>                  <li
                     className={`cursor-pointer ${categoryFilter === 5 ? "font-bold underline" : ""
                       }`}
                     onClick={() => handleCategoryFilter(5)}
@@ -241,13 +240,15 @@ const MyEvents = () => {
                     Sertifikasi ({sertifikasiCount})
                   </li>
                 </ul>
+              </div>
 
-                {error && (
-                  <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+              {error && (
+                <div className="flex justify-center items-center py-8 px-4 sm:px-6 lg:px-20">
+                  <div className="bg-red-50 border border-red-400 text-red-700 px-6 py-4 rounded-lg text-center max-w-md">
                     {error}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
               <div className="event-list flex flex-col gap-6 px-4 sm:px-6 lg:px-20 py-2">
                 {sortedEvents.length > 0 ? (
@@ -290,10 +291,11 @@ const MyEvents = () => {
                           <i className="ri-delete-bin-line text-4xl hover:text-red-500 animations-all duration-300"></i>
                         </Link>
                       </div>
-                    </div>
-                  ))
+                    </div>                  ))
                 ) : (
-                  <div>No events found.</div>
+                  <div className="flex justify-center items-center py-8">
+                    <div className="text-gray-500 text-lg">No events found.</div>
+                  </div>
                 )}
               </div>
             </div>

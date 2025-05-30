@@ -19,11 +19,7 @@ const MyParticipants = () => {
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
   const { id } = useParams();
-  const pageVariants = {
-    initial: { opacity: 0.6 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0.6 },
-  };
+  const storage = import.meta.env.VITE_STORAGE_BASE_URL;
 
   const navigate = useNavigate();
 
@@ -46,7 +42,6 @@ const MyParticipants = () => {
   }, []);
 
   useEffect(() => {
-    // Check if `state` exists and set the active tab
     if (location.state?.activeTab) {
       setStatusFilter(location.state.activeTab);
     }
@@ -64,7 +59,7 @@ const MyParticipants = () => {
       }
 
       try {
-        const data = await fetchEventParticipants(id);
+        const data = await fetchEventParticipants(id, token);
         setEvents(data);
         setIsLoading(false);
       } catch (error) {
@@ -136,11 +131,6 @@ const MyParticipants = () => {
   return (
     <motion.div
       className="font-sans flex flex-col box-border w-full"
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageVariants}
-      transition={{ duration: 1.6 }}
     >
       <div className="MyParticipants">
         <Navbar />
@@ -265,8 +255,8 @@ const MyParticipants = () => {
                     >
                       <div className="event-data flex items-center">
                         <img
-                          src={
-                            event.photo ||
+                          src={ event.photo ?
+                            `${storage}/${event.photo}` :
                             `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(
                               event.fullname
                             )}&size=250`

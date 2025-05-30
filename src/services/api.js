@@ -312,9 +312,9 @@ export const updateEvent = async (eventId, eventData, token) => {
   return data;
 };
 
-export const fetchEventParticipants = async (eventId) => {
+export const fetchEventParticipants = async (eventId, token) => {
 
-  const response = await fetch(`${API_BASE_URL}/events/${eventId}/participants/all`, {
+  const response = await fetch(`${API_BASE_URL}/events/${eventId}/participants`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }

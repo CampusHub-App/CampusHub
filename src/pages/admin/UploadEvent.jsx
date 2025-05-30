@@ -5,13 +5,12 @@ import upload from "../../assets/image/upload.svg";
 import Navbar from "../../components/Navbar";
 
 function UploadEvent() {
-  // Image states
+
   const [event_img, setEventImg] = useState();
   const [speaker_img, setSpeakerImg] = useState();
   const [eventsPreview, setEventsPreview] = useState();
   const [speakerPreview, setSpeakerPreview] = useState();
   
-  // Form states
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -24,7 +23,6 @@ function UploadEvent() {
   const [location, setVenue] = useState("");
   const [isOffline, setIsOffline] = useState(false);
   
-  // Navigation and step states
   const navigate = useNavigate();
   const { state } = useLocation();
   const lokasi = useLocation();
@@ -171,51 +169,42 @@ function UploadEvent() {
         transition={{ duration: 0.5, ease: "easeInOut" }}
         className="container mx-auto px-4 py-8"
       >
-        {/* Breadcrumb Navigation */}
-        <div className="max-w-6xl mx-auto mb-8">
-          <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
-            <Link to="/" className="hover:text-blue-600 transition-colors">
-              Home
-            </Link>
-            <span className="text-gray-400">›</span>
-            <button 
-              onClick={() => setStep(1)}
-              className="hover:text-blue-600 transition-colors"
-            >
-              Upload Event
-            </button>
-            {step === 2 && (
-              <>
-                <span className="text-gray-400">›</span>
-                <span className="text-blue-600 font-medium">Detail Event</span>
-              </>
-            )}
-          </nav>
 
+        <div className="max-w-6xl mx-auto my-8">
           {/* Header Section */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-800 mb-4">
               {step === 1 ? "Buat Acara Baru" : "Detail Pembicara"}
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               Isi kelengkapan acara Anda sebagai penyelenggara dengan detail yang menarik
             </p>
-            
-            {/* Step Indicator */}
+              {/* Step Indicator */}
             <div className="flex justify-center items-center mt-8 space-x-4">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold ${step >= 1 ? 'bg-blue-500' : 'bg-gray-300'}`}>
+              <button 
+                onClick={() => setStep(1)}
+                className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold transition-all duration-200 hover:scale-110 cursor-pointer ${step >= 1 ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-300'}`}
+              >
                 1
-              </div>
-              <div className={`w-16 h-1 ${step >= 2 ? 'bg-blue-500' : 'bg-gray-300'} rounded`}></div>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold ${step >= 2 ? 'bg-blue-500' : 'bg-gray-300'}`}>
+              </button>
+              <div className={`w-16 h-1 ${step >= 2 ? 'bg-blue-500' : 'bg-gray-300'} rounded transition-colors duration-200`}></div>
+              <button 
+                onClick={() => isFormValid() && setStep(2)}
+                disabled={!isFormValid()}
+                className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold transition-all duration-200 ${
+                  isFormValid() 
+                    ? 'cursor-pointer hover:scale-110' 
+                    : 'cursor-not-allowed opacity-70'
+                } ${step >= 2 ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-300'}`}
+              >
                 2
-              </div>
+              </button>
             </div>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
             <div className="p-8 lg:p-12">
               <div className="grid lg:grid-cols-2 gap-12">
@@ -232,13 +221,12 @@ function UploadEvent() {
                     <label
                       htmlFor="file-upload"
                       className="w-full h-full flex flex-col items-center justify-center cursor-pointer p-8"
-                    >
-                      {(step === 1 ? eventsPreview : speakerPreview) ? (
+                    >                      {(step === 1 ? eventsPreview : speakerPreview) ? (
                         <div className="relative w-full h-full">
                           <img
                             src={step === 1 ? eventsPreview : speakerPreview}
                             alt="Preview"
-                            className="w-full h-full object-cover rounded-lg"
+                            className="w-full h-full object-contain rounded-lg"
                           />
                           <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg flex items-center justify-center">
                             <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-semibold">

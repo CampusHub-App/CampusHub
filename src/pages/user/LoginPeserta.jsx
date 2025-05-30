@@ -362,7 +362,7 @@ function Loginpeserta() {
       >      <motion.img
         src={circle2}
         alt="Circle2"
-        className="max-w-[284px] max-h-[284px] absolute top-0 right-0 sm:hidden tengah:block"
+        className="max-w-[284px] max-h-[284px] absolute top-0 right-10 sm:hidden tengah:block"
         initial={{ opacity: 0, scale: 0.3, rotate: 180 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
         transition={{

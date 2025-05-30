@@ -131,7 +131,7 @@ function Signinpeserta() {
         ease: "easeInOut"
       }}
     >      <motion.div 
-        className="w-5/12 sm:w-1/2 flex mb-32 flex-col justify-center items-center sm:px-1 bg-white"
+        className="w-5/12 sm:w-1/2 flex flex-col justify-center items-center sm:px-1 bg-white"
         initial="initial"
         animate="animate"
         exit="exit"
@@ -143,7 +143,7 @@ function Signinpeserta() {
         }}
       >
         <motion.div 
-          className="mb-10 sm:max-w-[282px] lg:max-w-[420px] max-w-[250px]"
+          className="mb-8 sm:max-w-[282px] lg:max-w-[420px] max-w-[250px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{
@@ -165,7 +165,7 @@ function Signinpeserta() {
             Daftar Sekarang!
           </motion.h1>
           <motion.p 
-            className="text-[#003266] font-normal lg:text-[24px] text-[17px]"
+            className="text-[#003266] font-normal lg:text-[24px] text-[16px]"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{
@@ -425,21 +425,9 @@ function Signinpeserta() {
       </motion.div>
 
       <motion.img
-        src={circle}
-        alt=""
-        className="absolute max-w-[284px] max-h-[284px] bottom-0 left-0 sm:hidden tengah:block"
-        initial={{ opacity: 0, scale: 0.3, rotate: 180 }}
-        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-        transition={{
-          duration: 1.0,
-          ease: [0.25, 0.46, 0.45, 0.94],
-          delay: 0.9
-        }}
-      />
-      <motion.img
         src={circle2}
         alt=""
-        className="absolute max-w-[284px] max-h-[284px] top-0 right-0 sm:hidden tengah:block"
+        className="absolute max-w-[284px] max-h-[284px] top-0 right-10 sm:hidden tengah:block"
         initial={{ opacity: 0, scale: 0.3, rotate: 180 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
         transition={{
@@ -462,12 +450,10 @@ function Signinpeserta() {
           onClose={() => setShowGagal(false)}
           message={data}
         />
-      )}
-
-      <motion.img
+      )}      <motion.img
         src={circle}
         alt="Circle"
-        className="absolute bottom-0 left-0 sm:hidden tengah:block"
+        className="absolute bottom-0 -left-16 max-w-[200px] max-h-[200px] sm:hidden tengah:block"
         initial={{ opacity: 0, scale: 0.3, rotate: 180 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
         transition={{
@@ -475,7 +461,9 @@ function Signinpeserta() {
           ease: [0.25, 0.46, 0.45, 0.94],
           delay: 0.9
         }}
-      />      <motion.div 
+      />
+      
+      <motion.div 
         className="w-7/12 sm:w-1/2 bg-[#003266] flex items-center justify-center"
         initial="initial"
         animate="animate"

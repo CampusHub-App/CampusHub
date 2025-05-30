@@ -328,12 +328,13 @@ export const fetchEventParticipants = async (eventId, token) => {
   return response.json();
 };
 
-export const checkInParticipant = async (eventId, uniqueCode) => {
+export const checkInParticipant = async (eventId, uniqueCode, token) => {
 
   const response = await fetch(`${API_BASE_URL}/my-events/${eventId}/check-in`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({ kode: uniqueCode })
   });

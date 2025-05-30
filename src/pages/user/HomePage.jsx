@@ -187,7 +187,7 @@ function Homepage() {
           <ul className="flex gap-x-[64px] justify-center">
             <motion.li
               whileHover={{ scale: 1.1, y: -10 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.15 }}
             >
               <Link to="/webinar">
                 <img src={webinar} alt="Webinar" />
@@ -195,7 +195,7 @@ function Homepage() {
             </motion.li>
             <motion.li
               whileHover={{ scale: 1.1, y: -10 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.15 }}
             >
               <Link to="/seminar">
                 <img src={seminar} alt="Seminar" />
@@ -203,7 +203,7 @@ function Homepage() {
             </motion.li>
             <motion.li
               whileHover={{ scale: 1.1, y: -10 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.15 }}
             >
               <Link to="/kuliah-tamu">
                 <img src={kuliah} alt="Kuliah" />
@@ -211,7 +211,7 @@ function Homepage() {
             </motion.li>
             <motion.li
               whileHover={{ scale: 1.1, y: -10 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.15 }}
             >
               <Link to="/workshop">
                 <img src={workshop} alt="Workshop" />
@@ -219,7 +219,7 @@ function Homepage() {
             </motion.li>
             <motion.li
               whileHover={{ scale: 1.1, y: -10 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.15 }}
             >
               <Link to="/sertifikasi">
                 <img src={sertifikasi} alt="Sertifikasi" />

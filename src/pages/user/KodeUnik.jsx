@@ -82,7 +82,7 @@ const KodeUnik = () => {
                   maxLength={1}
                   value={char}
                   readOnly
-                  className="w-12 h-14 sm:w-16 sm:h-20 lg:w-20 lg:h-24 text-center text-[16px] sm:text-[24px] lg:text-[32px] font-bold border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 flex-shrink-0"
+                  className="w-12 h-14 sm:w-16 sm:h-20 lg:w-20 lg:h-24 text-center text-[16px] sm:text-[24px] lg:text-[32px] font-bold border border-gray-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 flex-shrink-0"
                 />
               ))}
             </div>

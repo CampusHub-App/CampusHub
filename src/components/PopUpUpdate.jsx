@@ -10,6 +10,7 @@ const PopUpUpdate = ({ setShowPopUp, password, confirmation }) => {
   const [status, setStatus] = useState(null);
   const [counter, setCounter] = useState(5);
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     setIsVisible(true);
@@ -53,13 +54,18 @@ const PopUpUpdate = ({ setShowPopUp, password, confirmation }) => {
   const handleUpdate = async () => {
     setIsProcessing(true);
     try {
-      await updatePassword(password, confirmation);
+      const data = await updatePassword(password, confirmation, localStorage.getItem("token"));
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       localStorage.removeItem("token_type");
+      setMessage(data.message);
       setStatus("success");
     } catch (error) {
+      setMessage(error.data || "Koneksi Timeout, Silahkan Coba Lagi");
       setStatus("error");
+      setTimeout(() => {
+        triggerClose();
+      }, 2000);
     } finally {
       setIsProcessing(false);
     }
@@ -68,28 +74,28 @@ const PopUpUpdate = ({ setShowPopUp, password, confirmation }) => {
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center transition-all ${isExiting
-          ? "opacity-0 duration-700"
-          : isVisible
-            ? "opacity-100 duration-700"
-            : "opacity-0"
+        ? "opacity-0 duration-700"
+        : isVisible
+          ? "opacity-100 duration-700"
+          : "opacity-0"
         }`}
     >
       <div
         className={`absolute inset-0 bg-black transition-all ${isExiting
-            ? "opacity-0 duration-700"
-            : isVisible
-              ? "opacity-30 duration-700"
-              : "opacity-0"
+          ? "opacity-0 duration-700"
+          : isVisible
+            ? "opacity-30 duration-700"
+            : "opacity-0"
           }`}
       ></div>
 
       <div
         ref={bookingRef}
         className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${isExiting
-            ? "opacity-0 scale-90 duration-700"
-            : isVisible
-              ? "opacity-100 scale-100 duration-700"
-              : "opacity-0 scale-50 duration-700"
+          ? "opacity-0 scale-90 duration-700"
+          : isVisible
+            ? "opacity-100 scale-100 duration-700"
+            : "opacity-0 scale-50 duration-700"
           }`}
       >
         {status === null && (
@@ -114,8 +120,8 @@ const PopUpUpdate = ({ setShowPopUp, password, confirmation }) => {
                 onClick={handleUpdate}
                 disabled={isProcessing}
                 className={`bg-transparent border-2 ${isProcessing
-                    ? "border-gray-400 text-gray-400"
-                    : "border-[#027FFF] text-black"
+                  ? "border-gray-400 text-gray-400"
+                  : "border-[#027FFF] text-black"
                   } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500`}
               >
                 {isProcessing ? (
@@ -170,7 +176,7 @@ const PopUpUpdate = ({ setShowPopUp, password, confirmation }) => {
               </svg>
             </div>
             <span className="mt-4 font-medium text-[20px] text-center">
-              Password Berhasil Diubah!
+              {message}
             </span>
             <span className="mt-2 text-sm text-center">
               Silahkan login lagi, Anda akan diarahkan ke halaman login dalam{" "}
@@ -197,7 +203,7 @@ const PopUpUpdate = ({ setShowPopUp, password, confirmation }) => {
               </svg>
             </div>
             <span className="mt-4 font-medium text-[20px] text-center">
-              Gagal Mengubah Password!
+              {message}
             </span>
           </div>
         )}

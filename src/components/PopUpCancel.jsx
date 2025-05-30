@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { cancelRegistration } from "../services/api";
 
 const PopUpCancel = ({ setShowPopUp, bookingId }) => {
   const bookingRef = useRef(null);
@@ -7,7 +8,6 @@ const PopUpCancel = ({ setShowPopUp, bookingId }) => {
   const [isExiting, setIsExiting] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
@@ -42,25 +42,12 @@ const PopUpCancel = ({ setShowPopUp, bookingId }) => {
     }
 
     try {
-      const response = await fetch(
-        `https://campushub.web.id/api/events/${id}/cancel`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      await cancelRegistration(id, accessToken);
 
-      if (response.ok) {
-        window.location.reload();
-      } else {
-        const data = await response.json();
-        alert(data.message);
-      }
+      window.location.reload();
+
     } catch (error) {
-      console.error("Error saat membatalkan:", error);
+      alert(error.data || "Koneksi Timeout, Silahkan Coba Lagi");
     } finally {
       setIsProcessing(false);
     }
@@ -68,33 +55,30 @@ const PopUpCancel = ({ setShowPopUp, bookingId }) => {
 
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center transition-all ${
-        isExiting
+      className={`fixed inset-0 flex items-center justify-center transition-all ${isExiting
           ? "opacity-0 duration-700"
           : isVisible
-          ? "opacity-100 duration-700"
-          : "opacity-0"
-      }`}
-    >
-      <div
-        className={`absolute inset-0 bg-black transition-all ${
-          isExiting
-            ? "opacity-0 duration-700"
-            : isVisible
-            ? "opacity-30 duration-700"
+            ? "opacity-100 duration-700"
             : "opacity-0"
         }`}
+    >
+      <div
+        className={`absolute inset-0 bg-black transition-all ${isExiting
+            ? "opacity-0 duration-700"
+            : isVisible
+              ? "opacity-30 duration-700"
+              : "opacity-0"
+          }`}
       ></div>
 
       <div
         ref={bookingRef}
-        className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${
-          isExiting
+        className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${isExiting
             ? "opacity-0 scale-90 duration-700"
             : isVisible
-            ? "opacity-100 scale-100 duration-700"
-            : "opacity-0 scale-50 duration-700"
-        }`}
+              ? "opacity-100 scale-100 duration-700"
+              : "opacity-0 scale-50 duration-700"
+          }`}
       >
         <div className="confirmation-message flex flex-col items-center">
           <span className="font-medium text-[32px] text-center px-12 py-2">
@@ -115,11 +99,10 @@ const PopUpCancel = ({ setShowPopUp, bookingId }) => {
           <button
             onClick={handleCancelBooking}
             disabled={isProcessing}
-            className={`bg-transparent border-2 ${
-              isProcessing
+            className={`bg-transparent border-2 ${isProcessing
                 ? "border-gray-400 text-gray-400"
                 : "border-[#027FFF] text-black"
-            } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500`}
+              } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500`}
           >
             {isProcessing ? "Memproses..." : "Batalkan"}
           </button>

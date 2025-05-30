@@ -185,21 +185,59 @@ const DescriptionPageAbsent = () => {
           </div>
 
           <div className="booking w-full lg:w-3/12 h-fit px-6 py-6 bg-white shadow-lg rounded-2xl flex flex-col">
-            <div className="confirmation-message flex flex-col items-center py-4">
-              <span className="font-medium text-[16px] lg:text-[20px]">
-                Anda Tidak Hadir
-              </span>
-              <br />
-              <p className="text-[14px] lg:text-[16px] text-center">
-                  Acara ini telah berlangsung dan Anda tidak hadir. Silahkan cek event lainnya.
+            {/* Absent Status Section */}
+            <div className="absent-status-section mb-4">
+              <div className="status-display bg-gradient-to-r from-gray-500 to-gray-600 p-4 rounded-xl shadow-md">
+                <div className="status-icon-container flex justify-center">
+                  <div
+                    className={`relative w-16 h-16 lg:w-20 lg:h-20 flex items-center justify-center rounded-full border-4 transition-all duration-1000 ${
+                      isCrossVisible
+                        ? "bg-white border-white"
+                        : "bg-transparent border-gray-200"
+                    }`}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={`w-8 h-8 lg:w-10 lg:h-10 text-gray-500 transform transition-all duration-1000 ${
+                        isCrossVisible
+                          ? "opacity-100 scale-100"
+                          : "opacity-0 scale-0"
+                      }`}
+                    >
+                      <path d="M9 9l6 6m0-6l-6 6" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Status and Instructions */}
+            <div className="confirmation-message flex flex-col items-center py-4 border-b border-gray-200">
+              <div className="status-badge bg-gray-100 text-gray-800 px-4 py-2 rounded-full mb-6">
+                <span className="font-semibold text-[14px] lg:text-[16px]">
+                  ✗ Tidak Hadir
+                </span>
+              </div>
+              <p className="font-regular text-[12px] lg:text-[14px] text-center text-gray-600 max-w-xs leading-relaxed">
+                Acara ini telah berlangsung dan Anda tidak hadir. Silahkan cek event lainnya.
               </p>
             </div>
-            <button
-              className="bg-[#027FFF] hover:bg-[#0066CC] font-medium w-full h-11 lg:h-12 rounded-lg text-white text-[14px] lg:text-[16px] transition-colors shadow-sm"
-              onClick={handleBack}
-            >
-              Kembali
-            </button>
+
+            {/* Action Button */}
+            <div className="checkout flex flex-col pt-3">
+              <button
+                className="bg-[#027FFF] hover:bg-[#0066CC] font-medium w-full h-11 lg:h-12 rounded-lg text-white text-[14px] lg:text-[16px] transition-colors shadow-sm"
+                onClick={handleBack}
+              >
+                Kembali
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -65,9 +65,8 @@ const DetailEvent = () => {
       <Navbar />
 
       <div
-        className={`detail-event-container ${isLoaded ? "loaded" : ""} ${
-          isExiting ? "exiting" : ""
-        } [1024px] pt-10 mx-4 lg:mx-20`}
+        className={`detail-event-container ${isLoaded ? "loaded" : ""} ${isExiting ? "exiting" : ""
+          } [1024px] pt-10 mx-4 lg:mx-20`}
       >
         <div className="breadcrumb pt-auto flex ml-2 pb-10">
           <ol className="list-none flex text-black text-medium">
@@ -83,14 +82,14 @@ const DetailEvent = () => {
                   eventData.category_name === "Seminar"
                     ? "/seminar"
                     : eventData.category_name === "Webinar"
-                    ? "/webinar"
-                    : eventData.category_name === "Kuliah Tamu"
-                    ? "/kuliah-tamu"
-                    : eventData.category_name === "Sertifikasi"
-                    ? "/sertifikasi"
-                    : eventData.category_name === "Workshop"
-                    ? "/workshop"
-                    : "/home"
+                      ? "/webinar"
+                      : eventData.category_name === "Kuliah Tamu"
+                        ? "/kuliah-tamu"
+                        : eventData.category_name === "Sertifikasi"
+                          ? "/sertifikasi"
+                          : eventData.category_name === "Workshop"
+                            ? "/workshop"
+                            : "/home"
                 }
                 className="hover:underline"
               >
@@ -98,23 +97,25 @@ const DetailEvent = () => {
               </Link>
             </li>
           </ol>
-        </div>        <div className="content-box flex flex-col md:flex-row">
-          <div className="PosterEvent w-full md:w-5/12 h-1/2">
+        </div>
+        <div className="content-box flex flex-col md:flex-row">
+          <div className="PosterEvent w-3/12 h-1/2">
             <img
               className="w-full h-full object-cover rounded-2xl shadow-lg"
               src={`${storage}/${eventData.foto_event}`}
               alt="Poster Event"
             />
           </div>
-          <div className="description text-left mx-8 mt-4 md:mt-0 md:ml-8 w-1/2">
+          <div className="description text-left mx-8 mt-4 md:mt-0 md:ml-8 w-6/12">
             <span className="bg-[#027FFF] font-regular px-8 py-1 rounded-full text-white text-[14px] sm:text-[12px]">
               {eventData.category_name}
             </span>
             <h1 className="font-bold text-[32px] py-4 sm:text-[24px]">
               {eventData.judul}
-            </h1>            <div className="border-b-2 border-[#003266] w-full my-4"></div>
-              {/* Event Details Grid */}
-            <div className="event-details grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">{/* Date and Time Row */}
+            </h1>
+            <div className="border-b-2 border-[#003266] w-full my-4"></div>
+
+            <div className="event-details grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">
               <div className="detail-item flex items-center gap-3">
                 <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
                   <img src={Date} alt="Calendar" className="w-5 h-5 object-contain" />
@@ -162,7 +163,7 @@ const DetailEvent = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="border-b-2 border-[#003266] w-full my-4"></div>            <div className="lecturer flex gap-2 ml-2 w-auto">
               <img
                 src={`${storage}/${eventData.foto_pembicara}`}
@@ -185,7 +186,7 @@ const DetailEvent = () => {
               </p>
             </div>
           </div>
-          <div className="booking w-full md:w-4/12 h-36 px-6 mx-auto bg-white shadow-lg rounded-2xl flex flex-col mt-4 md:mt-0">
+          <div className="booking w-full md:w-3/12 h-36 px-6 mx-auto bg-white shadow-lg rounded-2xl flex flex-col mt-4 md:mt-0">
             <h1 className="text-left my-4 font-semibold text-[20px] sm:text-[18px] pl-2 lg:text-left sm:text-center ">
               Pesan Sekarang!
             </h1>

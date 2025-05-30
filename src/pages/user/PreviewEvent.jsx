@@ -132,9 +132,9 @@ const PreviewEvent = () => {
           </ol>
         </div>
         <div className="content-box flex flex-col lg:flex-row gap-8">
-          <div className="event-description border-2 border-dashed border-black pl-4 py-8 custom-dashed rounded-2xl lg:w-[1000px] w-full">
+          <div className="event-description border-2 border-dashed border-black pl-4 py-8 custom-dashed rounded-2xl w-9/12">
             <div className="event-detail flex flex-col lg:flex-row px-4">
-              <div className="PosterEvent w-full lg:w-1/2 h-11/12 mr-4">
+              <div className="PosterEvent w-6/12 mr-4">
                 <img
                   className="w-full h-full object-cover rounded-2xl shadow-lg"
                   src={`${storage}/${eventData.foto_event}`}
@@ -145,7 +145,7 @@ const PreviewEvent = () => {
                 <span className="bg-[#027FFF] font-regular px-8 py-1 rounded-full text-white text-[14px]">
                   {eventData.category_name}
                 </span>
-                <h1 className="font-bold text-[32px] py-4">
+                <h1 className="font-bold text-[28px] py-4">
                   {eventData.judul}
                 </h1>
                 <div className="border-b-2 border-[#003266] w-full my-4"></div>
@@ -200,7 +200,7 @@ const PreviewEvent = () => {
                   </div>
                 </div>
                 <div className="border-b-2 border-[#003266] w-full my-4"></div>
-                <div className="lecturer-container flex items-center py-4">
+                <div className="lecturer-container flex items-center">
                   <div className="lecturer flex gap-2 items-center ml-2">
                     <img
                       src={`${storage}/${eventData.foto_pembicara}`}
@@ -217,16 +217,17 @@ const PreviewEvent = () => {
                     </div>
                   </div>
                 </div>
+                
+                <div className="border-b-2 border-[#003266] w-full my-4"></div>
+                <div className="description-section px-2">
+                  <p className="eventdescription font-regular text-wrap text-[16px] sm:text-[14px] block w-full max-w-[486px]">
+                    {eventData.deskripsi}
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="border-b-2 border-[#003266] sm:w-full lg:w-[845px] my-4 mx-auto"></div>
-            <div>
-              <p className="eventdescription font-regular text-wrap px-8 text-[16px] block w-full lg:w-[900px]">
-                {eventData.deskripsi}
-              </p>
-            </div>
           </div>
-          <div className="booking w-full max-w-md h-full px-6 py-6 mx-auto lg:mx-2 bg-white shadow-lg rounded-2xl flex flex-col lg:relative">
+          <div className="booking w-3/12 max-w-md h-full px-6 py-6 mx-auto lg:mx-2 bg-white shadow-lg rounded-2xl flex flex-col lg:relative">
             <div className="sub-total flex gap-4">
               <span className="text-left my-2 font-medium text-[14px] pl-2 me-auto">
                 Sub Total

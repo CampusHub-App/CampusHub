@@ -229,125 +229,121 @@ function UploadEvent() {
         </div>        {/* Main Content */}
         <div className="max-w-7xl mx-auto">
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div className="p-8 lg:p-12">
-              {step === 3 ? (
+            <div className="p-8 lg:p-12">              {step === 3 ? (
                 /* Step 3 - Preview Layout */
-                <div className="flex flex-col md:flex-row gap-8">
-                  {/* Event Poster */}
-                  <div className="w-full md:w-1/3">
-                    <img
-                      className="w-full h-full object-cover rounded-2xl shadow-lg"
-                      src={eventsPreview}
-                      alt="Poster Event"
-                    />
-                  </div>
-                  
-                  {/* Event Details */}
-                  <div className="w-full md:w-1/2 space-y-6">
-                    <span className="bg-[#027FFF] font-regular px-8 py-1 rounded-full text-white text-[14px] sm:text-[12px]">
-                      {getCategoryName(category)}
-                    </span>
-                    <h1 className="font-bold text-[32px] py-4 sm:text-[24px]">
-                      {title}
-                    </h1>
-                    <div className="border-b-2 border-[#003266] w-full my-4"></div>
-
-                    {/* Event Details Grid */}
-                    <div className="event-details grid grid-cols-1 lg:grid-cols-2 gap-8 my-6">
-                      <div className="detail-item flex items-start gap-3">
-                        <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
-                          <img src={Date} alt="Calendar" className="w-5 h-5 object-contain" />
-                        </div>
-                        <div className="detail-content">
-                          <p className="text-sm text-gray-500 font-medium">Tanggal</p>
-                          <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
-                            {date}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="detail-item flex items-start gap-3">
-                        <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
-                          <img src={clock} alt="Clock" className="w-5 h-5 object-contain" />
-                        </div>
-                        <div className="detail-content">
-                          <p className="text-sm text-gray-500 font-medium">Waktu</p>
-                          <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
-                            {start_time} - {end_time}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="detail-item flex items-start gap-3">
-                        <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
-                          <img src={Location} alt="Location" className="w-5 h-5 object-contain" />
-                        </div>
-                        <div className="detail-content">
-                          <p className="text-sm text-gray-500 font-medium">Lokasi</p>
-                          <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
-                            {isOffline ? location : "Online"}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="detail-item flex items-start gap-3">
-                        <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
-                          <img src={Chair} alt="Capacity" className="w-5 h-5 object-contain" />
-                        </div>
-                        <div className="detail-content">
-                          <p className="text-sm text-gray-500 font-medium">Kapasitas</p>
-                          <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
-                            {slot} Kursi Tersedia
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="border-b-2 border-[#003266] w-full my-4"></div>
-                    
-                    {/* Speaker Info */}
-                    <div className="lecturer flex gap-2 ml-2 w-auto">
+                <div className="space-y-8">
+                  <div className="flex flex-col md:flex-row gap-8">
+                    {/* Event Poster */}
+                    <div className="w-full md:w-1/3">
                       <img
-                        src={speakerPreview}
-                        alt="Profile"
-                        className="w-16 h-16 rounded-full object-cover"
+                        className="w-full h-full object-cover rounded-2xl shadow-lg"
+                        src={eventsPreview}
+                        alt="Poster Event"
                       />
-                      <div className="lecturername flex flex-col ml-4 gap-2 justify-center">
-                        <span className="font-semibold text-[16px] sm:text-[14px]">
-                          {speaker}
-                        </span>
-                        <span className="text-regular text-[14px] sm:text-[12px]">
-                          {role}
-                        </span>
+                    </div>
+                    
+                    {/* Event Details */}
+                    <div className="w-full md:w-2/3 space-y-6">
+                      <span className="bg-[#027FFF] font-regular px-8 py-1 rounded-full text-white text-[14px] sm:text-[12px]">
+                        {getCategoryName(category)}
+                      </span>
+                      <h1 className="font-bold text-[32px] py-4 sm:text-[24px]">
+                        {title}
+                      </h1>
+                      <div className="border-b-2 border-[#003266] w-full my-4"></div>
+
+                      {/* Event Details Grid */}
+                      <div className="event-details grid grid-cols-1 lg:grid-cols-2 gap-8 my-6">
+                        <div className="detail-item flex items-start gap-3">
+                          <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
+                            <img src={Date} alt="Calendar" className="w-5 h-5 object-contain" />
+                          </div>
+                          <div className="detail-content">
+                            <p className="text-sm text-gray-500 font-medium">Tanggal</p>
+                            <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
+                              {date}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="detail-item flex items-start gap-3">
+                          <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
+                            <img src={clock} alt="Clock" className="w-5 h-5 object-contain" />
+                          </div>
+                          <div className="detail-content">
+                            <p className="text-sm text-gray-500 font-medium">Waktu</p>
+                            <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
+                              {start_time} - {end_time}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="detail-item flex items-start gap-3">
+                          <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
+                            <img src={Location} alt="Location" className="w-5 h-5 object-contain" />
+                          </div>
+                          <div className="detail-content">
+                            <p className="text-sm text-gray-500 font-medium">Lokasi</p>
+                            <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
+                              {isOffline ? location : "Online"}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="detail-item flex items-start gap-3">
+                          <div className="icon-wrapper flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg flex-shrink-0">
+                            <img src={Chair} alt="Capacity" className="w-5 h-5 object-contain" />
+                          </div>
+                          <div className="detail-content">
+                            <p className="text-sm text-gray-500 font-medium">Kapasitas</p>
+                            <p className="font-semibold text-[16px] sm:text-[14px] text-gray-800">
+                              {slot} Kursi Tersedia
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="border-b-2 border-[#003266] w-full my-4"></div>
+                      
+                      {/* Speaker Info */}
+                      <div className="lecturer flex gap-2 ml-2 w-auto">
+                        <img
+                          src={speakerPreview}
+                          alt="Profile"
+                          className="w-16 h-16 rounded-full object-cover"
+                        />
+                        <div className="lecturername flex flex-col ml-4 gap-2 justify-center">
+                          <span className="font-semibold text-[16px] sm:text-[14px]">
+                            {speaker}
+                          </span>
+                          <span className="text-regular text-[14px] sm:text-[12px]">
+                            {role}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div className="border-b-2 border-[#003266] w-full my-4"></div>
+                      
+                      {/* Description */}
+                      <div>
+                        <p className="eventdescription font-regular text-wrap text-[16px] sm:text-[14px] block w-full">
+                          {desc}
+                        </p>
                       </div>
                     </div>
-                    
-                    <div className="border-b-2 border-[#003266] w-full my-4"></div>
-                    
-                    {/* Description */}
-                    <div>
-                      <p className="eventdescription font-regular text-wrap text-[16px] sm:text-[14px] block w-full max-w-[486px]">
-                        {desc}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Action Section */}
-                  <div className="w-full md:w-1/6 h-fit px-6 mx-auto bg-gray-50 shadow-lg rounded-2xl flex flex-col mt-4 md:mt-0 py-6">
-                    <h1 className="text-center font-semibold text-[18px] mb-4">
-                      Publikasi Acara
-                    </h1>
+                  </div>                  {/* Action Buttons - Moved to Bottom */}
+                  <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200">
                     <button
-                      className="bg-green-500 hover:bg-green-600 font-semibold w-full py-3 rounded-lg text-white transition-colors mb-3"
-                      onClick={handlePreview}
-                    >
-                      Publikasi
-                    </button>
-                    <button
-                      className="border-2 border-gray-300 hover:bg-gray-100 font-semibold w-full py-3 rounded-lg text-gray-700 transition-colors"
+                      className={buttonSecondaryClasses}
                       onClick={handleBack}
                     >
                       Kembali
+                    </button>
+                    <button
+                      className="bg-green-500 hover:bg-green-600 font-semibold py-3 px-8 rounded-lg text-white transition-colors"
+                      onClick={handlePreview}
+                    >
+                      Publikasi
                     </button>
                   </div>
                 </div>

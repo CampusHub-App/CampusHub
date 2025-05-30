@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { deleteAccount } from "../services/api";
 
 const PopUpDelete = ({ setShowPopUp }) => {
   const bookingRef = useRef(null);
@@ -8,6 +9,7 @@ const PopUpDelete = ({ setShowPopUp }) => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const [gagal, setGagal] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     setIsVisible(true);
@@ -34,25 +36,16 @@ const PopUpDelete = ({ setShowPopUp }) => {
   const handleDeleteAccount = async () => {
     setIsProcessing(true);
     try {
-      const response = await fetch("https://campushub.web.id/api/user", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const data = await deleteAccount(localStorage.getItem("token"));
+      setMessage(data.message);
 
-      if (response.ok) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        localStorage.removeItem("token_type");
-
-        navigate("/");
-      } else {
-        setGagal(true);
-      }
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("token_type");
+      navigate("/");
     } catch (error) {
       setGagal(true);
+      setMessage(error.data);
     } finally {
       setTimeout(() => {
         setIsProcessing(false);
@@ -66,33 +59,30 @@ const PopUpDelete = ({ setShowPopUp }) => {
     >
       {gagal ? (
         <div
-          className={`fixed inset-0 flex items-center justify-center transition-all ${
-            isExiting
+          className={`fixed inset-0 flex items-center justify-center transition-all ${isExiting
               ? "opacity-0 duration-700"
               : isVisible
-              ? "opacity-100 duration-700"
-              : "opacity-0"
-          }`}
-        >
-          <div
-            className={`absolute inset-0 bg-black transition-all ${
-              isExiting
-                ? "opacity-0 duration-700"
-                : isVisible
-                ? "opacity-30 duration-700"
+                ? "opacity-100 duration-700"
                 : "opacity-0"
             }`}
+        >
+          <div
+            className={`absolute inset-0 bg-black transition-all ${isExiting
+                ? "opacity-0 duration-700"
+                : isVisible
+                  ? "opacity-30 duration-700"
+                  : "opacity-0"
+              }`}
           ></div>
 
           <div
             ref={bookingRef}
-            className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${
-              isExiting
+            className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${isExiting
                 ? "opacity-0 scale-90 duration-700"
                 : isVisible
-                ? "opacity-100 scale-100 duration-700"
-                : "opacity-0 scale-50 duration-700"
-            }`}
+                  ? "opacity-100 scale-100 duration-700"
+                  : "opacity-0 scale-50 duration-700"
+              }`}
           >
             <div className="flex flex-col items-center animate__animated animate__shakeX">
               <div className="relative p-4 border-4 border-red-600 rounded-full animate-pulse">
@@ -112,41 +102,37 @@ const PopUpDelete = ({ setShowPopUp }) => {
                 </svg>
               </div>
               <span className="mt-4 font-medium text-[20px] text-center text-red-500">
-                Gagal menghapus akun, silahkan cek koneksi internet anda atau
-                hapus cache browser anda.
+                {message || "Koneksi Timeout, Silahkan Coba Lagi"}
               </span>
             </div>
           </div>
         </div>
       ) : (
         <div
-          className={`fixed inset-0 flex items-center justify-center transition-all ${
-            isExiting
+          className={`fixed inset-0 flex items-center justify-center transition-all ${isExiting
               ? "opacity-0 duration-700"
               : isVisible
-              ? "opacity-100 duration-700"
-              : "opacity-0"
-          }`}
-        >
-          <div
-            className={`absolute inset-0 bg-black transition-all ${
-              isExiting
-                ? "opacity-0 duration-700"
-                : isVisible
-                ? "opacity-30 duration-700"
+                ? "opacity-100 duration-700"
                 : "opacity-0"
             }`}
+        >
+          <div
+            className={`absolute inset-0 bg-black transition-all ${isExiting
+                ? "opacity-0 duration-700"
+                : isVisible
+                  ? "opacity-30 duration-700"
+                  : "opacity-0"
+              }`}
           ></div>
 
           <div
             ref={bookingRef}
-            className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${
-              isExiting
+            className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${isExiting
                 ? "opacity-0 scale-90 duration-700"
                 : isVisible
-                ? "opacity-100 scale-100 duration-700"
-                : "opacity-0 scale-50 duration-700"
-            }`}
+                  ? "opacity-100 scale-100 duration-700"
+                  : "opacity-0 scale-50 duration-700"
+              }`}
           >
             <div className="confirmation-message flex flex-col items-center">
               <span className="font-medium text-[32px] text-center px-12 py-2">
@@ -167,11 +153,10 @@ const PopUpDelete = ({ setShowPopUp }) => {
               <button
                 onClick={handleDeleteAccount}
                 disabled={isProcessing}
-                className={`bg-transparent border-2 ${
-                  isProcessing
+                className={`bg-transparent border-2 ${isProcessing
                     ? "border-gray-400 text-gray-400"
                     : "border-[#027FFF] text-black"
-                } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500`}
+                  } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500`}
               >
                 {isProcessing ? (
                   <div className="flex items-center justify-center">

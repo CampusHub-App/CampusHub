@@ -119,6 +119,27 @@ export const cancelRegistration = async (eventId, token) => {
   return data;
 }
 
+export const deleteAccount = async (token) => {
+  const response = await fetch(`${API_BASE_URL}/user`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    const error = new Error();
+    error.data = data.message;
+    throw error;
+  }
+  return data;
+};
+
+
 export const fetchUniqueCode = async (eventId, token) => {
   const response = await fetch(`${API_BASE_URL}/events/${eventId}/kode-unik`, {
     headers: {

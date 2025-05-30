@@ -3,6 +3,7 @@ import { deleteEvent } from "../services/api";
 
 const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) => {
   const bookingRef = useRef(null);
+  const timeoutIds = useRef([]);
   const [isExiting, setIsExiting] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -26,50 +27,62 @@ const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) =>
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      // Clear all timeouts when popup unmounts
+      timeoutIds.current.forEach(clearTimeout);
+      timeoutIds.current = [];
     };
   }, []);
 
+  const clearAllTimeouts = () => {
+    timeoutIds.current.forEach(clearTimeout);
+    timeoutIds.current = [];
+  };
+
   const triggerClose = () => {
     setIsExiting(true);
-    setTimeout(() => {
+    const t1 = setTimeout(() => {
       setShowPopUp(false);
     }, 400);
+    timeoutIds.current.push(t1);
+    clearAllTimeouts();
     onBack();
   };
 
   const handleUpdate = async () => {
     const currentId = localId;
     setIsProcessing(true);
+    clearAllTimeouts();
     try {
       const data = await deleteEvent(currentId, localStorage.getItem("token"));
       setMessage(data.message);
 
       setStatus("success");
-      setTimeout(() => {
+      const t1 = setTimeout(() => {
         setIsExiting(true)
       }, 1600);
-      setTimeout(() => {
+      const t2 = setTimeout(() => {
         setShowPopUp(false);
       }, 2000);
-      setTimeout(() => {
+      const t3 = setTimeout(() => {
         window.location.reload();
       }, 2100);
-      setTimeout(() => {
+      const t4 = setTimeout(() => {
         onSuccess();
       }, 2200);
-
+      timeoutIds.current.push(t1, t2, t3, t4);
     } catch (error) {
       setStatus("error");
       setMessage(error.data || "Koneksi Timeout, Silahkan Coba Lagi");
-      setTimeout(() => {
+      const t1 = setTimeout(() => {
         setIsExiting(true)
       }, 1600);
-      setTimeout(() => {
+      const t2 = setTimeout(() => {
         setShowPopUp(false);
       }, 2000);
-      setTimeout(() => {
+      const t3 = setTimeout(() => {
         onFailure();
       }, 2200);
+      timeoutIds.current.push(t1, t2, t3);
     } finally {
       setIsProcessing(false);
     }
@@ -78,28 +91,28 @@ const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) =>
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center transition-all ${isExiting
-          ? "opacity-0 duration-700"
-          : isVisible
-            ? "opacity-100 duration-700"
-            : "opacity-0"
+        ? "opacity-0 duration-700"
+        : isVisible
+          ? "opacity-100 duration-700"
+          : "opacity-0"
         }`}
     >
       <div
         className={`absolute inset-0 bg-black transition-all ${isExiting
-            ? "opacity-0 duration-700"
-            : isVisible
-              ? "opacity-30 duration-700"
-              : "opacity-0"
+          ? "opacity-0 duration-700"
+          : isVisible
+            ? "opacity-30 duration-700"
+            : "opacity-0"
           }`}
       ></div>
 
       <div
         ref={bookingRef}
         className={`relative booking w-[428px] h-[453px] px-6 py-6 mx-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center gap-4 transition-all ${isExiting
-            ? "opacity-0 scale-90 duration-700"
-            : isVisible
-              ? "opacity-100 scale-100 duration-700"
-              : "opacity-0 scale-50 duration-700"
+          ? "opacity-0 scale-90 duration-700"
+          : isVisible
+            ? "opacity-100 scale-100 duration-700"
+            : "opacity-0 scale-50 duration-700"
           }`}
       >
         {status === null && (
@@ -124,8 +137,8 @@ const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) =>
                 onClick={() => handleUpdate(id)}
                 disabled={isProcessing}
                 className={`bg-transparent border-2 ${isProcessing
-                    ? "border-gray-400 text-gray-400"
-                    : "border-[#027FFF] text-black"
+                  ? "border-gray-400 text-gray-400"
+                  : "border-[#027FFF] text-black"
                   } font-medium w-full h-11 my-2 rounded-lg text-[20px] hover:bg-red-300 hover:border-red-500`}
               >
                 {isProcessing ? (

@@ -35,7 +35,6 @@ const KodeUnik = () => {
           setCode(["", "", "", ""]);
         }
       } catch (error) {
-        console.error("Error fetching ticket code:", error);
         setCode(["", "", "", ""]);
       } finally {
         setLoading(false);
@@ -45,7 +44,6 @@ const KodeUnik = () => {
     loadUniqueCode();
   }, [id, navigate]);
 
-  // Navigate to MyEvent
   const handleNavigation = () => {
     if (!loading) {
       setFadeClass("fade-out");
@@ -55,7 +53,6 @@ const KodeUnik = () => {
     }
   };
 
-  // Show loading state
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen w-full">

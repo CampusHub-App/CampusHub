@@ -19,7 +19,6 @@ const PreviewEvent = () => {
   const [gagalPopup, setGagalPopup] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [registered, setRegistered] = useState(false);
   const [message, setMessage] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
@@ -57,14 +56,14 @@ const PreviewEvent = () => {
       }
 
       const data = await registerEventWithToken(id, token);
-      setRegistered(data);
+      setMessage(data.message);
       setShowPopup(true);
       
       setTimeout(() => {
         navigate(`/my-events/${eventData.id}/kode-unik`);
       }, 2000);
-    } catch (err) {
-      setMessage(err.data || "Koneksi Timeout, Silahkan Coba Lagi");
+    } catch (error) {
+      setMessage(error.data || "Koneksi Timeout, Silahkan Coba Lagi");
       setGagalPopup(true);
     }
   };
@@ -269,7 +268,7 @@ const PreviewEvent = () => {
         <PopUpCheckout
           isVisible={showPopup}
           onClose={() => setShowPopup(false)}
-          onConfirm={() => {}}
+          message={message}
         />
       )}
       {gagalPopup && (

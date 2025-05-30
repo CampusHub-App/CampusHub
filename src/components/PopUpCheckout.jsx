@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const PopUpGagal = ({ isVisible, onClose, message }) => {
+const PopUpCheckout = ({ isVisible, onClose, message }) => {
   const [isEntering, setIsEntering] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
@@ -86,7 +86,7 @@ const PopUpGagal = ({ isVisible, onClose, message }) => {
         </div>
         <div className="confirmation-message flex flex-col items-center py-4">
           <span className="font-medium text-[24px] text-center justify-center py-2 text-green-500">
-            Pemesanan Berhasil!
+            {message}
           </span>
         </div>
       </div>
@@ -94,4 +94,4 @@ const PopUpGagal = ({ isVisible, onClose, message }) => {
   );
 };
 
-export default PopUpGagal;
+export default PopUpCheckout;

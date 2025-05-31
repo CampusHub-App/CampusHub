@@ -30,24 +30,16 @@ const MyEvents = () => {
   const navigate = useNavigate();
 
   const onSuccess = () => {
-    setTimeout(() => {
-      setshowConfirm(false);
-    }, 2000);
-    setTimeout(() => {
-      window.location.reload();
-    }, 2100);
+    setshowConfirm(false);
+    window.location.reload();
   };
 
   const onBack = () => {
-    setTimeout(() => {
-      setshowConfirm(false);
-    }, 400);
+    setshowConfirm(false);
   };
 
   const onFailure = () => {
-    setTimeout(() => {
-      setshowConfirm(false);
-    }, 3000);
+    setshowConfirm(false);
   };
 
   useEffect(() => {
@@ -291,7 +283,7 @@ const MyEvents = () => {
                           <i className="ri-delete-bin-line text-4xl hover:text-red-500 animations-all duration-300"></i>
                         </Link>
                       </div>
-                    </div>                  ))
+                    </div>))
                 ) : (
                   <div className="flex justify-center items-center py-8">
                     <div className="text-gray-500 text-lg">No events found.</div>

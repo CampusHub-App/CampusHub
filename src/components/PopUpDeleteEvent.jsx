@@ -3,7 +3,6 @@ import { deleteEvent } from "../services/api";
 
 const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) => {
   const bookingRef = useRef(null);
-  const timeoutIds = useRef([]);
   const [isExiting, setIsExiting] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -27,61 +26,44 @@ const PopUpDeleteEvent = ({ setShowPopUp, id, onSuccess, onBack, onFailure }) =>
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      timeoutIds.current.forEach(clearTimeout);
-      timeoutIds.current = [];
     };
   }, []);
 
-  const clearAllTimeouts = () => {
-    timeoutIds.current.forEach(clearTimeout);
-    timeoutIds.current = [];
-  };
-
   const triggerClose = () => {
     setIsExiting(true);
-    const t1 = setTimeout(() => {
-      setShowPopUp(false);
+    setTimeout(() => {
+      onBack();
     }, 400);
-    timeoutIds.current.push(t1);
-    clearAllTimeouts();
-    onBack();
   };
 
   const handleUpdate = async () => {
     const currentId = localId;
     setIsProcessing(true);
-    clearAllTimeouts();
     try {
       const data = await deleteEvent(currentId, localStorage.getItem("token"));
       setMessage(data.message);
-
       setStatus("success");
-      const t1 = setTimeout(() => {
+
+      setTimeout(() => {
         setIsExiting(true)
-      }, 1600);
-      const t2 = setTimeout(() => {
-        setShowPopUp(false);
-      }, 2000);
-      const t3 = setTimeout(() => {
-        window.location.reload();
-      }, 2100);
-      const t4 = setTimeout(() => {
+      }, 1800);
+
+      setTimeout(() => {
         onSuccess();
       }, 2200);
-      timeoutIds.current.push(t1, t2, t3, t4);
+
     } catch (error) {
       setStatus("error");
       setMessage(error.data || "Koneksi Timeout, Silahkan Coba Lagi");
-      const t1 = setTimeout(() => {
+
+      setTimeout(() => {
         setIsExiting(true)
-      }, 1600);
-      const t2 = setTimeout(() => {
-        setShowPopUp(false);
-      }, 2000);
-      const t3 = setTimeout(() => {
+      }, 1800);
+
+      setTimeout(() => {
         onFailure();
       }, 2200);
-      timeoutIds.current.push(t1, t2, t3);
+
     } finally {
       setIsProcessing(false);
     }

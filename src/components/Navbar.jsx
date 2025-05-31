@@ -96,12 +96,17 @@ const Navbar = () => {
           >
             <Link to="/" className="transition-all duration-3000 hover:scale-105">
               <li>Home</li>
-            </Link>
-            <Link
+            </Link>            <Link
               to="/my-events"
               className="transition-all duration-3000 hover:scale-105"
             >
               <li>My Events</li>
+            </Link>
+            <Link
+              to="/public-events"
+              className="transition-all duration-3000 hover:scale-105"
+            >
+              <li>Public Events</li>
             </Link>
             <li>
               <button
@@ -174,9 +179,11 @@ const Navbar = () => {
           >
             <li>
               <Link to="/">Home</Link>
+            </li>            <li>
+              <Link to="/my-events">MyEvent</Link>
             </li>
             <li>
-              <Link to="/my-events">MyEvent</Link>
+              <Link to="/public-events">Public Events</Link>
             </li>
             <li>
               <button

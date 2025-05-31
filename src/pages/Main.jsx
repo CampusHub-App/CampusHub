@@ -23,6 +23,7 @@ import PreviewEvent from './user/PreviewEvent.jsx';
 import DetailEvent from './user/DetailEvent.jsx';
 import KodeUnik from './user/KodeUnik.jsx';
 import SignInPeserta from './user/SignInPeserta.jsx';
+import PublicEvents from './user/PublicEvents.jsx';
 
 import AdminPage from './admin/HomePage.jsx';
 import UploadEvent from './admin/UploadEvent.jsx';
@@ -81,10 +82,13 @@ const router = createBrowserRouter([
   {
     path: "/workshop",
     element: <WorkshopPage />,
-  },
-  {
+  },  {
     path: "/sertifikasi",
     element: <SertifikasiPage />,
+  },
+  {
+    path: "/public-events",
+    element: <PublicEvents />,
   },
   {
     path: "/events/upload",

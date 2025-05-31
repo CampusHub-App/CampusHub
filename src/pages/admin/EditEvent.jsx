@@ -428,7 +428,7 @@ function EditEvent() {
                     >
                       <label
                         htmlFor="file-upload"
-                        className="w-full h-full flex flex-col items-center justify-center cursor-pointer p-8"
+                        className="w-full h-full flex flex-col items-center justify-center cursor-pointer"
                       >
                         {(step === 1 ? eventsPreview : speakerPreview) ? (
                           <div className="relative w-full h-full">

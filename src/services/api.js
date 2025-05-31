@@ -13,7 +13,7 @@ export const fetchEvents = async (category) => {
 };
 
 export const fetchEvent = async (id) => {
-  const response = await fetch(`${API_BASE_URL}/events/${id}/view`);
+  const response = await fetch(`${API_BASE_URL}/events/${id}`);
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
@@ -80,7 +80,7 @@ export const registerEventWithToken = async (eventId, token) => {
 };
 
 export const cancelRegistration = async (eventId, token) => {
-  const response = await fetch(`${API_BASE_URL}/events/${eventId}/cancel`, {
+  const response = await fetch(`${API_BASE_URL}/my-events/${eventId}/cancel`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ export const deleteAccount = async (token) => {
 
 
 export const fetchUniqueCode = async (eventId, token) => {
-  const response = await fetch(`${API_BASE_URL}/events/${eventId}/kode-unik`, {
+  const response = await fetch(`${API_BASE_URL}/my-events/${eventId}/kode-unik`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -307,7 +307,7 @@ export const updateEvent = async (eventId, eventData, token) => {
 
 export const fetchEventParticipants = async (eventId, token) => {
 
-  const response = await fetch(`${API_BASE_URL}/events/${eventId}/participants`, {
+  const response = await fetch(`${API_BASE_URL}/my-events/${eventId}/participants`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }

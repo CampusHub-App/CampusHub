@@ -25,7 +25,7 @@ function KuliahTamuPage() {
     }
 
     setIsLoading(true);
-    fetchEvents("kuliah-tamu")
+    fetchEvents("3")
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           setEvents(data);

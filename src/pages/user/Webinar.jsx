@@ -25,7 +25,7 @@ function Webinarpage() {
     }
 
     setIsLoading(true);
-    fetchEvents("webinar")
+    fetchEvents("1")
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           setEvents(data);

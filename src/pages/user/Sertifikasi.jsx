@@ -25,7 +25,7 @@ function SertifikasiPage() {
     }
 
     setIsLoading(true);
-    fetchEvents("sertifikasi")
+    fetchEvents("5")
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           setEvents(data);

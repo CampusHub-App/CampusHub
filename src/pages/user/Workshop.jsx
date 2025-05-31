@@ -25,7 +25,7 @@ function WorkshopPage() {
     }
 
     setIsLoading(true);
-    fetchEvents("workshop")
+    fetchEvents("4")
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           setEvents(data);

@@ -65,12 +65,18 @@ const KodeUnik = () => {
   return (
     <div>
       <Navbar />
-    <div className="unique-code h-auto mt-12 mx-4 sm:mx-12 lg:mx-20 flex items-center justify-center">
-      <div className={`container w-full sm:w-3/4 lg:w-1/2 h-auto sm:h-11/12 py-6 bg-white shadow-lg rounded-2xl flex flex-col items-center ${fadeClass}`}>
-        <div className="content-box flex flex-col items-center py-8 px-6 sm:px-14">
-          <h1 className="font-semibold text-[32px] sm:text-[40px] lg:text-[48px] text-center py-2">Kode Tiket Anda</h1>
+      <div className="unique-code h-auto mt-12 mx-8 sm:mx-18 lg:mx-32 flex items-center justify-center">
+        <div
+          className={`container w-full sm:w-3/4 lg:w-4/6 h-auto sm:h-11/12 py-2 bg-white shadow-lg rounded-2xl flex flex-col items-center ${fadeClass}`}
+        >
+          <div className="content-box flex flex-col items-center py-8 sm:px-8 lg:px-12">
+          <h1 className="font-semibold text-[26px] sm:text-[34px] lg:text-[42px] text-center">
+            Kode Tiket Anda
+          </h1>
           <p className="font-regular text-[14px] sm:text-[16px] lg:text-[16px] text-center py-4 sm:py-8">
-            Tunjukkan kode ini kepada panitia saat acara sebagai bukti pemesanan tiket Anda. Simpan kode dengan baik dan pastikan Anda siap menunjukkannya saat diminta.
+            Tunjukkan kode ini kepada panitia saat acara sebagai bukti pemesanan tiket Anda.
+            <br />
+            Simpan kode dengan baik dan pastikan Anda siap menunjukkannya saat diminta.
           </p>
           
           <div className="unique-code bg-[#027FFF] w-fit flex flex-col mb-4 items-center px-6 py-6 rounded-xl mx-auto">
@@ -88,9 +94,9 @@ const KodeUnik = () => {
             </div>
           </div>
 
-          <div className="border-t-2 border-[#003266] w-10/12 my-6 sm:my-12"></div>
+          <div className="border-t-2 border-[#003266] w-8/12 my-3 sm:my-6"></div>
           <button
-            className="bg-transparent border-2 border-[#027FFF] font-regular w-3/4 sm:w-1/2 lg:w-1/2 h-10 sm:h-11 my-8 sm:my-16 rounded-lg text-medium text-black text-[14px] sm:text-[16px]"
+            className="bg-transparent border-2 border-[#027FFF] font-regular w-3/4 sm:w-1/2 lg:w-1/2 h-10 sm:h-11 my-1 sm:my-2 rounded-lg text-medium text-black text-[14px] sm:text-[16px]"
             onClick={handleNavigation}
           >
             My Events

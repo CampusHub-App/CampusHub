@@ -5,6 +5,7 @@ import { cancelRegistration } from "../services/api";
 const PopUpCancel = ({ setShowPopUp, bookingId }) => {
   const bookingRef = useRef(null);
   const { id } = useParams();
+  const navigate = useNavigate();
   const [isExiting, setIsExiting] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -41,12 +42,14 @@ const PopUpCancel = ({ setShowPopUp, bookingId }) => {
       console.error("No access token found.");
       setIsProcessing(false);
       return;
-    }
-
-    try {
+    }    try {
       await cancelRegistration(id, accessToken);
 
-      window.location.reload();    } catch (error) {
+      navigate(`/my-events/${id}/view`, { 
+        state: { status: "cancelled" },
+        replace: true 
+      });
+    } catch (error) {
       setGagal(true);
       setMessage(error.data || "Koneksi Timeout, Silahkan Coba Lagi");
     } finally {

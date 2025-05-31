@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { fetchEventStatus } from "../../services/api";
+import { useEffect } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import DescriptionPageRegistered from "./DescriptionPageRegistered";
 import DescriptionPageCancel from "./DescriptionPageCancel";
 import DescriptionPageAbsent from "./DescriptionPageAbsent";
@@ -9,8 +8,8 @@ import DescriptionPageAttend from "./DescriptionPageAttend";
 function EventPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [status, setStatus] = useState(null);
-  const [error, setError] = useState(null);
+  const location = useLocation();
+  const status = location.state?.status;
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -19,17 +18,11 @@ function EventPage() {
       return;
     }
 
-    const loadEventStatus = async () => {
-      try {
-        const data = await fetchEventStatus(id, token);
-        setStatus(data.status);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
-    loadEventStatus();
-  }, [id, navigate]);
+    if (!status) {
+      navigate("/my-events", { replace: true });
+      return;
+    }
+  }, [navigate, status]);
 
   if (status === "registered") {
     return <DescriptionPageRegistered />;

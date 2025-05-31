@@ -226,12 +226,13 @@ const MyEvents = () => {
                   sortedEvents.map((event, index) => (
                     <div
                       key={`${event.id}-${statusFilter}-${index}`} // Dynamic key based on filter and index
-                      className={`event-box p-4 border border-customBlue rounded-2xl shadow-md hover:shadow-lg transition duration-300 px-4 py-2 flex justify-between items-center animate-slideIn opacity-0`}
-                      style={{
+                      className={`event-box p-4 border border-customBlue rounded-2xl shadow-md hover:shadow-lg transition duration-300 px-4 py-2 flex justify-between items-center animate-slideIn opacity-0`}                      style={{
                         animationDelay: `${index * 100}ms`,
                         animationFillMode: "forwards",
                       }}
-                      onClick={() => navigate(`/my-events/${event.id}/view`)}
+                      onClick={() => navigate(`/my-events/${event.id}/view`, { 
+                        state: { status: event.status } 
+                      })}
                     >
                       <div className="event-data flex items-center">
                         <img
@@ -246,10 +247,9 @@ const MyEvents = () => {
                           <span className="event-date text-sm text-gray-500 mb-1 block">
                             Join date:{" "}
                             {new Date(event.join_date).toLocaleDateString()}
-                          </span>
-                        </div>
+                          </span>                        </div>
                       </div>
-                      <Link to={`/my-events/${event.id}/view`}>
+                      <Link to={`/my-events/${event.id}/view`} state={{ status: event.status }}>
                         <i className="ri-more-fill text-4xl"></i>
                       </Link>
                     </div>

@@ -216,17 +216,11 @@ export const updateUserProfile = async (userData, token) => {
 
   const event = Object.fromEntries(userData.entries());
   const response = await fetch(`${API_BASE_URL}/user`, {
-    method: 'PUT',
+    method: 'POST',
     headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
+      'Authorization': `Bearer ${token}`
     },
-    body: JSON.stringify({
-      name: event.name,
-      email: event.email,
-      phone: event.phone,
-      photo: event.photo,
-    })
+    body: userData
   });
 
   const data = await response.json();
@@ -279,26 +273,12 @@ export const createEvent = async (eventData, token) => {
 };
 
 export const updateEvent = async (eventId, eventData, token) => {
-  const event = Object.fromEntries(eventData.entries());
   const response = await fetch(`${API_BASE_URL}/events/${eventId}`, {
-    method: 'PUT',
+    method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      title: event.title,
-      desc: event.desc,
-      category: event.category,
-      date: event.date,
-      start_time: event.start_time,
-      end_time: event.end_time,
-      speaker: event.speaker,
-      role: event.role,
-      slot: event.slot,
-      location: event.location,
-      isOffline: event.isOffline
-    })
+    body: eventData
   });
 
   const data = await response.json();

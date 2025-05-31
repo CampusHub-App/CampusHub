@@ -89,14 +89,25 @@ const PublicEvents = () => {
         className="bg-[#EAF4FF] border-transparent rounded-t-[100px] flex flex-col items-center min-h-screen"
       >
         <motion.h1 
-          className="font-semibold text-[48px] text-[#003266] mt-[80px] mb-[80px] sm:text-[32px] md:text-[48px] text-center"
+          className="font-semibold text-[48px] text-[#003266] mt-[80px] sm:text-[32px] md:text-[48px] text-center"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           viewport={{ once: true }}
         >
-          Jelajahi Acara Publik
+          Jelajahi Event Publik
         </motion.h1>
+        <motion.p
+            className="text-[#003266] text-lg max-w-4xl mt-6 mb-12 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            viewport={{ once: true }}
+        >
+            Temukan berbagai acara menarik yang diadakan di universitas-universitas di Indonesia.
+            <br />
+            Dari seminar, konferensi, hingga festival budaya, ada banyak hal yang bisa kamu ikuti!
+        </motion.p>
 
         <motion.div 
           className="container mx-auto px-4 pb-8"

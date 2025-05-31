@@ -59,27 +59,6 @@ export const register = async (userData) => {
   return data;
 };
 
-export const registerForEvent = async (eventId, token) => {
-  const response = await fetch(`${API_BASE_URL}/registrations`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
-    body: JSON.stringify({ event_id: eventId })
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    const error = new Error();
-    error.data = data.message;
-    throw error;
-  }
-
-  return data;
-};
-
 export const registerEventWithToken = async (eventId, token) => {
   const response = await fetch(`${API_BASE_URL}/events/${eventId}/register`, {
     method: 'POST',
@@ -181,7 +160,7 @@ export const updatePassword = async (newPassword, confirmation, token) => {
 
 export const fetchMyEvents = async (token) => {
 
-  const response = await fetch(`${API_BASE_URL}/my-events/all`, {
+  const response = await fetch(`${API_BASE_URL}/my-events`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -294,7 +273,7 @@ export const createEvent = async (eventData, token) => {
 
 export const updateEvent = async (eventId, eventData, token) => {
   const event = Object.fromEntries(eventData.entries());
-  const response = await fetch(`${API_BASE_URL}/events/${eventId}/edit`, {
+  const response = await fetch(`${API_BASE_URL}/events/${eventId}`, {
     method: 'PUT',
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -365,7 +344,7 @@ export const checkInParticipant = async (eventId, uniqueCode, token) => {
 };
 
 export const fetchEventDetails = async (eventId) => {
-  const response = await fetch(`${API_BASE_URL}/events/${eventId}/view`);
+  const response = await fetch(`${API_BASE_URL}/events/${eventId}`);
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));

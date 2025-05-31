@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import LoadingSpinner from "../../components/LoadingSpinner";
 
 const PublicEvents = () => {
   const [events, setEvents] = useState([]);
@@ -147,7 +146,7 @@ const PublicEvents = () => {
                 {event.thumbnail && (
                   <div className="h-48 overflow-hidden">
                     <img
-                      src={event.thumbnail}
+                      src={event.image || event.thumbnail}
                       alt={event.title}
                       className="w-full h-full object-cover"
                       onError={(e) => {

@@ -214,12 +214,19 @@ export const fetchUserProfile = async (token) => {
 
 export const updateUserProfile = async (userData, token) => {
 
+  const event = Object.fromEntries(userData.entries());
   const response = await fetch(`${API_BASE_URL}/user`, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
     },
-    body: userData
+    body: JSON.stringify({
+      name: event.name,
+      email: event.email,
+      phone: event.phone,
+      photo: event.photo,
+    })
   });
 
   const data = await response.json();

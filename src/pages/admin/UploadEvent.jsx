@@ -86,8 +86,15 @@ function UploadEvent() {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files[0];
     if (droppedFile) {
-      const fileUrl = URL.createObjectURL(droppedFile);
-      setEventImg(fileUrl);
+      if (step === 1) {
+        setEventImg(droppedFile);
+        const fileUrl = URL.createObjectURL(droppedFile);
+        setEventsPreview(fileUrl);
+      } else {
+        setSpeakerImg(droppedFile);
+        const fileUrl = URL.createObjectURL(droppedFile);
+        setSpeakerPreview(fileUrl);
+      }
     }
   };
 
@@ -386,7 +393,7 @@ function UploadEvent() {
                     >
                       <label
                         htmlFor="file-upload"
-                        className="w-full h-full flex flex-col items-center justify-center cursor-pointer p-8"
+                        className="w-full h-full flex flex-col items-center justify-center cursor-pointer"
                       >
                         {(step === 1 ? eventsPreview : speakerPreview) ? (
                           <div className="relative w-full h-full">

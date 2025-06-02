@@ -12,7 +12,7 @@ const PublicEvents = () => {
   const [hasNextPage, setHasNextPage] = useState(false);
 
   const EVENTS_PER_PAGE = 10;
-  const API_KEY = "9d213bf0e8a97dccf7ec1c33af6405027ff813df31410a0b78c0c6242e6aa244";
+  const API_KEY = import.meta.env.VITE_SERPAPI_API_KEY;
   const fetchEvents = async (page = 0) => {
     setLoading(true);
     setError(null);
